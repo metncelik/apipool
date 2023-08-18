@@ -2,11 +2,11 @@ import NavBar from './components/NavBar.js';
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <header className="header">
         <NavBar/>
       </header>
-      <div className='main'>
+      <div className='main-body'>
         <p>Dive into AI.<br/> Coming soon.</p>
       </div>
     </div>
