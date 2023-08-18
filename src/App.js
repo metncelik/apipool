@@ -6,9 +6,9 @@ function App() {
       <header className="header">
         <NavBar/>
       </header>
-      <body className='body'>
+      <div className='main'>
         <p>Dive into AI.<br/> Coming soon.</p>
-      </body>
+      </div>
     </div>
   );
 }
