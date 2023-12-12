@@ -1,0 +1,9 @@
+dispatch:
+  - url: "apipool.ai/*"
+    service: default
+
+  - url: "master.apipool.ai/*"
+    service: master
+
+  - url: "d-service.apipool.ai/*"
+    service: d-service

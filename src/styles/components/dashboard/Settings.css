@@ -1,0 +1,55 @@
+.settings {
+    padding-top: 3vw;
+    width: 80%;
+}
+
+.change-password {
+    padding: 15px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.input-group {
+    padding: 10px 0px;
+    width: 20%;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.change-input-group {
+    align-items: start;
+
+}
+
+.password-input {
+    border: 1px solid rgba(112, 65, 221, 0.23);
+    margin: 5px 0px;
+    border-radius: 8px;
+}
+
+.password-input:focus {
+    border: 1px solid rgba(137, 112, 197, 0.503);
+}
+
+.logout {
+    margin: 10px 0px;
+}
+
+.logout-button {
+    background-color: transparent;
+    color: rgba(255, 70, 70, 0.689);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logout-button:hover {
+    color: rgb(255, 39, 39);
+}
+
+.logout-label {
+    margin-left: 5px;
+}

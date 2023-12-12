@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --background-color: #010015;
+  --primary-color: #b6eada;
+  --secondary-color: ;
+}
+
+* {
+  margin: 0px;
+  transition: all 0.2s ease;
+}
+
+.app::-webkit-scrollbar {
+  width: 10px;
+}
+
+h1,h2,h3,h4{
+  color: var(--primary-color);
+  background-color: transparent;
+}
+
+a {
+  display: inline-block;
+  max-width: 100%;
+  white-space: normal; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+
+body {
+  font-family: "Lexend";
+  scrollbar-width: thin;
+  color: var(--primary-color);
+  background-color: var(--background-color);
+  scrollbar-color: cadetblue rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  margin: 20px 6vw;
+  margin-right: 3vw; 
+}
+
+.full {
+  min-height: 100vh;
+}
+
+button, input {
+  font-family: "Lexend";
+}
+
+body::-webkit-scrollbar {
+  width: 5px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: cadetblue;
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: rgba(212, 189, 189, 0.2);
+}
+
+p {
+  color: rgb(155, 167, 167);
+  font-weight: 100;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+.link {
+  color: rgb(113, 111, 202);
+}
+
+input {
+  padding: 10px;
+  border: 0px;
+  outline: 0px;
+  background-color: transparent;
+  color: #b5b5b5;
+  border-bottom: 1px solid cadetblue;
+}
+
+input:focus {
+  border-bottom: 1px solid #B6EADA;
+}
+
+.check-box-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+}
+
+::placeholder {
+  color: cadetblue;
+}
+
+button {
+  border: 0px;
+  cursor: pointer;
+}
+
+.table-container{
+  margin-top: 20px;
+  overflow-x: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.table-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: cadetblue;
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background-color: rgba(212, 189, 189, 0.2);
+}
+
+
+table{
+  width: 100%;
+}
+
+th,td {
+  padding: 10px;
+  font-weight: 400;
+}
+th {
+  color: #ffffff9d;
+  background-color: rgba(5, 28, 39, 0.636);
+}
+th:first-child{
+  border-top-left-radius: 8px;
+}
+th:last-child{
+  border-top-right-radius: 8px;
+}
+td{
+  color: #ffffff94;
+  border-bottom: 1px solid rgba(164, 164, 164, 0.292);
+  font-size: 15px;
+  font-weight: 100;
+}
