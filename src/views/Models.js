@@ -21,18 +21,22 @@ const Models = () => {
 
 
     const getModels = async () => {
-        const response = await axiosPrivate(`/models?limit=8&offset=${offset}`);
-        const newModels = response?.data?.models;
-
-        if (newModels.length < 8) {
-            setIsEnd(true);
-            if (newModels.length === 0) {
-                setIsPending(false);
-                return
+        try {
+            const response = await axiosPrivate(`/models?limit=8&offset=${offset}`);
+            const newModels = response?.data?.models;
+    
+            if (newModels.length < 8) {
+                setIsEnd(true);
+                if (newModels.length === 0) {
+                    setIsPending(false);
+                    return
+                }
             }
+            setModels(models.concat(newModels));
+            setOffset(response?.data?.lastOffset);
+        } catch (error) {
+            setIsPending(false);
         }
-        setModels(models.concat(newModels));
-        setOffset(response?.data?.lastOffset);
     };
 
 

@@ -34,14 +34,20 @@ const LoginWithEmail = () => {
                 withCredentials: true
             });
 
-            if (response.status !== 200)
+            if (response?.status !== 200)
                 throw new Error(response.data.message);
             setAuth({ isLoggedIn: true });
             localStorage.setItem("isLoggedIn", true);
             localStorage.setItem("email", email);
             navigate(navigateTo);
         } catch (error) {
-            setErrorMessage(error.response?.data?.message);
+            if (error.response) {
+                setErrorMessage(error.response.data.message);
+                return;
+            }
+            setErrorMessage("An error occurred");
+            return;
+
         } finally {
             setPassword('');
         }
@@ -60,7 +66,8 @@ const LoginWithEmail = () => {
                 setErrorMessage(error.response.data.message);
                 return;
             }
-            throw error;
+            setErrorMessage("An error occurred");
+            return;
         }
     };
 
@@ -129,9 +136,15 @@ const ResetPasswordForm = () => {
                 navigate("/console");
             }
         } catch (error) {
-            setPassword("");
-            setPasswordAgain("");
-            setErrorMessage(error.response?.data?.message);
+            if (error.response) {
+                setErrorMessage(error.response.data.message);
+                return;
+            }
+            setErrorMessage("An error occurred");
+            return;
+        } finally {
+            setPassword('');
+            setPasswordAgain('');
         }
     }
 
@@ -188,7 +201,12 @@ const SignUpWithEmail = () => {
             setAuth({ isLoggedIn: true });
             navigate("/console");
         } catch (error) {
-            setErrorMessage(error.response?.data?.message);
+            if (error.response) {
+                setErrorMessage(error.response.data.message);
+                return;
+            }
+            setErrorMessage("An error occurred");
+            return;
         } finally {
             setPassword('');
             setPasswordAgain('');
@@ -243,10 +261,16 @@ const ChangePassword = () => {
                 // navigate("/login", { state: { from: location }, replace: true });
             };
         } catch (error) {
+            if (error.response) {
+                setErrorMessage(error.response.data.message);
+                return;
+            }
+            setErrorMessage("An error occurred");
+            return;
+        } finally {
             setCurrentPassword("");
             setPassword("");
             setPasswordAgain("");
-            setErrorMessage(error.response?.data?.message);
         }
 
     }
@@ -371,7 +395,12 @@ const AddEmailAuthForm = ({ updateAuthMethods }) => {
             await axiosAuth.post("/email/add", { user: { email, password } });
             updateAuthMethods();
         } catch (error) {
-            setErrorMessage(error.response?.data?.message);
+            if (error.response) {
+                setErrorMessage(error.response.data.message);
+                return;
+            }
+            setErrorMessage("An error occurred");
+            return;
         }
     }
 
@@ -432,7 +461,8 @@ const SendEmailVerification = ({ email }) => {
                 setErrorMessage(error.response.data.message);
                 return;
             }
-            throw error;
+            setErrorMessage("An error occurred");
+            return;
         }
     };
 

@@ -4,15 +4,18 @@ steps:
   args: ["install"]
 - name: node:20.0.0
   entrypoint: npm
-  args: ["run", "build"]
-- name: "gcr.io/cloud-builders/gcloud"
-  args: ["app", "deploy"]
-timeout: "1600s"
-options:
+  args: ["run", "create-env"]
   env:
     - 'REACT_APP_CLIENT_URL=${_CLIENT_URL}'
     - 'REACT_APP_SERVICE_URL=${_SERVICE_URL}'
     - 'REACT_APP_API_URL=${_API_URL}'
     - 'REACT_APP_GOOGLE_CLIENT_ID=${_GOOGLE_CLIENT_ID}'
     - 'REACT_APP_GITHUB_CLIENT_ID=${_GITHUB_CLIENT_ID}'
+- name: node:20.0.0
+  entrypoint: npm
+  args: ["run", "build"]
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ["app", "deploy", "${_CONFIG_FILE}"]
+timeout: "1600s"
+options:
   logging: CLOUD_LOGGING_ONLY

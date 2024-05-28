@@ -65,10 +65,14 @@ const Home = () => {
 
     useEffect(() => {
         const getData = async () => {
-            setIsPending(true);
-            const response = await axiosPrivate("/models?limit=8&offset=0");
-            setModels(response.data?.models);
-            setIsPending(false);
+            try {
+                setIsPending(true);
+                const response = await axiosPrivate("/models?limit=8&offset=0");
+                setModels(response.data?.models);
+                setIsPending(false);
+            } catch (error) {
+                setIsPending(false);
+            }
         };
         getData();
     }, []);
