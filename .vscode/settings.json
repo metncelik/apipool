@@ -1,0 +1,7 @@
+{
+    "github.copilot.chat.localeOverride": "en",
+    "editor.defaultFormatter": "GitHub.copilot",
+    "[css]": {
+        "editor.defaultFormatter": "vscode.css-language-features"
+    }
+}

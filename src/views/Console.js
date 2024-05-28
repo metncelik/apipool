@@ -1,72 +1,140 @@
-import '../styles/screens/Console.css'
+import '../styles/views/Console.css';
 import { useEffect, useState } from "react";
-import Overview from '../components/console/Overview';
-import Billing from '../components/console/Billing';
-import Settings from '../components/console/Settings';
-import { RxDashboard } from "react-icons/rx";
+import Insights from '../tabs/console/Insights';
+// import Billing from '../tabs/console/Billing';
+import Settings from '../tabs/console/Settings';
 import { LuSettings } from "react-icons/lu";
-import { BsCreditCard } from "react-icons/bs";
-import { getUser } from '../database/db';
-import { auth } from '../database/firebaseConfig';
+// import { BsCreditCard } from "react-icons/bs";
+import { IoKeyOutline, IoStatsChart } from "react-icons/io5";
+import useAuth from '../hooks/useAuth';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import useConsoleState from '../hooks/useConsoleState';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Loading from '../components/Loading';
-import { onAuthStateChanged } from 'firebase/auth';
+import APIKeys from '../tabs/console/APIKeys';
+// import MyModels from '../tabs/console/MyModels';
+// import { CgAddR } from 'react-icons/cg';
+// import AddModel from '../tabs/console/AddModel';
+
 
 const Console = () => {
-  const [activePanel, setActivePanel] = useState("Overview")
-  const [userData, setUserData] = useState(null)
-  const [isPending, setIsPending] = useState(true)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const { auth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [consoleState, setConsoleState] = useConsoleState();
+  const [isPending, setIsPending] = useState(true);
+  const axiosPrivate = useAxiosPrivate();
 
-  const renderActiveComponent = () => {
-    switch (activePanel) {
-      case 'Overview':
-        return <Overview user={userData} />;
-      case 'Billing':
-        return <Billing balance={userData.balance} userId={userData.user_id} bills={userData.bills} />;
-      case 'Settings':
-        return <Settings email={userData.email} />;
-    }
-  };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const userId = user.uid
-        getUser(userId).then((res) => {
-          setUserData(res)
-          setIsPending(false)
-        })
+    const getMe = async () => {
+      try {
+        setIsPending(true);
+        const response = await axiosPrivate.get("/user/me");
+        setConsoleState({ consoleState, user: response.data.user });
+        setIsPending(false);
+      } catch (error) {
+        console.log(error);
+        setIsPending(false);
       }
-    });
-  }, [])
+    };
+    const activeTab = searchParams.get("tab");
+    if (!activeTab) {
+      setSearchParams({ "tab": 0 });
+    };
+    if (!auth.isLoggedIn) {
+      navigate("/login", { state: { from: location }, replace: true });
+    };
+    getMe();
+  }, []);
+
+  const tabs = [
+    {
+      name: "API Keys",
+      component: <APIKeys />,
+      icon: <IoKeyOutline />
+    },
+    {
+      name: "Insights",
+      component: <Insights />,
+      icon: <IoStatsChart />
+    },
+    // {
+    //   name: "My Models",
+    //   component: <MyModels />,
+    //   icon: <BsFilesAlt />
+    // },
+    // {
+    //   name: "Add Model",
+    //   component: <AddModel />,
+    //   icon: <CgAddR />
+    // },
+    // {
+    //   name: "Billing",
+    //   component: <Billing />,
+    //   icon: <BsCreditCard />
+    // },
+    {
+      name: "Settings",
+      component: <Settings />,
+      icon: <LuSettings />
+    }
+  ];
+
+  const renderActiveComponent = () => {
+    const tabIndex = (searchParams.get("tab"));
+    const activeTab = tabs[tabIndex] || tabs[0];
+    return activeTab.component;
+  };
+
+  if (isPending) {
+    return <Loading />
+  }
 
   return (
-    <div className="dashboard">
-      <div className="sidebar">
-        <ul className="menu">
-          <li className={`menu-element ${activePanel === "Overview" ? "active-panel" : ""}`} onClick={() => setActivePanel("Overview")}>
-            <RxDashboard />
-            <div className="menu-label">
-              Overview
+    <>
+      <div className="console">
+        <div className="sidebar">
+          <ul className="menu">
+            {tabs.map((tab, index) => {
+              return (
+                <li
+                  className={`menu-element ${searchParams.get("tab") === index.toString() && "active-tab"}`}
+                  onClick={() => setSearchParams({ "tab": index })}
+                >
+                  {tab.icon}
+                  <div className="menu-label">
+                    {tab.name}
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+
+        <div className="tab-view">
+          <div className="tab-view-header">
+            <div className="info">
+              <p>E-mail:</p>
+              <div className="value">
+                {consoleState.user?.email}
+              </div>
             </div>
-          </li>
-          <li className={`menu-element ${activePanel === "Billing" ? "active-panel" : ""}`} onClick={() => setActivePanel("Billing")}>
-            <BsCreditCard />
-            <div className="menu-label">
-              Billing
+            <div className="info">
+              <p>Balance:</p>
+              <div className="value">
+                {parseFloat(consoleState.user?.balance).toFixed(2)}$
+              </div>
             </div>
-          </li>
-          <li className={`menu-element ${activePanel === "Settings" ? "active-panel" : ""}`} onClick={() => setActivePanel("Settings")}>
-            <LuSettings />
-            <div className="menu-label">
-              Settings
-            </div>
-          </li>
-        </ul>
+          </div>
+
+          {
+            renderActiveComponent()
+          }
+        </div>
       </div>
-      {isPending ?
-        <Loading /> :
-        renderActiveComponent()}
-    </div>
+    </>
   );
 }
 

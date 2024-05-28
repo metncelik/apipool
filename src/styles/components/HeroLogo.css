@@ -1,0 +1,45 @@
+.hero-logo {
+    /* position: absolute; */
+    width: 100%;
+    opacity: 1;
+}
+
+.logo-svg {
+    height: 400px;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.logo-blades {
+    fill: transparent;
+    stroke: rgb(164, 115, 210);
+    stroke-width: 1;
+    animation: draw-logo 5s ease-in-out;
+    stroke-dashoffset: 0;
+    stroke-dasharray: 1000;
+    opacity: 1;
+}
+
+.hero-logo-center {
+    fill: transparent;
+    stroke: rgb(164, 115, 210);
+    stroke-width: 1;
+    animation: draw-logo 5s ease-in-out;
+    stroke-dashoffset: 0;
+    stroke-dasharray: 1000;
+    opacity: 1;
+}
+
+@keyframes draw-logo {
+    0% {
+        stroke-dashoffset: 1000;
+        stroke-dasharray: 1000;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+        stroke-dasharray: 600;
+        stroke: rgb(164, 115, 210);
+    }
+
+}

@@ -1,0 +1,63 @@
+.pricing-main {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20%;
+    background: linear-gradient(160deg,
+    rgba(8, 15, 50, 0.804),
+            var(--background-color),
+            var(--background-color));
+    min-height: 70npvh;
+    text-align: center;
+    padding-top: 10%;
+}
+
+.pricing-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 20px;
+    background-color: transparent;
+    background-clip: border-box;
+    background: -webkit-linear-gradient(340deg,
+    rgba(183, 176, 254, 0.893), rgba(255, 255, 255, 0.729), #d48585);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.pricing-description {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 20px;
+    color: rgba(240, 255, 255, 0.688);
+    background-color: transparent;
+    background-clip: border-box;
+    background: -webkit-linear-gradient(340deg,
+    rgba(183, 176, 254, 0.893), rgba(255, 255, 255, 0.729), #d48585);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-wrap: balance;
+}
+
+.pricing-table {
+    margin: 60px 0px;
+}
+
+.pricing-table th {
+    background-color: transparent;
+    font-size: large;
+    color: aliceblue;
+}
+
+.pricing-table td {
+    background-color: transparent;
+    
+}
+
+
+@media screen and (max-width: 768px) {
+    .pricing {
+        padding: 20% 10%;
+        padding-bottom: 30px;
+    }
+}

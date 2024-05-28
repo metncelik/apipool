@@ -1,0 +1,182 @@
+.console {
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  width: 200px;
+  height: 100%;
+  background-color: var(--background-color);
+  color: white;
+  padding: 20px 0px;
+  border-right: 1px solid rgba(255, 255, 255, 0.188);
+  
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.menu-element {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.menu-element:hover {
+  background-color: #0752a21b;
+}
+
+.menu-element.active {
+  color: #0752a2;
+}
+
+.menu-label {
+  padding-left: 5px;
+  white-space: nowrap ;
+}
+
+.active-tab {
+  background-color: #1e0046;
+}
+
+.active-tab:hover {
+  background-color: #1e0046;
+}
+
+.tab-view {
+  width: 100%;
+  min-height: 50vh;
+  padding: 20px;
+  background-color: var(--background-color);
+  color: white;
+}
+
+.tab-view-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding: 0px 6vw;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding-right: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(95, 158, 160, 0.193);
+  padding: 5px 7px;
+  margin: 5px 5px;
+  max-width: fit-content;
+}
+
+.value {
+  padding-left: 5px;
+  color: rgba(166, 166, 166, 0.822);
+  font-weight: 200;
+}
+
+.console-input {
+  border: 1px solid rgba(99, 99, 213, 0.263);
+  padding-left: 10px;
+  margin-right: 10px;
+  border-radius: 10px;
+  background-color: transparent;
+  outline: none;
+  color: rgba(255, 255, 255, 0.571);
+  border-radius: 8px;
+}
+
+.console-input:focus {
+  border: 1px solid rgba(99, 99, 213, 0.678);
+}
+
+.console-text-area {
+  width: 300px;
+  height: 150px;
+  padding: 10px;
+}
+
+.console-select {
+  border: 1px solid rgba(99, 99, 213, 0.263);
+  padding: 10px 30px;
+  margin-right: 10px;
+  border-radius: 1px;
+  background-color: transparent;
+  outline: none;
+  color: rgba(255, 255, 255, 0.571);
+}
+
+.console-select:hover::after {
+  opacity: 0;
+}
+
+.console-select option {
+  padding: 30px 10px;
+  background-color: var(--background-color);
+}
+
+.table-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.table-delete-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  background-color:rgb(127, 40, 40);
+}
+
+.table-delete-button:hover{
+  background-color:rgb(162, 52, 52);
+}
+
+.table-delete-button:active{
+  background-color:rgb(255, 82, 82);
+}
+
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    width: auto;
+    border: 1px solid rgba(255, 255, 255, 0.196);
+    border-left: 0px;
+    border-right: 0px;
+    padding: 0;
+    overflow: auto;
+    margin-bottom: 20px;
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .console {
+    flex-direction: column;
+  }
+
+  .tab-view {
+    width: auto;
+    padding: 0px;
+  }
+
+}

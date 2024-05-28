@@ -1,0 +1,17 @@
+.stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-top: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .overview {
+        width: 90%;
+    }
+    .stats{
+        justify-content: flex-start;
+    }
+    
+}

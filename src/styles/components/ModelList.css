@@ -1,8 +1,18 @@
-.search-banner {
+.models-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px 0px;
+    background-color: transparent;
+}
+
+.all-models-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 0px 9%;
     padding-top: 20px;
+    padding-bottom: 40px;
 }
 
 .search-container {
@@ -22,7 +32,8 @@
     flex-wrap: wrap;
     max-width: 736px;
 }
-.category{
+
+.category {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -48,29 +59,25 @@
 }
 
 .models-list {
-    list-style-type: none;
     display: flex;
-    justify-content: space-evenly;
     flex-wrap: wrap;
-    padding-top: 30px;
+    justify-content: center;
+    gap: 40px;
 }
 
+
 .model-item {
+    /* border: #7d7e7e8e 1px solid; */
     display: flex;
-    margin-right: 30px;
-    margin-bottom: 30px;
     flex-direction: column;
     width: 270px;
     cursor: pointer;
+    background-color: var(--background-color);
     border-radius: 10px;
 }
 
 .model-item:hover {
-    box-shadow: 0px 0px 10px #001f48;
-}
-
-.model-item:last-child {
-    margin-right: 0;
+    box-shadow: 0px 0px 15px rgba(89, 26, 148, 0.488);
 }
 
 .model-image {
@@ -78,11 +85,11 @@
     object-fit: cover;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-
 }
 
+
 .model-info {
-    padding: 10px 5px;
+    padding: 15px 10px;
     max-height: 120px;
     overflow: hidden;
 }
@@ -91,14 +98,13 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 0px 5px;
 }
-
 
 .model-id {
     font-weight: 100;
     margin-left: 3px;
-    color: #ef5252d0;
-    background-color: #122c4eab;
+    color: rgba(175, 105, 240, 0.878);
     padding: 0px 10px;
     display: flex;
     justify-content: center;
@@ -108,7 +114,7 @@
 .model-divider {
     margin-top: 10px;
     margin-bottom: 10px;
-    border-top: 1px solid #ef525283;
+    border-top: 1px solid rgba(175, 105, 240, 0.878);
 }
 
 .model-description {
@@ -116,20 +122,24 @@
     font-size: 14px;
     font-weight: 100;
     color: cadetblue;
+    padding: 0px 5px;
 }
 
-@media screen and (max-width: 768px) { 
-    .model-item{
-        width: 93%;
-    }
-    .model-item:last-child {
-        margin-right: 30px;
+@media screen and (max-width: 768px) {
+    .models-list {
+        padding-right: 5%;
+
     }
 
-    .search-banner {
+    .model-item {
+        width: 85%;
+    }
+
+    .all-models-header {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        padding-right: 2%;
     }
 
     .categories {

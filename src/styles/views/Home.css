@@ -1,0 +1,113 @@
+.home-banner {
+  background: linear-gradient(160deg,
+      rgba(6, 11, 39, 0.804),
+      var(--background-color),
+      var(--background-color));
+  padding: 50px 10vw;
+  padding-top: 10%;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+}
+
+  .home-title {
+  font-size: 40px;
+  font-weight: 700;
+  background-color: transparent;
+  cursor: default;
+  background: -webkit-linear-gradient(340deg,
+  rgba(183, 176, 254, 0.893), rgba(255, 255, 255, 0.729), #d48585);
+  background-clip: text; /* Adjust background as span */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+.home-list {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding: 0 1.8%;
+  gap: 10px;
+}
+
+.home-list-item {
+  border: 1px solid rgba(255, 255, 255, 0.188);
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+  background-color: rgba(23, 23, 23, 0.338);
+  cursor: default;
+}
+
+.home-list-item:hover {
+  background-color: rgba(35, 35, 35, 0.438);
+}
+
+.home-list-item-title {
+  font-size: 25px;
+  margin-bottom: 5px;
+  background-color: transparent;
+  cursor: default;
+  background: -webkit-linear-gradient(45deg,
+      #f4b3ffb5, #a7a7a79e);
+  background-clip: border-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-bottom: 5px;
+}
+
+.home-list-description {
+  font-size: 1.0rem;
+  font-weight: 400;
+  color: #e8f4f692;
+}
+
+.latest-models-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 20px 12%;
+}
+
+.all-models-icon {
+  padding-top: 3px;
+}
+
+@media screen and (max-width: 768px) {
+  .latest-models-title {
+    visibility: hidden;
+  }
+
+  .home-banner {
+    display: block;
+    padding-top: 20%;
+  }
+
+  .home-title-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 10% 0px;
+    border-right: none;
+  }
+
+  .home-title {
+    padding: 0;
+  }
+
+  .home-list {
+    padding-left: 0px;
+    flex-direction: column;
+  }
+
+}

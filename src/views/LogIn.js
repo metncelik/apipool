@@ -1,21 +1,21 @@
-import '../styles/screens/LogIn.css'
-import { SignInWithEmail, GoogleAuth, GithubAuth } from "../components/Auth";
-import { useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
-import { getAuth } from "firebase/auth";
+import '../styles/views/LogIn.css'
+import { GithubAuthButton, GoogleAuthButton, LoginWithEmail } from '../components/Auth';
+import { Link } from 'react-router-dom';
 
 const LogIn = () => {
-    const navigator = useNavigate()
-
     return (
         <div className="auth-main">
-            <h2>
-                Login
-            </h2>
-            <div className="auth-container">
-                <SignInWithEmail />
-                <GoogleAuth  method={"Login"} />
-                <GithubAuth  method={"Login"} />
+            <div className='auth-box'>
+                <h2>
+                    Login
+                </h2>
+                <LoginWithEmail />
+                <br />
+                <GoogleAuthButton method={"login"} />
+                <GithubAuthButton method={"login"} />
+                <div className="under-auth">
+                    <Link to={"/sign-up"}> Go to Sign Up </Link>
+                </div>
             </div>
         </div>
     );

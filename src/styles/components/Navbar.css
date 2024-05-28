@@ -1,12 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,600;0,800;0,900;1,800&display=swap');
-
-.navbar {
-  padding: 1vw 4vw;
+.navbar-container {
   display: flex;
   align-items: center;
   flex-direction: row;
+  justify-content: center;
+  background-color: transparent;
+  width: 100%;
+  z-index: 1;
+  background: linear-gradient(180deg, #000000c0, transparent);
+}
+
+.navbar-container-sticky {
+  position: sticky;
+  background: none;
+}
+
+.navbar-container-fixed {
+  position: fixed;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  border-radius: 5rem;
+  padding: 0px 20px;
+  transition: none;
+}
+
+.navbar-sticky {
+  position: sticky;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.114);
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(205, 22, 22, 0.188);
+  border-radius: 0px;
+  padding: 10px 20px;
+}
+
+.navbar-fixed {
+  margin-top: 20px;
+  justify-content: center;
+  background-color: #00000084;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.188);
 }
 
 .title-menu {
@@ -14,7 +50,7 @@
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0px 20px;
+  padding-right: 20px;
 
 }
 
@@ -26,33 +62,21 @@
   justify-content: center;
 }
 
-.site-icon {
-  width: 30px;
-  margin-right: 7px;
-  background: -webkit-linear-gradient(45deg,#5543faa6, #f64141cb);
-  background-clip: border-box;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 .title {
   font-weight: 700;
   /* font-family: "Exo"; */
   letter-spacing: 0px;
   word-spacing: -4px;
   background-color: transparent;
-  font-size: 200%;
+  font-size: 40px;
   cursor: default;
-  background: -webkit-linear-gradient(45deg,#5543faa6, #f64141cb);
+  background: -webkit-linear-gradient(45deg, #ffffff82, #ffffffa2);
   background-clip: border-box;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  cursor: pointer;
   /* color: linear-gradient(45deg, #03001C, #ff000046); */
-  
-}
 
-.pool {
-  color: rgba(255, 45, 45, 0.526);
 }
 
 .navbar-list {
@@ -65,24 +89,48 @@
 
 .nav-link {
   background-color: transparent;
-  padding: 20px 20px;
+  padding: 20px 0px;
+  padding-right: 30px;
   cursor: pointer;
 }
 
+
 .nav-link:hover {
-  color: cadetblue;
+  color: #8a8f93;
 }
 
-.avtive-nav-link {
-  color: cadetblue;
-  background-color: aliceblue;
+.nav-link.active {
+  color: #4f5254;
+}
+
+.nav-button{
+  border: 0px;
+  cursor: pointer;
+  background-color: #075aa2;
+  color: #f5f5f5;
+  padding: 5px 15px;
+  border-radius: 6rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  align-items: center;
+}
+
+.nav-button:hover {
+  background-color: #007bff;
+}
+
+.nav-button.active {
+  background-color: #4b81a451;
 }
 
 .navbar-divider {
-  border-right: 1px solid rgba(95, 158, 160, 0.532);
+  border-left: 1px solid rgba(95, 158, 160, 0.532);
   height: 20px;
+  margin-right: 30px;
 }
-
 
 .navbar-close {
   display: none;
@@ -93,7 +141,6 @@
 .navbar-menu {
   display: none;
   cursor: pointer;
-  z-index: 1;
 }
 
 
@@ -103,10 +150,15 @@
     flex-direction: column;
     flex-direction: row;
     justify-content: space-between;
+    border-radius: 30px;
   }
+  
+  .title-container{
+    margin-right: 20px;
+  }
+
   .navbar-list {
     z-index: 1;
-    background-color: var(--background-color);
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -114,9 +166,10 @@
     overflow-x: auto;
     margin: 10px 0px;
     border-top: 1px solid rgba(255, 255, 255, 0.114);
+    width: 100%;
   }
 
-  .navbar-divider{
+  .navbar-divider {
     border-right: 0;
     height: 0;
   }
@@ -125,13 +178,19 @@
     display: flex;
   }
 
-  .navbar-item {
-    padding: 20px 20px;
-    margin-right: 30px;
+  .nav-link {
+    padding: 0px 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-button {
+    margin: 10px 0px;
   }
 
   .navbar-menu {
     display: flex;
-
   }
 }

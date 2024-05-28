@@ -1,5 +1,5 @@
 .popup-module {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
@@ -9,27 +9,56 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: blur 0.5s ease-in-out;
+}
+
+@keyframes blur {
+    0% {
+        backdrop-filter: 0;
+    }
+    100% {
+        backdrop-filter: blur(5px);
+    }
+
 }
 
 .popup-window {
-    width: 40vw;
-    height: 40vh;
+    width: 30vw;
+    height: 30vh;
+    padding: 30px;
     background-color: var(--background-color);
     border-radius: 25px;
     display: flex;
-    justify-content: flex-end;
-    align-items: start;
+    justify-content: center;
+    align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
     position: absolute;
+    animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .close-button {
+    top: 0;
+    right: 0;
+    position: absolute;
     border-top-right-radius: 25px;
-    padding-right: 10px;
-    padding-top: 10px;
+    padding-right: 15px;
+    padding-top: 15px;
     background-color: transparent;
     color: var(--primary-color);
+    transition: 0ms;
 }
 
 .close-button:hover {
@@ -44,7 +73,6 @@
     align-items: center;
     text-align: center;
     flex-direction: column;
-    padding: 0px 40px;
 }
 
 .popup-message {
@@ -54,6 +82,7 @@
 @media screen and (max-width:798px) {
     .popup-window {
         width: 100%;
+        padding: 30px 0px;
     }
-    
+
 }

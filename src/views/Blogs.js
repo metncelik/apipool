@@ -1,7 +1,8 @@
-import '../styles/screens/Blogs.css';
+import '../styles/views/Blogs.css';
 import Banner from '../components/Banner';
 
 const Blogs = () => {
+
     return (
         <div className="blogs">
             <Banner title={"Blogs"}/>

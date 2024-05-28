@@ -1,0 +1,34 @@
+.models-main {
+    background: linear-gradient(340deg,
+            rgba(6, 11, 39, 0.804),
+            var(--background-color),
+            var(--background-color));
+    padding-top: 80px;
+}
+
+.load-more-button {
+    height: 50px;
+    border: none;
+    background-color: transparent;
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 0.734);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 10px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+    padding: 0px 20px;
+    /* border: 1px solid rgba(137, 43, 226, 0.681); */
+}
+
+.load-more-button:hover {
+    color: rgba(255, 255, 255, 0.933);
+    background-color: transparent;
+}
+
+.load-more-button:active {
+    background-color: transparent;
+}

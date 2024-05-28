@@ -1,0 +1,21 @@
+.expandable-component{
+    padding: 10px 30px;
+    border: white 1px solid;
+    border-radius: 10px;
+    margin: 15px 0px;
+    background-color: rgb(14, 14, 15);
+    border: rgba(202, 202, 215, 0.141) 1px solid;
+    cursor: pointer;
+}
+
+.content {
+    padding: 20px;
+}
+
+.expandable-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+}

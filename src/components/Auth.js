@@ -1,237 +1,466 @@
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import useAuth from '../hooks/useAuth';
 import '../styles/components/Auth.css'
-import { FcGoogle } from "react-icons/fc";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { axiosAuth } from "../api/axios";
 import { FaGithub, FaGoogle } from "react-icons/fa";
-import { AuthErrorCodes, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, updatePassword } from 'firebase/auth';
-import { auth, googleProvider, githubProvider } from "../database/firebaseConfig";
-import { useEffect, useState } from 'react';
-import PopupModule from './PopupModule';
-import { setUser } from '../database/db';
+import { MdOutlineMailOutline } from "react-icons/md";
 
-export const GoogleAuth = ({ method }) => {
-    const navigator = useNavigate()
-    const googleClick = () => {
-        signInWithPopup(auth, googleProvider)
-            .then(async (result) => {
-                const user = result.user;
-                await setUser(user)
-                navigator("/console")
-            }).catch((error) => {
-                alert(error)
-            });
-    }
-    return (
-        <button onClick={googleClick} className="dashboard-button auth-button">
-            <FcGoogle size={20} />
-            <div className="auth-label">
-                {method} with Google
-            </div>
-        </button>
-    );
-}
+const LoginWithEmail = () => {
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
+    const { auth, setAuth } = useAuth();
 
-export const GithubAuth = ({ method }) => {
-    const navigator = useNavigate()
-    const githubClick = () => {
-        signInWithRedirect(auth, githubProvider)
-            .then(async (result) => {
-                const user = result.user;
-                await setUser(user)
-                navigator("/console")
-            }).catch((error) => {
-                // const errorCode = error.code;
-                // const errorMessage = error.message;
-                // const email = error.customData.email;
-                // const credential = GoogleAuthProvider.credentialFromError(error);
-            });
+    const navigate = useNavigate();
+    const navigateTo = "/console";
 
-    }
-    return (
-        <button disabled onClick={githubClick} className="dashboard-button auth-button">
-            <FaGithub size={20} />
-            <div className="auth-label">
-                {method} With Github
-            </div>
-        </button>
-    );
-}
-
-export const SignUpWithEmail = () => {
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
-    const [password2, setPassword2] = useState()
-    const [errorMessage, setErrorMessage] = useState()
-    const [moduleVisible, setModuleVisible] = useState(false)
-    const [isPending, setIsPending] = useState(false)
-
-    const signUpHandler = async (e) => {
-        e.preventDefault()
-        setIsPending(true)
-        if (password !== password2) {
-            setErrorMessage("passwords don't match")
-            setIsPending(false)
-            return
+    useEffect(() => {
+        if (auth.isLoggedIn) {
+            navigate(navigateTo);
         }
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(async (userCredential) => {
-                const user = userCredential.user;
-                await setUser(user)
-                sendEmailVerification(user);
-                localStorage.setItem("apipool_email", user.email)
-                auth.signOut();
-                setModuleVisible(true)
-                setErrorMessage("")
-                setPassword("")
-                setPassword2("")
-                setIsPending(false)
-            })
-            .catch((error) => {
-                setIsPending(false)
-                setErrorMessage(error.message)
+        setEmail(localStorage.getItem("email"));
+    }, [auth]);
+
+    const handleLogin = async (e) => {
+        try {
+            e.preventDefault();
+            setErrorMessage("");
+            const data = { user: { email, password } };
+            const response = await axiosAuth.post(`/login`, data, {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
             });
-    }
-    return (
-        <div>
-            {moduleVisible && (
-                <PopupModule message='We have sent a verification link to your email address. Please check your inbox or spam folder for the email.' buttonLabel='Go to Login Page' path='/login' />
-            )
+
+            if (response.status !== 200)
+                throw new Error(response.data.message);
+            setAuth({ isLoggedIn: true });
+            localStorage.setItem("isLoggedIn", true);
+            localStorage.setItem("email", email);
+            navigate(navigateTo);
+        } catch (error) {
+            setErrorMessage(error.response?.data?.message);
+        } finally {
+            setPassword('');
+        }
+    };
+
+    const handleForgatPassword = async (e) => {
+        e.preventDefault();
+        setErrorMessage("");
+        try {
+            const response = await axiosAuth.post("/email/reset-password/send", { email });
+            if (response.status !== 200) {
+                setErrorMessage(response.data.message);
             }
-            <form onSubmit={signUpHandler} className="email-auth">
+        } catch (error) {
+            if (error.response) {
+                setErrorMessage(error.response.data.message);
+                return;
+            }
+            throw error;
+        }
+    };
+
+    return (
+        <>
+            <form onSubmit={handleLogin}>
                 <div className="input-group">
                     <input className='auth-input' value={email} onChange={(e) => { setEmail(e.target.value) }} type="email" placeholder='email' />
                     <input className='auth-input' value={password} onChange={(e) => { setPassword(e.target.value) }} type="password" placeholder='password' />
-                    <input className='auth-input' value={password2} onChange={(e) => { setPassword2(e.target.value) }} type="password" placeholder='password' />
                 </div>
-                <button type='submit' className='dashboard-button auth-button' onClick={signUpHandler}>{isPending ? "..." : "Sign Up"}</button>
-                {errorMessage && (
-                    <div className='error-message'>
-                        {errorMessage}
-                    </div>
-                )}
+                <button type='submit' className='auth-button'>{"Login"}</button>
             </form>
-            <div className="under-login">
-                <Link to={"/login"}> Go to Login </Link>
-            </div>
-        </div>
-    )
-}
 
-export const SignInWithEmail = () => {
-    const navigator = useNavigate()
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
-    const [errorMessage, setErrorMessage] = useState()
-    const [isPending, setIsPending] = useState(false)
-
-    const signInHandler = (e) => {
-        e.preventDefault()
-        setIsPending(true)
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                if (!user.emailVerified) {
-                    auth.signOut()
-                    throw new Error(AuthErrorCodes.UNVERIFIED_EMAIL);
-                }
-                setErrorMessage()
-                setPassword()
-                localStorage.setItem("apipool_email", user.email)
-                setIsPending(false)
-                navigator("/console")
-            })
-            .catch((error) => {
-                setIsPending(false)
-                setErrorMessage(error.message)
-            });
-    }
-    useEffect(() => {
-        const apiPoolEmail = localStorage.getItem("apipool_email")
-        if (apiPoolEmail) {
-            setEmail(apiPoolEmail)
-        }
-    }, [])
-    return (
-        <form onSubmit={signInHandler} className="email-auth">
-            <div className="input-group">
-                <input className='auth-input' value={email} onChange={(e) => { setEmail(e.target.value) }} type="email" placeholder='email' />
-                <input className='auth-input' value={password} onChange={(e) => { setPassword(e.target.value) }} type="password" placeholder='password' />
-            </div>
-            <button type='submit' className='dashboard-button auth-button' onClick={signInHandler}>{isPending ? "..." : "Login"}</button>
             {errorMessage && (
                 <div className='error-message'>
                     {errorMessage}
                 </div>
             )}
-            <div className="under-login">
-                <Link to={"/sign-up"}> Go to Sign Up </Link>
-                <PasswordReset email={email} />
-            </div>
-        </form>
-    )
-}
 
-export const PasswordReset = ({ email }) => {
-    const [moduleVisible, setModuleVisible] = useState(false)
-    const clickHandler = () => {
-        sendPasswordResetEmail(auth, email)
-            .then(() => {
-                setModuleVisible(true)
-            })
-            .catch(error => alert(error));
-    }
-    return (
-        <>
-            {moduleVisible && (
-                <PopupModule message='We have sent a password reset link to your email address. Please check your inbox or spam folder for the email.' buttonLabel='Close' navigate={false} />
-            )
-            }
-            <div className='reset-password' onClick={clickHandler}>
-                Reset password
+            <div className="under-auth">
+
+                {errorMessage === "Email not verified!" ?
+                    (
+                        <SendEmailVerification email={email} />
+                    ) :
+                    (
+                        <a onClick={handleForgatPassword}>Forgot password?</a>
+                    )
+                }
             </div>
+
         </>
-    )
+
+    );
 }
 
-export const ChangePassword = () => {
-    const navigator = useNavigate()
-    const [password, setPassword] = useState()
-    const [password2, setPassword2] = useState()
-    const [errorMessage, setErrorMessage] = useState();
+const ResetPasswordForm = () => {
+    const [password, setPassword] = useState("");
+    const [passwordAgain, setPasswordAgain] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
+    const { setAuth } = useAuth();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
-    const clickHandler = (e) => {
-        e.preventDefault()
-        const user = auth.currentUser;
-        updatePassword(user, password).then(() => {
-            if (password != password2) {
-                throw Error("passwords dont match")
+    useEffect(() => {
+        if (!searchParams.has("secretKey")) {
+            navigate("/login");
+        }
+    }, [searchParams]);
+
+    const handleResetPassword = async (e) => {
+        try {
+            e.preventDefault();
+            setErrorMessage("");
+            if (password !== passwordAgain) {
+                setPassword("");
+                setPasswordAgain("");
+                return setErrorMessage("Passwords do not match");
             }
-            auth.signOut()
-            navigator("/login")
-        }).catch((error) => {
-            setErrorMessage(error.message)
-        });
+            const secretKey = searchParams.get("secretKey");
+            const headers = { Authorization: secretKey };
+            const response = await axiosAuth.post("/email/reset-password", { password }, { headers });
+            if (response.status === 200) {
+                setAuth({ isLoggedIn: true });
+                localStorage.setItem("isLoggedIn", true);
+                navigate("/console");
+            }
+        } catch (error) {
+            setPassword("");
+            setPasswordAgain("");
+            setErrorMessage(error.response?.data?.message);
+        }
     }
 
     return (
         <div>
             <form className="change-password">
-                <h2>Change Password</h2>
-                <div className="change-container gap">
-                    <div className="input-group change-input-group">
-                        <input className='password-input' type="password" placeholder='new password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
-                        <input className='password-input' type="password" placeholder='new password' value={password2} onChange={(e) => { setPassword2(e.target.value) }} />
-                    </div>
-                    {errorMessage && (
-                        <div className='error-message'>
-                            {errorMessage}
-                        </div>
-                    )}
-                    <button type='submit' className="dashboard-button" onClick={clickHandler}>
-                        Change
-                    </button>
+                <div className="input-group change-input-group">
+                    <input className='auth-input' type="password" placeholder='new password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
+                    <input className='auth-input' type="password" placeholder='new password again' value={passwordAgain} onChange={(e) => { setPasswordAgain(e.target.value) }} />
                 </div>
+                {errorMessage && (
+                    <div className='error-message'>
+                        {errorMessage}
+                    </div>
+                )}
+                <button className="auth-button" type='submit' onClick={handleResetPassword}>
+                    Change
+                </button>
             </form>
         </div>
     )
+}
+
+
+
+
+const SignUpWithEmail = () => {
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState("");
+    const [passwordAgain, setPasswordAgain] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
+
+    const { auth, setAuth } = useAuth();
+
+    const navigate = useNavigate();
+    const navigateTo = "/console";
+
+    useEffect(() => {
+        if (auth.isLoggedIn) {
+            navigate(navigateTo);
+            return;
+        }
+        setEmail(localStorage.getItem("email"));
+    }, [auth]);
+
+    const handleSignUp = async (e) => {
+        try {
+            e.preventDefault();
+            setErrorMessage("");
+            const data = { user: { email, password } };
+            await axiosAuth.post(`/sign-up`, data);
+            localStorage.setItem("email", email)
+            localStorage.setItem("isLoggedIn", true);
+            setAuth({ isLoggedIn: true });
+            navigate("/console");
+        } catch (error) {
+            setErrorMessage(error.response?.data?.message);
+        } finally {
+            setPassword('');
+            setPasswordAgain('');
+        }
+    };
+
+    return (
+        <>
+            <form onSubmit={handleSignUp}>
+                <div className="input-group">
+                    <input className='auth-input' value={email} onChange={(e) => { setEmail(e.target.value) }} type="email" placeholder='email' />
+                    <input className='auth-input' value={password} onChange={(e) => { setPassword(e.target.value) }} type="password" placeholder='password' />
+                    <input className='auth-input' value={passwordAgain} onChange={(e) => { setPasswordAgain(e.target.value) }} type="password" placeholder='password' />
+                </div>
+                <button type='submit' className='auth-button'>{"Sign Up"}</button>
+            </form>
+            {errorMessage && (
+                <div className='error-message'>
+                    {errorMessage}
+                </div>
+            )}
+        </>
+
+    );
+}
+
+const ChangePassword = () => {
+    const [currentPassword, setCurrentPassword] = useState();
+    const [password, setPassword] = useState();
+    const [passwordAgain, setPasswordAgain] = useState();
+    const [errorMessage, setErrorMessage] = useState();
+    const { setAuth } = useAuth();
+
+    const clickHandler = async (e) => {
+        try {
+            e.preventDefault();
+            setErrorMessage("");
+            if (password !== passwordAgain) {
+                setCurrentPassword("");
+                setPassword("");
+                setPasswordAgain("");
+                return setErrorMessage("New passwords do not match");
+            }
+            const response = await axiosAuth.post("change-password", {
+                currentPassword,
+                newPassword: password,
+            }
+            )
+            if (response.status === 200) {
+                setAuth({ isLoggedIn: false })
+                localStorage.setItem("isLoggedIn", false);
+                // navigate("/login", { state: { from: location }, replace: true });
+            };
+        } catch (error) {
+            setCurrentPassword("");
+            setPassword("");
+            setPasswordAgain("");
+            setErrorMessage(error.response?.data?.message);
+        }
+
+    }
+
+    return (
+        <div>
+            <form className="change-password">
+                <div className="input-group change-input-group">
+                    <input className='password-input' type="password" placeholder='current password' value={currentPassword} onChange={(e) => { setCurrentPassword(e.target.value) }} />
+                    <input className='password-input' type="password" placeholder='new password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
+                    <input className='password-input' type="password" placeholder='new password again' value={passwordAgain} onChange={(e) => { setPasswordAgain(e.target.value) }} />
+                </div>
+                {errorMessage && (
+                    <div className='error-message'>
+                        {errorMessage}
+                    </div>
+                )}
+                <button type='submit' onClick={clickHandler}>
+                    Change
+                </button>
+            </form>
+        </div>
+    )
+}
+
+const GoogleAuthButton = ({ method }) => {
+    const handleOnClick = (e) => {
+        e.preventDefault();
+        //TO-DO: to backend
+        const clientID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+        const redirectUrl = encodeURIComponent(`${process.env.REACT_APP_CLIENT_URL}/oauth/google/${method}`);
+        const scope = encodeURIComponent("https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",);
+        const url = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=${clientID}&scope=${scope}&include_granted_scopes=true&redirect_uri=${redirectUrl}&service=lso&o2v=2&theme=dark&flowName=GeneralOAuthFlow`;
+
+        window.location.assign(url);
+    }
+
+    return (
+        <button onClick={handleOnClick} className="auth-button oauth google-auth">
+            <span className="button-label">
+                {<FaGoogle className="auth-icon" size={20} />}
+                {method === "login" ? "Login" : "Sign Up"} with Google
+            </span>
+        </button>
+    );
+}
+
+
+const GithubAuthButton = ({ method }) => {
+    const handleOnClick = (e) => {
+        e.preventDefault();
+        const clientID = process.env.REACT_APP_GITHUB_CLIENT_ID;
+        const redirectUrl = encodeURIComponent(`${process.env.REACT_APP_CLIENT_URL}/oauth/github/${method}`);
+        const url = `https://github.com/login/oauth/authorize?client_id=${clientID}&scope=user:email&redirect_uri=${redirectUrl}`;
+        window.location.assign(url);
+    }
+    return (
+        <button onClick={handleOnClick} className="auth-button oauth github-auth">
+            <span className="button-label">
+                {<FaGithub className="auth-icon" size={20} />}
+                {method === "login" ? "Login" : "Sign Up"} with Github
+            </span>
+        </button>
+    );
+}
+
+const AddGoogleAuthButton = () => {
+    const handleOnClick = (e) => {
+        e.preventDefault();
+        const clientID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+        const redirectUrl = encodeURIComponent(`${process.env.REACT_APP_CLIENT_URL}/oauth/google/add`);
+        const scope = encodeURIComponent("https://www.googleapis.com/auth/userinfo.profile");
+        const url = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=${clientID}&scope=${scope}&include_granted_scopes=true&redirect_uri=${redirectUrl}&service=lso&o2v=2&theme=dark&flowName=GeneralOAuthFlow`;
+
+        window.location.assign(url);
+    }
+
+    return (
+        <button onClick={handleOnClick} className="auth-button oauth google-auth">
+            <span className="button-label">
+                {<FaGoogle className="auth-icon" size={20} />}
+                Enable Google Auth
+            </span>
+        </button>
+    );
+}
+
+const AddGithubAuthButton = () => {
+    const handleOnClick = (e) => {
+        e.preventDefault();
+        const clientID = process.env.REACT_APP_GITHUB_CLIENT_ID;
+        const redirectUrl = encodeURIComponent(`${process.env.REACT_APP_CLIENT_URL}/oauth/github/add`);
+        const url = `https://github.com/login/oauth/authorize?client_id=${clientID}&scope=user:email&redirect_uri=${redirectUrl}`;
+        window.location.assign(url);
+    }
+    return (
+        <button onClick={handleOnClick} className="auth-button oauth github-auth">
+            <span className="button-label">
+                {<FaGithub className="auth-icon" size={20} />}
+                Enable Github Auth
+            </span>
+        </button>
+    );
+}
+
+const AddEmailAuthForm = ({ updateAuthMethods }) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
+
+    const handleOnSubmit = async (e) => {
+        try {
+            e.preventDefault();
+            setErrorMessage("");
+            if (password !== confirmPassword) {
+                setPassword("");
+                setConfirmPassword("");
+                setErrorMessage("Passwords do not match")
+                return;
+            }
+            await axiosAuth.post("/email/add", { user: { email, password } });
+            updateAuthMethods();
+        } catch (error) {
+            setErrorMessage(error.response?.data?.message);
+        }
+    }
+
+    return (
+        <form onSubmit={handleOnSubmit}>
+            <div className="input-group">
+                <input
+                    className="password-input"
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <input
+                    className="password-input"
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <input
+                    className="password-input"
+                    type="password"
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+            </div>
+            {errorMessage && (
+                <div className="error-message">
+                    {errorMessage}
+                </div>
+            )}
+            <button type="submit">
+                <span className="button-label">
+                    {<MdOutlineMailOutline className="auth-icon" size={20} />}
+                    Enable Email Auth
+                </span>
+            </button>
+        </form>
+    );
+}
+
+
+const SendEmailVerification = ({ email }) => {
+    const [errorMessage, setErrorMessage] = useState();
+
+    const handleSendEmailVerification = async (e) => {
+        try {
+            e.preventDefault();
+            setErrorMessage("");
+            const response = await axiosAuth.post("/email/send-verify", { email });
+            if (response.status !== 200) {
+                setErrorMessage(response.data.message);
+            }
+        } catch (error) {
+            if (error.response) {
+                setErrorMessage(error.response.data.message);
+                return;
+            }
+            throw error;
+        }
+    };
+
+    return (
+        <>
+            <button className='send-email-verification' onClick={handleSendEmailVerification}>
+                Send Again
+            </button>
+            {errorMessage && (
+                <div className='error-message'>
+                    {errorMessage}
+                </div>
+            )}
+        </>
+    )
+}
+
+
+
+export {
+    LoginWithEmail,
+    SignUpWithEmail,
+    ChangePassword,
+    GoogleAuthButton,
+    GithubAuthButton,
+    AddGoogleAuthButton,
+    AddGithubAuthButton,
+    AddEmailAuthForm,
+    ResetPasswordForm,
+    SendEmailVerification
 }

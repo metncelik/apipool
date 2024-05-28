@@ -1,0 +1,20 @@
+.models-table{
+    margin-top: 20px;
+}
+
+.edit-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    background-color:rgb(13, 36, 36);
+}
+
+.edit-button:hover{
+    background-color:rgb(21, 57, 57);
+}
+
+.edit-button:active{
+    background-color:rgb(50, 121, 121);
+}

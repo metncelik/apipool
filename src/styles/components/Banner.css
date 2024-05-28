@@ -2,25 +2,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 200px;
+  height: 300px;
   color: cadetblue;
-  background: linear-gradient(90deg, #03001C, #ff000046);
+  /* background: linear-gradient(90deg, #03001C, #ff000046); */
   z-index: 0;
-  opacity: 0.99;
+  opacity: 1;
 }
 
 .banner-before {
-  content: "";
   position: absolute;
-  min-height: 200px;
+  min-height: 300px;
   max-height: 1px;
   width: 100%;
   height: 100%;
   background-position: center;
   background-size: 30vw;
-  opacity: 0.12;
+  opacity: 0.3;
   z-index: -1;
-  /* You can remove the background-image property here */
+  filter: blur(1px);
 }
 
 .banner-title {
@@ -35,6 +34,7 @@
   background-clip: border-box;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  padding-top: 40px;
   /* color: linear-gradient(45deg, #03001C, #ff000046); */
 }
 

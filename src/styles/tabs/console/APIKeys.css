@@ -1,0 +1,37 @@
+.create-apikey {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+}
+
+.apikeys-empty-label {
+    flex-direction: column;
+    color: rgba(207, 71, 71, 0.825);
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.apikeys-empty-sublabel {
+    font-size: 18px;
+    color: rgba(62, 153, 153, 0.845);
+}
+
+.apikeys-copy{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    background-color:rgb(13, 36, 36);
+}
+
+.apikeys-copy:hover{
+    background-color:rgb(21, 57, 57);
+}
+
+.apikeys-copy:active{
+    background-color:rgb(50, 121, 121);
+}

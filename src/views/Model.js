@@ -1,73 +1,53 @@
 import Banner from "../components/Banner";
-import '../styles/screens/Model.css'
+import '../styles/views/Model.css'
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { a11yDark, stackoverflowDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { stackoverflowDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { GetModel } from "../database/db";
 import Loading from "../components/Loading";
-
-const CodeWithHeader = ({ codes }) => {
-    const [selectedLanguage, setSelectedLanguage] = useState("Python");
-    const languages = ['Python', "Go", 'JavaScript', 'PHP'];
-    return (
-        <div className="code-container">
-            <div className="languages-container">
-                {languages.map((language, index) => (
-                    <button key={index} onClick={() => { setSelectedLanguage(language) }} className={`language ${language.toLocaleLowerCase()} ${selectedLanguage === language ? "selected-language" : ""}`}>
-                        {language}
-                    </button>
-                ))
-                }
-            </div>
-            <SyntaxHighlighter style={stackoverflowDark} language={selectedLanguage.toLocaleLowerCase()} children={codes[selectedLanguage]} className={"code"} />
-        </div>
-    )
-}
+import { axiosPrivate } from "../api/axios";
 
 const Code = ({ code }) => {
     return (
         <div className="code-container">
-            <SyntaxHighlighter style={stackoverflowDark} children={code} className={"code border-radius"} />
+            <SyntaxHighlighter style={stackoverflowDark} customStyle={{ padding: "20px" }} language={"JAVASCRIPT"} children={code} className={"code border-radius"} />
         </div>
     )
 }
 
-const getCodes = (model) => {
-    const codes = {
+const getCodes = (modelAlias) => {
+    return {
         "create_header": {
-            "Python": "headers = {\n\t\"Authorization\": \"Bearer your_api_key\", # Sign Up to get your api key\n\t\"Content-Type\": \"application/json\"\n}\n",
-            "JavaScript": "const headers = {\n\t'Authorization': 'Bearer your_api_key', // Sign Up to get your api key\n\t'Content-Type': 'application/json',\n};\n",
-            "Go": "headers := map[string]string{\n\t\"Authorization\": \"Bearer your_api_key\", // Sign Up to get your api key\n\t\"Content-Type\": \"application/json\",\n}\n",
-            "PHP": "$headers = array(\n\t'Authorization: Bearer your_api_key', // Sign Up to get your api key\n\t'Content-Type: application/json'\n);\n"
+            "Python": "headers = {\n\t\"Authorization\": \"API_KEY\", # Get your api key from console\n}\n",
+            "JavaScript": "const headers = {\n\t'Authorization': 'API_KEY', // Get your api key from console\n};\n",
+            "Go": "headers := map[string]string{\n\t\"Authorization\": \"API_KEY\", // Get your api key from console\n}\n",
+            "PHP": "$headers = array(\n\t'Authorization: API_KEY', // Get your api key from console\n);\n"
         },
         "create_body": {
-            "Python": "body = {\n\t\"parameter\": \"value\",\n\t\"another_parameter\": \"another_value\"\n}\n",
-            "JavaScript": "const body = array(\n\t'parameter' => 'value',\n\t'another_parameter' => 'another_value'\n);\n",
-            "Go": "body := map[string]interface{}{\n\t\"parameter\": \"value\",\n\t\"another_parameter\": \"another_value\",\n}\n",
-            "PHP": "$body = {\n\t\"parameter\": \"value\",\n\t\"another_parameter\": \"another_value\"\n}\n"
+            "Python": "body = {\n\t\"parameter1\": \"value1\",\n\t\"parameter2\": \"value2\"\n}\n",
+            "JavaScript": "const body = {\n\t\"parameter1\": \"value1\",\n\t\"parameter2\": \"value2\"\n};\n",
+            "Go": "body := map[string]interface{}{\n\t\"parameter\": \"value\",\n\t\"parameter2\": \"value2\",\n}\n",
+            "PHP": "$body = {\n\t\"parameter\": \"value\",\n\t\"parameter2\": \"value2\"\n};\n"
         },
         "make_request": {
             "Python": "import requests\n\n" +
-                `url = \"${model.endpoint}\"\n\n` +
-                "headers = headers # Replace with your actual headers\n" +
-                "body = body # Replace with your actual body\n\n" +
+                `url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias}" \n\n` +
+                "headers = headers \n" +
+                "body = body \n\n" +
                 "response = requests.post(url, headers=headers, json=body)\n" +
                 "print(response.text)",
 
-
             "JavaScript": "const axios = require(\"axios\");\n\n" +
-                `const url = \"${model.endpoint}\";\n\n` +
-                "const headers = headers  // Replace with your actual headers\n" +
-                "const body = body  // Replace with your actual body\n\n" +
+                `const url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias}";  \n\n` +
+                "const headers = headers  \n" +
+                "const body = body  \n\n" +
                 "axios.post(url, body, { headers })\n" +
                 "\t.then(response => {\n" +
                 "\t\tconsole.log(response.data);\n" +
                 "\t})\n" +
                 "\t.catch(error => {\n" +
                 "\t\tconsole.error(error);\n" +
-                "\t});",
-
+                "});",
 
             "Go": "package main\n\n" +
                 "import (\n" +
@@ -75,9 +55,9 @@ const getCodes = (model) => {
                 "\t\"net/http\"\n" +
                 ")\n\n" +
                 "func main() {\n" +
-                `\turl := \"${model.endpoint}\"\n\n` +
-                "\theaders := headers  // Replace with your actual headers\n" +
-                "\tbody := body  // Replace with your actual body\n\n" +
+                `\turl := "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias}"  \n\n` +
+                "\theaders := headers  \n" +
+                "\tbody := body  \n\n" +
                 "\treq, err := http.NewRequest(\"POST\", url, bytes.NewBuffer(body))\n" +
                 "\tif err != nil {\n" +
                 "\t\tpanic(err)\n" +
@@ -94,12 +74,10 @@ const getCodes = (model) => {
                 "\t// Process resp as needed\n" +
                 "}",
 
-
-
             "PHP":
-                `$url = \"${model.endpoint}\";\n\n` +
-                "$headers = headers;  // Replace with your actual headers\n" +
-                "$body = body;  // Replace with your actual body\n\n" +
+                `$url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias}";  \n\n` +
+                "$headers = headers;  \n" +
+                "$body = body;  \n\n" +
                 "$ch = curl_init($url);\n" +
                 "curl_setopt($ch, CURLOPT_POST, true);\n" +
                 "curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));\n" +
@@ -109,36 +87,35 @@ const getCodes = (model) => {
                 "curl_close($ch);\n\n" +
                 "echo $response;\n"
         },
+
         "fetch": {
             "Python":
                 "import requests\n" +
                 "import time\n" +
-                `\nrequest_id = \"request_id\" # Replace with request id\nfetch_url = f\"${model.fetch_url}/{request_id}\"\n\n` +
+                `\nid = "id"  # Replace with job id\nfetch_url = f"${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias + "/status"}/{id}"\n\n` +
                 "for _ in range(5):\n" +
                 "\tresponse = requests.get(fetch_url)\n" +
                 "\tdata = response.json()\n" +
-                "\tif response.status_code == 200 and data.get(\"status\") == \"COMPLETED\":\n" +
-                "\t\tprint(data)  # Print the response data\n" +
-                "\t\tbreak  # Break the loop if status is \"COMPLETED\"\n" +
+                "\tif response.status_code == 200 and data.get(\"status\") == \"completed\":\n" +
+                "\t\tprint(data) \n" +
+                "\t\tbreak \n" +
                 "\ttime.sleep(10)\n",
             "JavaScript": "const axios = require(\"axios\");\n" +
                 "\n" +
-                "(async () => {\n" +
-                `\n\tconst requestId = \"request_id\"; // Replace with request id\n\tconst fetchUrl = \`${model.fetch_url}/\${requestId}\`;\n\n` +
-                "\tfor (let i = 0; i < 5; i++) {\n" +
-                "\t\ttry {\n" +
-                "\t\t\tconst response = await axios.get(fetchUrl);\n" +
-                "\t\t\tconst data = response.data;\n" +
-                "\t\t\tif (response.status === 200 && data.status === \"COMPLETED\") {\n" +
-                "\t\t\t\tconsole.log(data);  // Print the response data\n" +
-                "\t\t\t\tbreak;  // Break the loop if status is \"COMPLETED\"\n" +
-                "\t\t\t}\n" +
-                "\t\t} catch (error) {\n" +
-                "\t\t\tconsole.error(\"Error:\", error.message);\n" +
+                `\nconst id = "id"  // Replace with job id\nconst fetchUrl = \`${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias + "/status"}/\${id}\`;\n\n` +
+                "for (let i = 0; i < 5; i++) {\n" +
+                "\ttry {\n" +
+                "\t\tconst response = await axios.get(fetchUrl);\n" +
+                "\t\tconst data = response.data;\n" +
+                "\t\tif (response.status === 200 && data.status === \"completed\") {\n" +
+                "\t\t\tconsole.log(data); \n" +
+                "\t\t\tbreak; \n" +
                 "\t\t}\n" +
-                "\t\tawait new Promise(resolve => setTimeout(resolve, 10000));\n" +
+                "\t} catch (error) {\n" +
+                "\t\tconsole.error(\"Error:\", error.message);\n" +
                 "\t}\n" +
-                "})();\n",
+                "\tawait new Promise(resolve => setTimeout(resolve, 10000));\n" +
+                "}\n",
             "Go": "package main\n" +
                 "\n" +
                 "import (\n" +
@@ -149,9 +126,9 @@ const getCodes = (model) => {
                 ")\n" +
                 "\n" +
                 "func main() {\n" +
-                `\n\trequestId := \"request_id\" // Replace with request id\n\tfetchUrl := \"${model.fetch_url}/\" + requestId\n\n` +
+                `\n\tid := "id"  // Replace with job id\n\tfetchUrl := "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias + "/status"}/" + id\n\n` +
                 "\tfor i := 0; i < 5; i++ {\n" +
-                `\t\tresp, err := http.Get(fetchUrl)\n` +
+                "\t\tresp, err := http.Get(fetchUrl)\n" +
                 "\t\tif err != nil {\n" +
                 "\t\t\tfmt.Println(\"Error:\", err)\n" +
                 "\t\t\treturn\n" +
@@ -165,16 +142,15 @@ const getCodes = (model) => {
                 "\t\t\t\tfmt.Println(\"Error decoding response:\", err)\n" +
                 "\t\t\t\treturn\n" +
                 "\t\t\t}\n" +
-                "\t\t\tif status, ok := data[\"status\"].(string); ok && status == \"COMPLETED\" {\n" +
-                "\t\t\t\tfmt.Println(\"Response:\", data)  // Print the response data\n" +
-                "\t\t\t\tbreak  // Break the loop if status is \"COMPLETED\"\n" +
+                "\t\t\tif status, ok := data[\"status\"].(string); ok && status == \"completed\" {\n" +
+                "\t\t\t\tfmt.Println(\"Response:\", data) \n" +
+                "\t\t\t\tbreak \n" +
                 "\t\t\t}\n" +
                 "\t\t}\n" +
                 "\t\ttime.Sleep(10 * time.Second)\n" +
                 "\t}\n" +
                 "}\n",
-            "PHP":
-                `$requestId = \"request_id\" // Replace with request id;\n$fetchUrl = \"${model.fetch_url}/" . $requestId;\n\n` +
+            "PHP": `$id = "id";  // Replace with job id\n$fetchUrl = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias + "/status"}/" . $id;\n\n` +
                 "for ($i = 0; $i < 5; $i++) {\n" +
                 "\t$ch = curl_init(fetchUrl);\n" +
                 "\tcurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n" +
@@ -184,201 +160,196 @@ const getCodes = (model) => {
                 "\n" +
                 "\tif ($httpCode === 200) {\n" +
                 "\t\t$data = json_decode($response, true);\n" +
-                "\t\tif (isset($data[\"status\"]) && $data[\"status\"] === \"COMPLETED\") {\n" +
-                "\t\t\tprint_r($data);  // Print the response data\n" +
-                "\t\t\tbreak;  // Break the loop if status is \"COMPLETED\"\n" +
+                "\t\tif (isset($data[\"status\"]) && $data[\"status\"] === \"completed\") {\n" +
+                "\t\t\tprint_r($data); \n" +
+                "\t\t\tbreak; \n" +
                 "\t\t}\n" +
                 "\t}\n" +
                 "\tsleep(10);\n" +
                 "}\n"
         }
-
     }
-    return codes
 }
 
 const Model = () => {
-    const { id } = useParams()
+    const { alias } = useParams()
     const [model, setModel] = useState()
-    const [codes, setCodes] = useState()
+    const [codes, setCodes] = useState(null)
     const [isPending, setIsPending] = useState(true)
+    const [selectedLanguage, setSelectedLanguage] = useState("Python");
 
     useEffect(() => {
-        GetModel(id).then(
-            data => {
-                console.log(data);
-                setModel(data);
-                const codes = getCodes(data)
-                setCodes(codes)
-                setIsPending(false)
-            }
-        )
-    }, [])
+        const getData = async () => {
+            setIsPending(true);
+            const response = await axiosPrivate("/models/by-alias/" + alias);
+            const modelData = response.data.model;
+            setModel(modelData);
+            setCodes(getCodes(modelData.alias));
+            setIsPending(false);
+        };
+        getData();
+    }, [alias]);
 
-    // const model = {
-    //     "name": "Realistic Vision v5.1",
-    //     "id": "dfsdfd",
-    //     "description": "Realistic Vision V5.1 is a fine-tuned Stable Diffusion model that trained for generating Realistic, Photographic images.",
-    //     "method": "POST",
-    //     "endpoint": "https://service.apipool.ai/stable_diffusion",
-    //     "fetch": true,
-    //     "fetch_url": "https://service.apipool.ai/stable_diffusion/fetch",
-    //     "fetch_method": "GET",
-    //     "input_params": [
-    //         {
-    //             "parameter": "model_id",
-    //             "type": "str",
-    //             "required": "yes",
-    //             "default": "-",
-    //             "description": "realistic_vision 5.1"
-    //         },
-    //         {
-    //             "parameter": "key",
-    //             "type": "str",
-    //             "required": "yes",
-    //             "default": "-",
-    //             "description": "asdjka  l khu şk hş jh ş h şlkh şl kh şlk h şlkh şlk h lh"
-    //         },
-    //         {
-    //             "parameter": "ekmek",
-    //             "type": "str",
-    //             "required": "yes",
-    //             "default": "-",
-    //             "description": "sucuk sadkjasşjdasşdjbasşjbd"
-    //         },
-    //         {
-    //             "parameter": "model_id",
-    //             "type": "str",
-    //             "required": "yes",
-    //             "default": "-",
-    //             "description": "realistic_vision 5.1"
-    //         },
-    //         {
-    //             "parameter": "model_id",
-    //             "type": "str",
-    //             "required": "yes",
-    //             "default": "-",
-    //             "description": "realistic_vision 5.1"
-    //         }
-    //     ],
-    //     "output_params": "{\n\t'image': string [base64],\n\t'mask':string [base64]\n\t}"
-
-    // }
-
-   
+    const CodeWithHeader = ({ codes, language }) => {
+        const languages = [
+            'Python',
+            "Go",
+            'JavaScript',
+            'PHP'
+        ];
+        return (
+            <div className="code-container">
+                <div className="languages-container">
+                    {languages.map((language, index) => (
+                        <button
+                            key={index}
+                            onClick={() => { setSelectedLanguage(language) }}
+                            className={`language ${language.toLocaleLowerCase()} 
+                            ${selectedLanguage === language ? "selected-language" : ""}`}
+                        >
+                            {language}
+                        </button>
+                    ))
+                    }
+                </div>
+                <SyntaxHighlighter
+                    style={stackoverflowDark}
+                    customStyle={{ padding: "15px" }}
+                    language={selectedLanguage.toLocaleLowerCase()}
+                    children={codes[selectedLanguage]}
+                    className={"code"}
+                />
+            </div>
+        );
+    };
 
     return (
         <div>
-            {isPending ? 
+            {isPending ?
                 <div>
-                <Loading/>
+                    <Loading />
                 </div>
                 :
                 <div className="model-main">
-                <Banner title={`${model.name} API`} imageUrl={model.image_url}/>
-                <div className="model-body container">
-                    <div className="description-container">
-                        <div className="title-area">
-                            <h3 className="description-title">
-                                Overview
+                    <Banner title={`${model.title} API`} imageUrl={model.image_url} />
+                    <div className="model-body container">
+                        <div className="description-container">
+                            <div className="title-area">
+                                <h3 className="description-title">
+                                    Info
+                                </h3>
+                            </div>
+                            <div className="gap">
+                                <p className="description-content">
+                                    {model.description} <br /><br />
+                                </p>
+                                <p className="url-container">
+                                    <div className="url-row">
+                                        <div className="endpoint-label">Endpoint URL:</div> &nbsp;
+                                        <p className="link" >{process.env.REACT_APP_SERVICE_URL + "/v0/" + model.alias}</p>
+                                    </div>
+
+                                </p>
+                                <p className="url-container">
+                                    <div className="url-row">
+                                        <div className="endpoint-label">Fetch URL:</div> &nbsp;
+                                        <p className="link">{process.env.REACT_APP_SERVICE_URL + "/v0/" + model.alias + "/status/:id"}</p>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="params-container">
+                            <h3 className="params-title title-area">
+                                Body Attributes
                             </h3>
-                        </div>
-                        <div className="gap">
-                            <p className="description-content">
-                                {model.description} <br /><br />
-                            </p>
-                            <p className="url-container">
-                                <div className="url-row">
-                                    <div className="endpoint-label">Endpoint URL:</div> &nbsp;
-                                    <a className="link" href={model.endpoint}>{model.endpoint}</a>
+                            <div className="table-container">
+
+                                <table className="gap">
+                                    <tr>
+                                        <th>parameter</th>
+                                        <th>type</th>
+                                        <th>required</th>
+                                        <th>default</th>
+                                        <th>description</th>
+                                    </tr>
+                                    {model.inputs.map((param, index) => (
+                                        <tr>
+                                            <td className="centered-text">{param.title}</td>
+                                            <td className="centered-text">{param.type}</td>
+                                            <td className="centered-text">{param.is_required ? "yes" : "no"}</td>
+                                            <td className="centered-text">{param.default_value || "-"}</td>
+                                            <td>{param.description}</td>
+                                        </tr>
+                                    ))
+                                    }
+                                </table>
+                            </div>
+
+                            <div className="usage">
+                                <h3 className="title-area">
+                                    Usage
+                                </h3>
+                                <div className="gap">
+                                    <p>1- Create a headers variable with your API key.</p>
+                                    <CodeWithHeader codes={codes.create_header} />
+                                    <br />
+                                    <p>2- Create a request body with the parameters in the table above.</p>
+                                    <CodeWithHeader codes={codes.create_body} />
+                                    <br />
+                                    <p>3- Make a <span className="method-name">POST</span> request to the Endpoint URL with the header and body.
+                                        {false &&
+                                            <span> It will return the output.</span>
+                                        }
+                                    </p>
+                                    <CodeWithHeader codes={codes.make_request} />
+                                    <br />
+                                    <div>
+                                        <p>It will return a job id.</p>
+                                        <Code code={"{\n\t'id': 'XXXXX'\n}"} />
+                                        <br />
+
+                                        <p>4 - After getting job id make a <span className="method-name">GET</span> request to the Fetch URL. It will return the status of your request. When status is "completed" it will return the output.</p>
+                                        <CodeWithHeader codes={codes.fetch} />
+                                        <br />
+
+                                    </div>
+                                    <p>Response:</p>
+                                    <Code code={"{\n\t'status': 'completed',\n\t'output': {}\n}"} />
+                                    <br />
                                 </div>
-    
-                            </p>
-                            <p className="url-container">
-                                <div className="url-row">
-                                    <div className="endpoint-label">Fetch URL:</div> &nbsp;
-                                    <a className="link" href={model.fetch_url}>{model.fetch_url}/{"\{request_id\}"}</a>
-                                </div>
-                            </p>
+                            </div>
+
                         </div>
-                    </div>
-    
-                    <div className="params-container">
                         <h3 className="params-title title-area">
-                            Body Attributes
+                            Output Attributes
                         </h3>
                         <div className="table-container">
-    
                             <table className="gap">
                                 <tr>
                                     <th>parameter</th>
                                     <th>type</th>
-                                    <th>required</th>
-                                    <th>default</th>
                                     <th>description</th>
                                 </tr>
-                                {model.input_params.map((param, index) => (
+                                {model.outputs.map((param, index) => (
                                     <tr>
-                                        <td>{param.name}</td>
-                                        <td className="centered-text">{param.type}</td>
-                                        <td className="centered-text">{param.required}</td>
-                                        <td className="centered-text">{param.default}</td>
+                                        <td className="centered-text">{param.title}</td>
+                                        <td className="centered-text">{param.type || "-"}</td>
                                         <td>{param.description}</td>
                                     </tr>
                                 ))
                                 }
                             </table>
                         </div>
-    
-                        <div className="usage">
-                            <h3 className="title-area">
-                                Usage
-                            </h3>
-                            <div className="gap">
-                                <p>1- Create a headers variable with your API POOL Api Key.</p>
-                                <CodeWithHeader codes={codes.create_header} />
-                                <br />
-                                <p>2- Create a request body with the parameters in the table above.</p>
-                                <CodeWithHeader codes={codes.create_body} />
-                                <br />
-                                <p>3- Make a <span className="method-name">{model.method}</span> request to the Endpoint URL with the header and body.
-                                    {!model.fetch &&
-                                        <span> It will return the output</span>
-                                    }
-                                </p>
-                                <CodeWithHeader codes={codes.make_request} />
-                                <br />
-                                {
-                                    model.fetch &&
-                                    (<div>
-                                        <p>It will return a request id.</p>
-                                        <Code code={"{\n'status':'RECIVED',\n'request_id': 'LKSD5765SDSA'\n}"} />
-                                        <br />
-    
-                                        <p>4 - After getting request id make a <span className="method-name">{model.fetch_method}</span> request to the Fetch URL. It will return the status of your request. When status is "COMPLETED" it will return the output.</p>
-                                        <CodeWithHeader codes={codes.fetch} />
-                                        <br />
-    
-                                    </div>
-                                    )
-                                }
-                                <p>Response:</p>
-                                <Code code={"{\n'status':'COMPLETED',\n'output': 'LKSD5765SDSA'\n}"} />
-                                <br />
-    
-                            </div>
-                        </div>
-    
-                    </div>
-                    {/* <div className="examples">
+                        {/* <div className="examples">
                         <h3 className="title-area">
                             Examples
                             </h3>
                         </div> */}
-    
-    
-                </div>
-            </div>}
+
+
+                    </div>
+                </div>}
 
         </div>
     );

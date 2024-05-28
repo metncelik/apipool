@@ -1,6 +1,22 @@
-.auth-button {
-    width: 100%;
-    margin: 10px 0px;
+.auth-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 0px;
+}
+
+.auth-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    padding: 20px;
+    padding: 40px;
+    border-radius: 20px;
+    background-color: rgb(14, 14, 15);
+    border: rgba(202, 202, 215, 0.141) 1px solid;
 }
 
 .auth-label {
@@ -9,33 +25,28 @@
     font-size: 15px;
 }
 
-.email-auth {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.input-group {
-    margin: 10px 0px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .auth-input {
-    min-width: 270px;
-    overflow-x: auto;
-    width: 48vw;
+    max-width: 100%;
+    padding: 10px;
+    padding-right: 0px;
+    margin: 10px 0px;
+    border-radius: 5px;
+    font-size: 15px;
+    align-self: center;
+    border-radius: 0;
 }
 
 .error-message {
-    color: rgb(140, 22, 22);
+    color: #8c1616;
     padding-bottom: 10px;
+    margin-top: 5px;
 }
 
-.under-login {
+.auth-box .error-message {
+    align-self: flex-start;
+}
+
+.under-auth {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -43,9 +54,10 @@
     font-weight: 100;
     color: rgb(141, 141, 141);
     font-size: 15px;
+    cursor: pointer;
 }
 
-.under-login a {
+.under-auth a {
     color: rgb(141, 141, 141);
 }
 
@@ -53,3 +65,26 @@
     cursor: pointer;
     padding: 3 px;
 }
+
+.auth-button {
+    width: 100%;
+    margin: 10px 0px;
+    font-size: 14px;
+}
+
+.auth-icon {
+    margin-right: 10px;
+}
+
+.oauth {
+    background-color: rgb(28, 28, 28);
+    border: #a5898954 1px solid;
+}
+
+.oauth:hover {
+    background-color: rgb(42, 42, 42);
+} 
+
+.oauth:active {
+    background-color: rgb(77, 74, 74);
+} 
