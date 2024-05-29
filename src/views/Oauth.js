@@ -15,6 +15,7 @@ const Oauth = () => {
     useEffect(() => {
         const authorize = async () => {
             try {
+                setIsPending(true);
                 if (!window.location.search.includes("code"))
                     return navigate("/login");
 
@@ -30,7 +31,12 @@ const Oauth = () => {
                 navigate("/console");
             } catch (error) {
                 setIsPending(false);
-                setErrorMessage(error.response?.data?.message);
+                if (error.response) {
+                    setErrorMessage(error.response.data.message);
+                    return;
+                }
+                setErrorMessage("An error occurred");
+                return;
             }
         };
         authorize();

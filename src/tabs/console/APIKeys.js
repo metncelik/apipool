@@ -152,11 +152,11 @@ const APIKeys = () => {
                 </div>
                 :
                 <div className="apikeys-empty">
-                    <div className="apikeys-empty-label">
+                    {/* <div className="apikeys-empty-label">
                         You have no API Keys
-                    </div>
+                    </div> */}
                     <div className="apikeys-empty-sublabel">
-                        Create an API Key to access the API
+                        Create an API Key to access the API.
                     </div>
                 </div>
             }

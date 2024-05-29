@@ -7,6 +7,7 @@ import { FaGithub, FaGoogle } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md";
 
 const LoginWithEmail = () => {
+    const [isPending, setIsPending] = useState(false);
     const [email, setEmail] = useState();
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
@@ -26,6 +27,7 @@ const LoginWithEmail = () => {
         try {
             e.preventDefault();
             setErrorMessage("");
+            setIsPending(true);
             const data = { user: { email, password } };
             const response = await axiosAuth.post(`/login`, data, {
                 headers: {
@@ -50,6 +52,7 @@ const LoginWithEmail = () => {
 
         } finally {
             setPassword('');
+            setIsPending(false);
         }
     };
 
@@ -78,7 +81,7 @@ const LoginWithEmail = () => {
                     <input className='auth-input' value={email} onChange={(e) => { setEmail(e.target.value) }} type="email" placeholder='email' />
                     <input className='auth-input' value={password} onChange={(e) => { setPassword(e.target.value) }} type="password" placeholder='password' />
                 </div>
-                <button type='submit' className='auth-button'>{"Login"}</button>
+                <button disabled={isPending} type='submit' className='auth-button'>{isPending? "...": "Login"}</button>
             </form>
 
             {errorMessage && (
@@ -172,6 +175,7 @@ const ResetPasswordForm = () => {
 
 
 const SignUpWithEmail = () => {
+    const [isPending, setIsPending] = useState(false);
     const [email, setEmail] = useState();
     const [password, setPassword] = useState("");
     const [passwordAgain, setPasswordAgain] = useState("");
@@ -194,6 +198,7 @@ const SignUpWithEmail = () => {
         try {
             e.preventDefault();
             setErrorMessage("");
+            setIsPending(true);
             const data = { user: { email, password } };
             await axiosAuth.post(`/sign-up`, data);
             localStorage.setItem("email", email)
@@ -210,6 +215,7 @@ const SignUpWithEmail = () => {
         } finally {
             setPassword('');
             setPasswordAgain('');
+            setIsPending(false);
         }
     };
 
@@ -221,7 +227,7 @@ const SignUpWithEmail = () => {
                     <input className='auth-input' value={password} onChange={(e) => { setPassword(e.target.value) }} type="password" placeholder='password' />
                     <input className='auth-input' value={passwordAgain} onChange={(e) => { setPasswordAgain(e.target.value) }} type="password" placeholder='password' />
                 </div>
-                <button type='submit' className='auth-button'>{"Sign Up"}</button>
+                <button disabled={isPending} type='submit' className='auth-button'>{isPending ? "...": "Sign Up"}</button>
             </form>
             {errorMessage && (
                 <div className='error-message'>
@@ -234,32 +240,38 @@ const SignUpWithEmail = () => {
 }
 
 const ChangePassword = () => {
+    const [isPending, setIsPending] = useState(false);
     const [currentPassword, setCurrentPassword] = useState();
     const [password, setPassword] = useState();
     const [passwordAgain, setPasswordAgain] = useState();
     const [errorMessage, setErrorMessage] = useState();
     const { setAuth } = useAuth();
+    const navigate = useNavigate();
 
     const clickHandler = async (e) => {
         try {
             e.preventDefault();
             setErrorMessage("");
+            setIsPending(true);
             if (password !== passwordAgain) {
                 setCurrentPassword("");
                 setPassword("");
                 setPasswordAgain("");
                 return setErrorMessage("New passwords do not match");
             }
+            
             const response = await axiosAuth.post("change-password", {
                 currentPassword,
                 newPassword: password,
-            }
-            )
-            if (response.status === 200) {
-                setAuth({ isLoggedIn: false })
-                localStorage.setItem("isLoggedIn", false);
-                // navigate("/login", { state: { from: location }, replace: true });
+            });
+            if (response.status !== 200) {
+                setErrorMessage(response.data.message);
+                return;
             };
+
+            setAuth({ isLoggedIn: false })
+            localStorage.setItem("isLoggedIn", false);
+            navigate("/login");
         } catch (error) {
             if (error.response) {
                 setErrorMessage(error.response.data.message);
@@ -271,6 +283,7 @@ const ChangePassword = () => {
             setCurrentPassword("");
             setPassword("");
             setPasswordAgain("");
+            setIsPending(false);
         }
 
     }
@@ -288,8 +301,8 @@ const ChangePassword = () => {
                         {errorMessage}
                     </div>
                 )}
-                <button type='submit' onClick={clickHandler}>
-                    Change
+                <button disabled={isPending} type='submit' onClick={clickHandler}>
+                    {isPending? "...": "Change"}
                 </button>
             </form>
         </div>
