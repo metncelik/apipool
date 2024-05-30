@@ -10,11 +10,11 @@ import Expandable from '../../components/Expandable';
 import Loading from '../../components/Loading';
 
 const Settings = () => {
-  const navigate = useNavigate(null);
-  const { setAuth } = useAuth(null);
+  const navigate = useNavigate();
+  const { setAuth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [isPending, setIsPending] = useState(false);
-  const [consoleState, setConsoleState] = useConsoleState(null);
+  const [consoleState, setConsoleState] = useConsoleState();
 
   const handleLogout = async () => {
     try {
@@ -38,11 +38,8 @@ const Settings = () => {
   }, []);
 
   useEffect(() => {
-    if (consoleState.authMethods) {
-      return;
-    }
+    if (consoleState.authMethods) return;
     getAuthMethods();
-
   }, [consoleState]);
 
   const methodComponents = {

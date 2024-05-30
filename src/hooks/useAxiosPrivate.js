@@ -8,7 +8,7 @@ import { useSnackbar } from "notistack";
 
 const useAxiosPrivate = () => {
     const refresh = useRefresh();
-    const {auth, setAuth} = useAuth();
+    const { auth, setAuth } = useAuth();
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
 
@@ -24,12 +24,16 @@ const useAxiosPrivate = () => {
 
         const responseIntercept = axiosPrivate.interceptors.response.use(
             response => {
-                if(response.data?.message){
-                    enqueueSnackbar(response.data);
-                }
+                if (response.data?.message)
+                    enqueueSnackbar(response.data.message, { variant: "default" });
                 return response;
             },
             async (error) => {
+                if (error.code === 'ERR_NETWORK') {
+                    enqueueSnackbar("Can't connect to Server.", { variant: "error" })
+                    navigate("/");
+                    return;
+                }
                 const prevRequest = error?.config;
                 if (error.response.status === 401 && !prevRequest?.sent) {
                     prevRequest.sent = true;
@@ -39,14 +43,11 @@ const useAxiosPrivate = () => {
                 }
                 if (error.response.status === 401) {
                     localStorage.removeItem("isLoggedIn");
-                    setAuth({isLoggedIn: false });
+                    setAuth({ isLoggedIn: false });
                     navigate("/login");
-                    return ;
+                    return;
                 }
-                if(error.response.status !== 200){
-                    return {errorMessage: error.response.data?.message};
-                }
-                Promise.reject(error);
+                enqueueSnackbar("SERVER ERROR:" + error.response.data.message, { variant: "error" });
             }
         );
         return () => {

@@ -9,22 +9,14 @@ import useConsoleState from '../../hooks/useConsoleState';
 
 
 const Insights = () => {
-    const axiosPrivate = useAxiosPrivate(null);
-    const [apiTitle, setAPITitle] = useState(null);
-    const [isPending, setIsPending] = useState(true);
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [isPopupVisible, setIsPopupVisible] = useState(false);
-    const [selectedKey, setSelectedKey] = useState(null);
+    const axiosPrivate = useAxiosPrivate();
+    const [isPending, setIsPending] = useState(false);
     const [consoleState, setConsoleState] = useConsoleState(null);
 
     const getrequests = async () => {
         setIsPending(true);
         const response = await axiosPrivate.get('/api-keys/requests');
-        if (response.errorMessage) {
-            isPending(false);
-            setErrorMessage(response.errorMessage);
-            return;
-        }
+        if (!response) return;
         setConsoleState({ ...consoleState, requests: response.data.requests });
         setIsPending(false);
     };

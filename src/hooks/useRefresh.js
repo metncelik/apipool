@@ -1,22 +1,18 @@
-import { axiosAuth } from "../api/axios"
+import { useSnackbar } from "notistack";
 import useAuth from "./useAuthState";
+import useAxiosAuth from "./useAxiosAuth";
 
 const useRefresh = () => {
     const { setAuth } = useAuth();
+    const { enqueueSnackbar } = useSnackbar();
+    const axiosAuth = useAxiosAuth();
 
     const refresh = async () => {
-        try {
-            const response = await axiosAuth.get("/refresh");
-            const { accessToken } = response.data;
-            setAuth({ accessToken, isLoggedIn: true });
-            return accessToken;
-        } catch (error) {
-            if (error.response.status === 401) {
-                localStorage.removeItem("isLoggedIn");
-                setAuth({ isLoggedIn: false });
-                return;
-            };
-        }
+        const response = await axiosAuth.get("/refresh");
+        if (!response) return;
+        const { accessToken } = response.data;
+        setAuth({ accessToken, isLoggedIn: true });
+        return accessToken;
     }
 
     return refresh;

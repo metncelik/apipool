@@ -105,24 +105,24 @@ const Console = () => {
             {tabs.map((tab, index) => {
               return (
                 <>
-                {!tab.active ? <li
-                className='menu-element disabled-tab'
-                >
-                  {tab.icon}
-                  <div className="menu-label">
-                    {tab.name}
-                  </div>
-                  <div className='coming-label'>
-                    COMING
-                  </div>
-                </li> : <li
-                  className={`menu-element ${searchParams.get("tab") === index.toString() && "active-tab"}`}
-                  onClick={() => setSearchParams({ "tab": index })}
-                >
-                  {tab.icon}
-                  <div className="menu-label">
-                    {tab.name}
-                  </div>
+                  {!tab.active ? <li
+                    className='menu-element disabled-tab'
+                  >
+                    {tab.icon}
+                    <div className="menu-label">
+                      {tab.name}
+                    </div>
+                    <div className='coming-label'>
+                      COMING
+                    </div>
+                  </li> : <li
+                    className={`menu-element ${searchParams.get("tab") === index.toString() && "active-tab"}`}
+                    onClick={() => setSearchParams({ "tab": index })}
+                  >
+                    {tab.icon}
+                    <div className="menu-label">
+                      {tab.name}
+                    </div>
                   </li>}
                 </>
               );

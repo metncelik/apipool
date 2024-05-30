@@ -31,19 +31,20 @@ const LoginWithEmail = () => {
         e.preventDefault();
         setIsPending(true);
         const data = { user: { email, password } };
-        await axiosAuth.post(`/login`, data, {
+        const response = await axiosAuth.post(`/login`, data, {
             headers: {
                 "Content-Type": "application/json"
             },
             withCredentials: true
         });
+        setIsPending(false);
+        if(!response) return;
 
         setAuth({ isLoggedIn: true });
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("email", email);
         navigate(navigateTo);
         setPassword('');
-        setIsPending(false);
     };
 
     const handleForgatPassword = async (e) => {
@@ -110,7 +111,8 @@ const ResetPasswordForm = () => {
         }
         const secretKey = searchParams.get("secretKey");
         const headers = { Authorization: secretKey };
-        await axiosAuth.post("/email/reset-password", { password }, { headers });
+        const response = await axiosAuth.post("/email/reset-password", { password }, { headers });
+        if (!response) return;
         setPassword('');
         setPasswordAgain('');
         navigate("/login");
@@ -158,19 +160,23 @@ const SignUpWithEmail = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         setIsPending(true);
+        
         if (password != passwordAgain) {
             enqueueSnackbar("Passwords do not match.", { variant: "error" });
             return;
         }
+
         const data = { user: { email, password } };
-        await axiosAuth.post(`/sign-up`, data);
+        const response = await axiosAuth.post(`/sign-up`, data);
+        setIsPending(false);
+        if (!response) return;
+
         localStorage.setItem("email", email)
         localStorage.setItem("isLoggedIn", true);
         setAuth({ isLoggedIn: true });
         navigate("/console");
         setPassword('');
         setPasswordAgain('');
-        setIsPending(false);
 
     };
 
@@ -210,10 +216,12 @@ const ChangePassword = () => {
             return;
         }
 
-        await axiosAuth.post("change-password", {
+        const response = await axiosAuth.post("change-password", {
             currentPassword,
             newPassword: password,
         });
+        setIsPending(false);
+        if (!response) return;
 
         setAuth({ isLoggedIn: false })
         localStorage.setItem("isLoggedIn", false);
@@ -222,7 +230,6 @@ const ChangePassword = () => {
         setCurrentPassword("");
         setPassword("");
         setPasswordAgain("");
-        setIsPending(false);
 
     }
 
@@ -337,7 +344,8 @@ const AddEmailAuthForm = ({ updateAuthMethods }) => {
             enqueueSnackbar("Passwords do not match", { variant: "error" });
             return;
         }
-        await axiosAuth.post("/email/add", { user: { email, password } });
+        const response = await axiosAuth.post("/email/add", { user: { email, password } });
+        if (!response) return;
         updateAuthMethods();
 
     }

@@ -11,9 +11,9 @@ import useModal from '../../hooks/useModal';
 //TODO: usereducer for console state and find a better way to deleting apikey
 
 const APIKeys = () => {
-    const axiosPrivate = useAxiosPrivate(null);
+    const axiosPrivate = useAxiosPrivate();
     const [apiTitle, setAPITitle] = useState(null);
-    const [isPending, setIsPending] = useState(true);
+    const [isPending, setIsPending] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const { isModalOpen, setIsModalOpen } = useModal(false);
     const [selectedKey, setSelectedKey] = useState(null);
@@ -22,30 +22,20 @@ const APIKeys = () => {
     const getAPIKeys = async () => {
         setIsPending(true);
         const response = await axiosPrivate.get('/api-keys');
-        if (response.errorMessage) {
-            isPending(false);
-            setErrorMessage(response.errorMessage);
-            return;
-        }
-        setConsoleState({ ...consoleState, apiKeys: response.data.apiKeys });
+        if (!response) return;
+        setConsoleState({ ...consoleState, apiKeys: response.data?.apiKeys });
         setIsPending(false);
     };
 
     const addAPIKey = async (e) => {
         e.preventDefault();
-        setErrorMessage(null);
         const apiTitleRegex = /^[a-z][a-z0-9_-]*$/;
         if (!apiTitleRegex.test(apiTitle)) {
             return setErrorMessage("Invalid API Title. It should start with a lowercase letter or a number, and can contain lowercase letters, numbers, underscores, and hyphens.");
         }
         setIsPending(true);
         const response = await axiosPrivate.post('/api-keys', { apiTitle: apiTitle });
-        if (response?.errorMessage) {
-            setErrorMessage(response.errorMessage);
-            setIsPending(false);
-            setAPITitle('');
-            return;
-        };
+        if(!response) return;
         setAPITitle('');
         setConsoleState({ ...consoleState, apiKeys: [response.data.apiKey, ...consoleState.apiKeys] });
         setIsPending(false);
@@ -54,8 +44,7 @@ const APIKeys = () => {
     const deleteAPIKey = async () => {
         setIsPending(true);
         const response = await axiosPrivate.delete(`/api-keys/${selectedKey}`);
-        if (response?.errorMessage) {
-            setErrorMessage(response.errorMessage);
+        if (!response) {
             setIsPending(false);
             return;
         };
