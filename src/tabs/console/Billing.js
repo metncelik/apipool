@@ -32,7 +32,7 @@ const Billing = () => {
                 </h2>
                 <div className="table-container">
 
-                    <table className='billing-table'>
+                    <table className='console-table billing-table'>
                         <tr>
                             <th>Date</th>
                             <th>Amount ($)</th>

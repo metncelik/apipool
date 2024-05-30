@@ -5,7 +5,7 @@
   height: 300px;
   color: cadetblue;
   /* background: linear-gradient(90deg, #03001C, #ff000046); */
-  z-index: 0;
+  z-index: -1;
   opacity: 1;
 }
 

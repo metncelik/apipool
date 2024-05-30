@@ -12,14 +12,14 @@
     line-height: 10.5;
 }
 
-.add-model-form {
+.add-endpoint-form {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
 }
 
-.add-model-form label {
+.add-endpoint-form label {
     margin-bottom: 10px;
     color: rgba(255, 255, 255, 0.637);
 }

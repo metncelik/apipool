@@ -1,13 +1,13 @@
-import '../styles/views/Models.css';
-import ModelList from '../components/ModelList';
+import '../styles/views/Endpoints.css';
+import EndpointList from '../components/EndpointList';
 import { useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 import { AiOutlineSearch } from 'react-icons/ai';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Models = () => {
-    const [models, setModels] = useState([])
+const Endpoints = () => {
+    const [endpoints, setEndpoints] = useState([])
     const [isPending, setIsPending] = useState(true)
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
@@ -20,19 +20,19 @@ const Models = () => {
     const [searchQuery, setSearchQuery] = useState("")
 
 
-    const getModels = async () => {
+    const getEndpoints = async () => {
         try {
-            const response = await axiosPrivate(`/models?limit=8&offset=${offset}`);
-            const newModels = response?.data?.models;
+            const response = await axiosPrivate(`/endpoints?limit=8&offset=${offset}`);
+            const newEndpoints = response?.data?.endpoints;
     
-            if (newModels.length < 8) {
+            if (newEndpoints.length < 8) {
                 setIsEnd(true);
-                if (newModels.length === 0) {
+                if (newEndpoints.length === 0) {
                     setIsPending(false);
                     return
                 }
             }
-            setModels(models.concat(newModels));
+            setEndpoints(endpoints.concat(newEndpoints));
             setOffset(response?.data?.lastOffset);
         } catch (error) {
             setIsPending(false);
@@ -42,7 +42,7 @@ const Models = () => {
 
     useEffect(() => {
         setIsPending(true);
-        getModels();
+        getEndpoints();
         setIsPending(false);
     }, []);
 
@@ -53,8 +53,8 @@ const Models = () => {
             if (searchQuery === "") {
                 return
             }
-            const response = await axiosPrivate(`/models/query-alias?alias=${searchQuery}`);
-            setModels(response?.data?.models);
+            const response = await axiosPrivate(`/endpoints/query-alias?alias=${searchQuery}`);
+            setEndpoints(response?.data?.endpoints);
             setIsPending(false);
         } catch (error) {
             if (error.response.status === 401) {
@@ -66,9 +66,9 @@ const Models = () => {
     }
 
     return (
-        <div className='models-main'>
+        <div className='endpoints-main'>
             <div>
-                <div className="all-models-header">
+                <div className="all-endpoints-header">
 
                     <div className="categories">
                         {/* {categories.map((category, index) => (
@@ -82,7 +82,7 @@ const Models = () => {
                     </div>
 
                     <form className="search-container" onSubmit={search}>
-                        <input type="text" placeholder="model id..." value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} />
+                        <input type="text" placeholder="endpoint id..." value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} />
                         <button type="submit" className="search-button">
                             <AiOutlineSearch size={25} style={{ paddingTop: '5px', fill: 'cadetblue' }} />
                         </button>
@@ -92,10 +92,10 @@ const Models = () => {
                     {isPending ?
                         <Loading />
                         :
-                        <ModelList models={models} />
+                        <EndpointList endpoints={endpoints} />
                     }
                     {!isEnd &&
-                        (<button className="load-more-button" onClick={getModels}>
+                        (<button className="load-more-button" onClick={getEndpoints}>
                             Load More...
                         </button>)
                     }
@@ -105,4 +105,4 @@ const Models = () => {
     );
 }
 
-export default Models;
+export default Endpoints;

@@ -4,7 +4,7 @@
 }
 
 .sidebar {
-  width: 200px;
+  width: fit-content;
   height: 100%;
   background-color: var(--background-color);
   color: white;
@@ -19,7 +19,7 @@
 }
 
 .menu li {
-  padding: 15px 20px;
+  padding: 15px 10px;
   cursor: pointer;
   transition: background-color 0.1s;
 }
@@ -30,12 +30,23 @@
   align-items: center;
 }
 
-.menu-element:hover {
-  background-color: #0752a21b;
+.coming-label {
+  color: rgba(0, 0, 0, 0.846);
+  background-color: #b6ff38ac;
+  border-radius: 30px;
+  padding: 5px;
+  margin-left: 10px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
-.menu-element.active {
-  color: #0752a2;
+.menu-element:hover {
+  background-color: #34375633;
+}
+
+.disabled-tab:hover {
+  background-color: transparent;
+  cursor: not-allowed;
 }
 
 .menu-label {
@@ -44,11 +55,12 @@
 }
 
 .active-tab {
-  background-color: #1e0046;
+  background-color: #3437568f;
 }
 
 .active-tab:hover {
-  background-color: #1e0046;
+  background-color: #3437568f;
+  cursor: default;
 }
 
 .tab-view {
@@ -127,10 +139,17 @@
   background-color: var(--background-color);
 }
 
+.console-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0px;
+}
+
 .table-actions {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  max-width: fit-content;
 }
 
 .table-delete-button {

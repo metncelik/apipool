@@ -4,7 +4,6 @@ const Banner = ({imageUrl, title}) => {
       const beforeStyle = {
         backgroundImage: `url(${imageUrl})`
       };
-    
       return (
         <div className="banner">
           <div className="banner-before" style={beforeStyle}></div>

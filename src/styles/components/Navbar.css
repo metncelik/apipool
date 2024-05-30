@@ -5,8 +5,8 @@
   justify-content: center;
   background-color: transparent;
   width: 100%;
-  z-index: 1;
   background: linear-gradient(180deg, #000000c0, transparent);
+  z-index: 1;
 }
 
 .navbar-container-sticky {
@@ -39,10 +39,11 @@
 
 .navbar-fixed {
   margin-top: 20px;
-  justify-content: center;
+  justify-content: space-between;
   background-color: #00000084;
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.188);
+  min-width: 30vw;
 }
 
 .title-menu {
@@ -158,7 +159,6 @@
   }
 
   .navbar-list {
-    z-index: 1;
     display: none;
     flex-direction: column;
     justify-content: center;

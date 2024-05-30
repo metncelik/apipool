@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react';
-import '../styles/components/PopupModule.css';
+import '../styles/components/Modal.css';
 import { MdClose } from "react-icons/md";
 import { BsInfoCircle } from "react-icons/bs";
 import { IoIosWarning } from "react-icons/io";
 import { MdErrorOutline } from "react-icons/md";
+import useModal from '../hooks/useModal';
+import Loading from './Loading';
 
-const PopupModule = ({
+const Modal = ({
     message = "message",
     buttonLabel = "button",
     actionCallback,
     actionType = "info",
-    buttonColor = "",
-    isVisibleState
+    buttonColor = ""
  }) => {
-    const [isVisible, setIsVisible] = isVisibleState; 
+    const { isModalOpen, setIsModalOpen } = useModal();
     const [icon, setIcon] = useState(null);
+    const [isPending, setIsPending] = useState(false);
 
     useEffect(() => {
-        setIsVisible(true);
+        setIsModalOpen(true);
 
         switch (actionType) {
             case "info":
@@ -32,18 +34,20 @@ const PopupModule = ({
         }
     }, []);
 
-    const handleClick = () => {
-        setIsVisible(false);
-        actionCallback();
+    const handleClick = async () => {
+        setIsPending(true);
+        await actionCallback();
+        setIsModalOpen(false);
+        setIsPending(false);
     };
 
     return (
         <>
-            {isVisible &&
+            {isModalOpen &&
                 (<div className="popup-module">
-                    <div onClick={() => { return }} className="popup-window">
+                    {isPending ? <Loading/> :<div onClick={() => { return }} className="popup-window">
                         <button
-                            onClick={() => { setIsVisible(false) }}
+                            onClick={() => { setIsModalOpen(false) }}
                             className='close-button'>
                             <MdClose size={25} />
                         </button>
@@ -58,11 +62,11 @@ const PopupModule = ({
                                 {buttonLabel}
                             </button>
                         </div>
-                    </div>
+                    </div>}
                 </div>)
             }
         </>
     );
 }
 
-export default PopupModule;
+export default Modal;

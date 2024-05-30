@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import useAuth from '../hooks/useAuth';
+import useAuth from '../hooks/useAuthState';
 import '../styles/components/Auth.css'
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { axiosAuth } from "../api/axios";
+import useAxiosAuth from "../hooks/useAxiosAuth";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md";
+import { enqueueSnackbar, useSnackbar } from 'notistack';
+import useModal from "../hooks/useModal";
+import Modal from "./Modal";
 
 const LoginWithEmail = () => {
     const [isPending, setIsPending] = useState(false);
     const [email, setEmail] = useState();
     const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState(null);
     const { auth, setAuth } = useAuth();
+    const axiosAuth = useAxiosAuth();
+    const { isModalOpen } = useModal(false);
 
     const navigate = useNavigate();
     const navigateTo = "/console";
@@ -21,58 +25,37 @@ const LoginWithEmail = () => {
             navigate(navigateTo);
         }
         setEmail(localStorage.getItem("email"));
-    }, [auth]);
+    }, []);
 
     const handleLogin = async (e) => {
-        try {
-            e.preventDefault();
-            setErrorMessage("");
-            setIsPending(true);
-            const data = { user: { email, password } };
-            const response = await axiosAuth.post(`/login`, data, {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                withCredentials: true
-            });
+        e.preventDefault();
+        setIsPending(true);
+        const data = { user: { email, password } };
+        await axiosAuth.post(`/login`, data, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            withCredentials: true
+        });
 
-            if (response?.status !== 200)
-                throw new Error(response.data.message);
-            setAuth({ isLoggedIn: true });
-            localStorage.setItem("isLoggedIn", true);
-            localStorage.setItem("email", email);
-            navigate(navigateTo);
-        } catch (error) {
-            if (error.response) {
-                setErrorMessage(error.response.data.message);
-                return;
-            }
-            setErrorMessage("An error occurred");
-            return;
-
-        } finally {
-            setPassword('');
-            setIsPending(false);
-        }
+        setAuth({ isLoggedIn: true });
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("email", email);
+        navigate(navigateTo);
+        setPassword('');
+        setIsPending(false);
     };
 
     const handleForgatPassword = async (e) => {
         e.preventDefault();
-        setErrorMessage("");
-        try {
-            const response = await axiosAuth.post("/email/reset-password/send", { email });
-            if (response.status !== 200) {
-                setErrorMessage(response.data.message);
-            }
-        } catch (error) {
-            if (error.response) {
-                setErrorMessage(error.response.data.message);
-                return;
-            }
-            setErrorMessage("An error occurred");
-            return;
-        }
+        enqueueSnackbar("Verify Email sending...", { variant: "info" });
+        await axiosAuth.post("/email/reset-password/send", { email });
     };
+
+    const handleSendEmailVerification = async (e) => {
+        await axiosAuth.post("/email/send-verify", { email });
+    };
+
 
     return (
         <>
@@ -81,26 +64,21 @@ const LoginWithEmail = () => {
                     <input className='auth-input' value={email} onChange={(e) => { setEmail(e.target.value) }} type="email" placeholder='email' />
                     <input className='auth-input' value={password} onChange={(e) => { setPassword(e.target.value) }} type="password" placeholder='password' />
                 </div>
-                <button disabled={isPending} type='submit' className='auth-button'>{isPending? "...": "Login"}</button>
+                <button disabled={isPending} type='submit' className='auth-button'>{isPending ? "..." : "Login"}</button>
+                <div className="under-auth">
+                    {isModalOpen && (
+                        <Modal
+                            actionCallback={handleSendEmailVerification}
+                            actionType='warning'
+                            buttonLabel='Send'
+                            buttonColor='green'
+                            message='Your email address has not been verified yet. Would you like to resend the verification email?'
+                        />
+                    )}
+                    <a onClick={handleForgatPassword}>Forgot password?</a>
+                </div>
             </form>
 
-            {errorMessage && (
-                <div className='error-message'>
-                    {errorMessage}
-                </div>
-            )}
-
-            <div className="under-auth">
-
-                {errorMessage === "Email not verified!" ?
-                    (
-                        <SendEmailVerification email={email} />
-                    ) :
-                    (
-                        <a onClick={handleForgatPassword}>Forgot password?</a>
-                    )
-                }
-            </div>
 
         </>
 
@@ -110,10 +88,11 @@ const LoginWithEmail = () => {
 const ResetPasswordForm = () => {
     const [password, setPassword] = useState("");
     const [passwordAgain, setPasswordAgain] = useState("");
-    const [errorMessage, setErrorMessage] = useState(null);
     const { setAuth } = useAuth();
-    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
+    const axiosAuth = useAxiosAuth();
 
     useEffect(() => {
         if (!searchParams.has("secretKey")) {
@@ -122,33 +101,19 @@ const ResetPasswordForm = () => {
     }, [searchParams]);
 
     const handleResetPassword = async (e) => {
-        try {
-            e.preventDefault();
-            setErrorMessage("");
-            if (password !== passwordAgain) {
-                setPassword("");
-                setPasswordAgain("");
-                return setErrorMessage("Passwords do not match");
-            }
-            const secretKey = searchParams.get("secretKey");
-            const headers = { Authorization: secretKey };
-            const response = await axiosAuth.post("/email/reset-password", { password }, { headers });
-            if (response.status === 200) {
-                setAuth({ isLoggedIn: true });
-                localStorage.setItem("isLoggedIn", true);
-                navigate("/console");
-            }
-        } catch (error) {
-            if (error.response) {
-                setErrorMessage(error.response.data.message);
-                return;
-            }
-            setErrorMessage("An error occurred");
+        e.preventDefault();
+        if (password !== passwordAgain) {
+            setPassword("");
+            setPasswordAgain("");
+            enqueueSnackbar("Passwords do not match", { variant: "error" });
             return;
-        } finally {
-            setPassword('');
-            setPasswordAgain('');
         }
+        const secretKey = searchParams.get("secretKey");
+        const headers = { Authorization: secretKey };
+        await axiosAuth.post("/email/reset-password", { password }, { headers });
+        setPassword('');
+        setPasswordAgain('');
+        navigate("/login");
     }
 
     return (
@@ -158,11 +123,6 @@ const ResetPasswordForm = () => {
                     <input className='auth-input' type="password" placeholder='new password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
                     <input className='auth-input' type="password" placeholder='new password again' value={passwordAgain} onChange={(e) => { setPasswordAgain(e.target.value) }} />
                 </div>
-                {errorMessage && (
-                    <div className='error-message'>
-                        {errorMessage}
-                    </div>
-                )}
                 <button className="auth-button" type='submit' onClick={handleResetPassword}>
                     Change
                 </button>
@@ -179,7 +139,8 @@ const SignUpWithEmail = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState("");
     const [passwordAgain, setPasswordAgain] = useState("");
-    const [errorMessage, setErrorMessage] = useState(null);
+    const axiosAuth = useAxiosAuth();
+    const { enqueueSnackbar } = useSnackbar();
 
     const { auth, setAuth } = useAuth();
 
@@ -195,28 +156,22 @@ const SignUpWithEmail = () => {
     }, [auth]);
 
     const handleSignUp = async (e) => {
-        try {
-            e.preventDefault();
-            setErrorMessage("");
-            setIsPending(true);
-            const data = { user: { email, password } };
-            await axiosAuth.post(`/sign-up`, data);
-            localStorage.setItem("email", email)
-            localStorage.setItem("isLoggedIn", true);
-            setAuth({ isLoggedIn: true });
-            navigate("/console");
-        } catch (error) {
-            if (error.response) {
-                setErrorMessage(error.response.data.message);
-                return;
-            }
-            setErrorMessage("An error occurred");
+        e.preventDefault();
+        setIsPending(true);
+        if (password != passwordAgain) {
+            enqueueSnackbar("Passwords do not match.", { variant: "error" });
             return;
-        } finally {
-            setPassword('');
-            setPasswordAgain('');
-            setIsPending(false);
         }
+        const data = { user: { email, password } };
+        await axiosAuth.post(`/sign-up`, data);
+        localStorage.setItem("email", email)
+        localStorage.setItem("isLoggedIn", true);
+        setAuth({ isLoggedIn: true });
+        navigate("/console");
+        setPassword('');
+        setPasswordAgain('');
+        setIsPending(false);
+
     };
 
     return (
@@ -227,13 +182,8 @@ const SignUpWithEmail = () => {
                     <input className='auth-input' value={password} onChange={(e) => { setPassword(e.target.value) }} type="password" placeholder='password' />
                     <input className='auth-input' value={passwordAgain} onChange={(e) => { setPasswordAgain(e.target.value) }} type="password" placeholder='password' />
                 </div>
-                <button disabled={isPending} type='submit' className='auth-button'>{isPending ? "...": "Sign Up"}</button>
+                <button disabled={isPending} type='submit' className='auth-button'>{isPending ? "..." : "Sign Up"}</button>
             </form>
-            {errorMessage && (
-                <div className='error-message'>
-                    {errorMessage}
-                </div>
-            )}
         </>
 
     );
@@ -244,47 +194,35 @@ const ChangePassword = () => {
     const [currentPassword, setCurrentPassword] = useState();
     const [password, setPassword] = useState();
     const [passwordAgain, setPasswordAgain] = useState();
-    const [errorMessage, setErrorMessage] = useState();
     const { setAuth } = useAuth();
+    const axiosAuth = useAxiosAuth();
     const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
 
     const clickHandler = async (e) => {
-        try {
-            e.preventDefault();
-            setErrorMessage("");
-            setIsPending(true);
-            if (password !== passwordAgain) {
-                setCurrentPassword("");
-                setPassword("");
-                setPasswordAgain("");
-                return setErrorMessage("New passwords do not match");
-            }
-            
-            const response = await axiosAuth.post("change-password", {
-                currentPassword,
-                newPassword: password,
-            });
-            if (response.status !== 200) {
-                setErrorMessage(response.data.message);
-                return;
-            };
-
-            setAuth({ isLoggedIn: false })
-            localStorage.setItem("isLoggedIn", false);
-            navigate("/login");
-        } catch (error) {
-            if (error.response) {
-                setErrorMessage(error.response.data.message);
-                return;
-            }
-            setErrorMessage("An error occurred");
-            return;
-        } finally {
+        e.preventDefault();
+        setIsPending(true);
+        if (password !== passwordAgain) {
             setCurrentPassword("");
             setPassword("");
             setPasswordAgain("");
-            setIsPending(false);
+            enqueueSnackbar("New passwords do not match", { variant: "error" });
+            return;
         }
+
+        await axiosAuth.post("change-password", {
+            currentPassword,
+            newPassword: password,
+        });
+
+        setAuth({ isLoggedIn: false })
+        localStorage.setItem("isLoggedIn", false);
+        navigate("/login");
+
+        setCurrentPassword("");
+        setPassword("");
+        setPasswordAgain("");
+        setIsPending(false);
 
     }
 
@@ -296,13 +234,8 @@ const ChangePassword = () => {
                     <input className='password-input' type="password" placeholder='new password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
                     <input className='password-input' type="password" placeholder='new password again' value={passwordAgain} onChange={(e) => { setPasswordAgain(e.target.value) }} />
                 </div>
-                {errorMessage && (
-                    <div className='error-message'>
-                        {errorMessage}
-                    </div>
-                )}
                 <button disabled={isPending} type='submit' onClick={clickHandler}>
-                    {isPending? "...": "Change"}
+                    {isPending ? "..." : "Change"}
                 </button>
             </form>
         </div>
@@ -393,28 +326,20 @@ const AddEmailAuthForm = ({ updateAuthMethods }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState(null);
+    const axiosAuth = useAxiosAuth();
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleOnSubmit = async (e) => {
-        try {
-            e.preventDefault();
-            setErrorMessage("");
-            if (password !== confirmPassword) {
-                setPassword("");
-                setConfirmPassword("");
-                setErrorMessage("Passwords do not match")
-                return;
-            }
-            await axiosAuth.post("/email/add", { user: { email, password } });
-            updateAuthMethods();
-        } catch (error) {
-            if (error.response) {
-                setErrorMessage(error.response.data.message);
-                return;
-            }
-            setErrorMessage("An error occurred");
+        e.preventDefault();
+        if (password !== confirmPassword) {
+            setPassword("");
+            setConfirmPassword("");
+            enqueueSnackbar("Passwords do not match", { variant: "error" });
             return;
         }
+        await axiosAuth.post("/email/add", { user: { email, password } });
+        updateAuthMethods();
+
     }
 
     return (
@@ -442,11 +367,6 @@ const AddEmailAuthForm = ({ updateAuthMethods }) => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                 />
             </div>
-            {errorMessage && (
-                <div className="error-message">
-                    {errorMessage}
-                </div>
-            )}
             <button type="submit">
                 <span className="button-label">
                     {<MdOutlineMailOutline className="auth-icon" size={20} />}
@@ -458,38 +378,19 @@ const AddEmailAuthForm = ({ updateAuthMethods }) => {
 }
 
 
-const SendEmailVerification = ({ email }) => {
-    const [errorMessage, setErrorMessage] = useState();
+const SendEmailVerificationButton = ({ email }) => {
+    const axiosAuth = useAxiosAuth();
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleSendEmailVerification = async (e) => {
-        try {
-            e.preventDefault();
-            setErrorMessage("");
-            const response = await axiosAuth.post("/email/send-verify", { email });
-            if (response.status !== 200) {
-                setErrorMessage(response.data.message);
-            }
-        } catch (error) {
-            if (error.response) {
-                setErrorMessage(error.response.data.message);
-                return;
-            }
-            setErrorMessage("An error occurred");
-            return;
-        }
+        enqueueSnackbar("Verify Email sending...", { variant: "info" });
+        await axiosAuth.post("/email/send-verify", { email });
     };
 
     return (
-        <>
-            <button className='send-email-verification' onClick={handleSendEmailVerification}>
-                Send Again
-            </button>
-            {errorMessage && (
-                <div className='error-message'>
-                    {errorMessage}
-                </div>
-            )}
-        </>
+        <button className='send-email-verification-button' onClick={handleSendEmailVerification}>
+            Send Verification
+        </button>
     )
 }
 
@@ -505,5 +406,5 @@ export {
     AddGithubAuthButton,
     AddEmailAuthForm,
     ResetPasswordForm,
-    SendEmailVerification
+    SendEmailVerificationButton
 }

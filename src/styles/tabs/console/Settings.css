@@ -18,6 +18,19 @@
     align-items: flex-start;
 }
 
+.send-email-verification-button {
+    background-color: green;
+    margin: auto;
+}
+.send-email-verification-button:hover {
+    background-color: rgb(6, 95, 6);
+    margin: auto;
+}
+.send-email-verification-button:active {
+    background-color: rgb(4, 165, 4);
+    margin: auto;
+}
+
 .password-input {
     border: 1px solid rgba(112, 65, 221, 0.23);
     margin: 5px 0px;

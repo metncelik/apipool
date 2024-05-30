@@ -24,7 +24,7 @@
 //                     const bytes = new Uint8Array(reader.result);
 //                     fileDataAsBytes.push(bytes);
 //                     console.log('File as bytes:', bytes);
-//                     const downloadUrl = uploadFile("model_images/image.jpg", bytes)
+//                     const downloadUrl = uploadFile("endpoint_images/image.jpg", bytes)
 //                     setDownloadUrl(downloadUrl)
 //                 };
 //                 reader.readAsArrayBuffer(uploadedFile);

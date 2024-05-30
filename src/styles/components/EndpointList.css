@@ -1,4 +1,4 @@
-.models-container {
+.endpoints-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -6,7 +6,7 @@
     background-color: transparent;
 }
 
-.all-models-header {
+.all-endpoints-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -58,7 +58,7 @@
     margin-top: 1px;
 }
 
-.models-list {
+.endpoints-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -66,21 +66,21 @@
 }
 
 
-.model-item {
+.endpoint-item {
     /* border: #7d7e7e8e 1px solid; */
     display: flex;
     flex-direction: column;
-    width: 270px;
+    width: 300px;
     cursor: pointer;
     background-color: var(--background-color);
     border-radius: 10px;
 }
 
-.model-item:hover {
+.endpoint-item:hover {
     box-shadow: 0px 0px 15px rgba(89, 26, 148, 0.488);
 }
 
-.model-image {
+.endpoint-image {
     height: 250px;
     object-fit: cover;
     border-top-left-radius: 10px;
@@ -88,54 +88,62 @@
 }
 
 
-.model-info {
+.endpoint-info {
     padding: 15px 10px;
-    max-height: 120px;
+    height: 119px;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.model-title {
+
+.endpoint-title {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 0px 5px;
 }
 
-.model-id {
+.endpoint-name {
+    /* overflow: hidden;
+    text-overflow: ellipsis; */
+    max-width: 142px;
+}
+
+.endpoint-divider {
+    margin: 10px 0px;
+    border-top: 1px solid rgb(177, 137, 215);
+}
+
+.endpoint-id {
     font-weight: 100;
-    margin-left: 3px;
-    color: rgba(175, 105, 240, 0.878);
-    padding: 0px 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.model-divider {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-top: 1px solid rgba(175, 105, 240, 0.878);
-}
-
-.model-description {
-    margin-top: 5px;
+    color: rgb(177, 137, 215);
+    align-self: center;
     font-size: 14px;
-    font-weight: 100;
-    color: cadetblue;
-    padding: 0px 5px;
+    margin-left: auto;
+    max-width: 142px;
+}    
+
+.endpoint-description {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 200;
+    color: rgba(159, 178, 179, 0.74);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 5px;
 }
 
 @media screen and (max-width: 768px) {
-    .models-list {
+    .endpoints-list {
         padding-right: 5%;
 
     }
 
-    .model-item {
+    .endpoint-item {
         width: 85%;
     }
 
-    .all-models-header {
+    .all-endpoints-header {
         flex-direction: column;
         justify-content: center;
         align-items: center;

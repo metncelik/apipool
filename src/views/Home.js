@@ -1,15 +1,15 @@
 import '../styles/views/Home.css'
-import ModelList from "../components/ModelList";
+import EndpointList from "../components/EndpointList";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Loading from '../components/Loading';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../hooks/useAuthState';
 import HeroLogo from '../components/HeroLogo';
 
 const Home = () => {
-    const [models, setModels] = useState([])
+    const [endpoints, setEndpoints] = useState([])
     const [angle, setAngle] = useState(0);
     const [opacity, setOpacity] = useState(0.6);
     const [isPending, setIsPending] = useState(true)
@@ -41,12 +41,8 @@ const Home = () => {
                 cancelAnimationFrame(requestRef.current);
             };
 
-            // deltaY is negated to make the logo rotate in the opposite direction
-            //const newAngle = Math.atan2(80, deltaX) * (180 / Math.PI) + 90;
-
             const maxDistance = 550; 
-            const newOpacity = Math.max(0.3, Math.min(1, 1 - distance / maxDistance));
-            // setAngle(newAngle);
+            const newOpacity = Math.max(0.4, Math.min(1, 1 - distance / maxDistance));
             setOpacity(newOpacity);
 
         };
@@ -67,8 +63,8 @@ const Home = () => {
         const getData = async () => {
             try {
                 setIsPending(true);
-                const response = await axiosPrivate("/models?limit=8&offset=0");
-                setModels(response.data?.models);
+                const response = await axiosPrivate("/endpoints?limit=8&offset=0");
+                setEndpoints(response.data?.endpoints);
                 setIsPending(false);
             } catch (error) {
                 setIsPending(false);
@@ -84,7 +80,7 @@ const Home = () => {
                     <div className="home-title-container">
 
                         <h2 className='home-title' >
-                            Power your applications with AI
+                        Empower Your Apps with AI
                         </h2>
                         <div id='logo-wrapper' style={{ transform: `rotate(${angle}deg)`, opacity: opacity, transition: '1s' }}>
                             <HeroLogo />
@@ -103,7 +99,7 @@ const Home = () => {
                             <h3 className='home-list-item-title'>
                                 Wide Range of APIs
                             </h3>
-                            <p className='home-list-description'>Explore a diverse set of endpoints tailored to your needs. Our API offers a comprehensive range of AI models to choose from.</p>
+                            <p className='home-list-description'>Explore a diverse set of endpoints tailored to your needs. Our API offers a comprehensive range of AI endpoints to choose from.</p>
                         </li>
                         <li className='home-list-item'>
                             <h3 className='home-list-item-title'>
@@ -115,16 +111,16 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="latest-models-header">
-                <Link to={"models"} className='label-link'>
-                    All Models
-                    <MdKeyboardArrowRight size={20} className='all-models-icon' />
+            <div className="latest-endpoints-header">
+                <Link to={"endpoints"} className='label-link'>
+                    See All Endpoints
+                    <MdKeyboardArrowRight size={20} className='all-endpoints-icon' />
                 </Link>
             </div>
             {isPending ?
                 <Loading />
                 :
-                <ModelList models={models} />
+                <EndpointList endpoints={endpoints} />
             }
         </div>
     );

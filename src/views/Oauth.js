@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { axiosAuth } from "../api/axios";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../hooks/useAuthState";
 import Loading from "../components/Loading";
 import "../styles/views/Oauth.css";
 

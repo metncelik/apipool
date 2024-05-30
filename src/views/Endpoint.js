@@ -1,5 +1,5 @@
 import Banner from "../components/Banner";
-import '../styles/views/Model.css'
+import '../styles/views/Endpoint.css'
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { stackoverflowDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useEffect, useState } from "react";
@@ -15,13 +15,13 @@ const Code = ({ code }) => {
     )
 }
 
-const getCodes = (modelAlias) => {
+const getCodes = (endpointAlias) => {
     return {
         "create_header": {
-            "Python": "headers = {\n\t\"Authorization\": \"API_KEY\", # Get your api key from console\n}\n",
-            "JavaScript": "const headers = {\n\t'Authorization': 'API_KEY', // Get your api key from console\n};\n",
-            "Go": "headers := map[string]string{\n\t\"Authorization\": \"API_KEY\", // Get your api key from console\n}\n",
-            "PHP": "$headers = array(\n\t'Authorization: API_KEY', // Get your api key from console\n);\n"
+            "Python": "headers = {\n\t\"Authorization\": \"Bearer API_KEY\", #Get your api key from console\n}\n",
+            "JavaScript": "const headers = {\n\t'Authorization': 'Bearer API_KEY', //Get your api key from console\n};\n",
+            "Go": "headers := map[string]string{\n\t\"Authorization\": \"Bearer API_KEY\", //Get your api key from console\n}\n",
+            "PHP": "$headers = array(\n\t'Authorization: Bearer API_KEY', //Get your api key from console\n);\n"
         },
         "create_body": {
             "Python": "body = {\n\t\"parameter1\": \"value1\",\n\t\"parameter2\": \"value2\"\n}\n",
@@ -31,14 +31,14 @@ const getCodes = (modelAlias) => {
         },
         "make_request": {
             "Python": "import requests\n\n" +
-                `url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias}" \n\n` +
+                `url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias}" \n\n` +
                 "headers = headers \n" +
                 "body = body \n\n" +
                 "response = requests.post(url, headers=headers, json=body)\n" +
                 "print(response.text)",
 
             "JavaScript": "const axios = require(\"axios\");\n\n" +
-                `const url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias}";  \n\n` +
+                `const url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias}";  \n\n` +
                 "const headers = headers  \n" +
                 "const body = body  \n\n" +
                 "axios.post(url, body, { headers })\n" +
@@ -55,7 +55,7 @@ const getCodes = (modelAlias) => {
                 "\t\"net/http\"\n" +
                 ")\n\n" +
                 "func main() {\n" +
-                `\turl := "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias}"  \n\n` +
+                `\turl := "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias}"  \n\n` +
                 "\theaders := headers  \n" +
                 "\tbody := body  \n\n" +
                 "\treq, err := http.NewRequest(\"POST\", url, bytes.NewBuffer(body))\n" +
@@ -75,7 +75,7 @@ const getCodes = (modelAlias) => {
                 "}",
 
             "PHP":
-                `$url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias}";  \n\n` +
+                `$url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias}";  \n\n` +
                 "$headers = headers;  \n" +
                 "$body = body;  \n\n" +
                 "$ch = curl_init($url);\n" +
@@ -92,7 +92,7 @@ const getCodes = (modelAlias) => {
             "Python":
                 "import requests\n" +
                 "import time\n" +
-                `\nid = "id"  # Replace with job id\nfetch_url = f"${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias + "/status"}/{id}"\n\n` +
+                `\nid = "id"  # Replace with job id\nfetch_url = f"${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/{id}"\n\n` +
                 "for _ in range(5):\n" +
                 "\tresponse = requests.get(fetch_url)\n" +
                 "\tdata = response.json()\n" +
@@ -102,7 +102,7 @@ const getCodes = (modelAlias) => {
                 "\ttime.sleep(10)\n",
             "JavaScript": "const axios = require(\"axios\");\n" +
                 "\n" +
-                `\nconst id = "id"  // Replace with job id\nconst fetchUrl = \`${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias + "/status"}/\${id}\`;\n\n` +
+                `\nconst id = "id"  // Replace with job id\nconst fetchUrl = \`${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/\${id}\`;\n\n` +
                 "for (let i = 0; i < 5; i++) {\n" +
                 "\ttry {\n" +
                 "\t\tconst response = await axios.get(fetchUrl);\n" +
@@ -126,7 +126,7 @@ const getCodes = (modelAlias) => {
                 ")\n" +
                 "\n" +
                 "func main() {\n" +
-                `\n\tid := "id"  // Replace with job id\n\tfetchUrl := "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias + "/status"}/" + id\n\n` +
+                `\n\tid := "id"  // Replace with job id\n\tfetchUrl := "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/" + id\n\n` +
                 "\tfor i := 0; i < 5; i++ {\n" +
                 "\t\tresp, err := http.Get(fetchUrl)\n" +
                 "\t\tif err != nil {\n" +
@@ -150,7 +150,7 @@ const getCodes = (modelAlias) => {
                 "\t\ttime.Sleep(10 * time.Second)\n" +
                 "\t}\n" +
                 "}\n",
-            "PHP": `$id = "id";  // Replace with job id\n$fetchUrl = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + modelAlias + "/status"}/" . $id;\n\n` +
+            "PHP": `$id = "id";  // Replace with job id\n$fetchUrl = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/" . $id;\n\n` +
                 "for ($i = 0; $i < 5; $i++) {\n" +
                 "\t$ch = curl_init(fetchUrl);\n" +
                 "\tcurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n" +
@@ -171,9 +171,9 @@ const getCodes = (modelAlias) => {
     }
 }
 
-const Model = () => {
+const Endpoint = () => {
     const { alias } = useParams()
-    const [model, setModel] = useState()
+    const [endpoint, setEndpoint] = useState()
     const [codes, setCodes] = useState(null)
     const [isPending, setIsPending] = useState(true)
     const [selectedLanguage, setSelectedLanguage] = useState("Python");
@@ -181,10 +181,10 @@ const Model = () => {
     useEffect(() => {
         const getData = async () => {
             setIsPending(true);
-            const response = await axiosPrivate("/models/by-alias/" + alias);
-            const modelData = response.data.model;
-            setModel(modelData);
-            setCodes(getCodes(modelData.alias));
+            const response = await axiosPrivate("/endpoints/by-alias/" + alias);
+            const endpointData = response.data.endpoint;
+            setEndpoint(endpointData);
+            setCodes(getCodes(endpointData.alias));
             setIsPending(false);
         };
         getData();
@@ -230,10 +230,25 @@ const Model = () => {
                     <Loading />
                 </div>
                 :
-                <div className="model-main">
-                    <Banner title={`${model.title} API`} imageUrl={model.image_url} />
-                    <div className="model-body container">
+                <div className="endpoint-main">
+                    <Banner title={`${endpoint.title} API`} imageUrl={endpoint.image_url} />
+                    <div className="endpoint-body container">
                         <div className="description-container">
+                            <div className="urls-container">
+                                <p className="url-container">
+                                    <div className="url-row">
+                                        <div className="endpoint-label">POST:</div> &nbsp;
+                                        <p className="link" onClick={(e)=>{navigator.clipboard.writeText(e.target.innerText)}}>{process.env.REACT_APP_SERVICE_URL + "/v0/" + endpoint.alias}</p>
+                                    </div>
+
+                                </p>
+                                <p className="url-container">
+                                    <div className="url-row">
+                                        <div className="endpoint-label">GET:</div> &nbsp;
+                                        <p className="link" onClick={(e)=>{navigator.clipboard.writeText(e.target.innerText)}}>{process.env.REACT_APP_SERVICE_URL + "/v0/" + endpoint.alias + "/status/:id"}</p>
+                                    </div>
+                                </p>
+                            </div>
                             <div className="title-area">
                                 <h3 className="description-title">
                                     Info
@@ -241,20 +256,7 @@ const Model = () => {
                             </div>
                             <div className="gap">
                                 <p className="description-content">
-                                    {model.description} <br /><br />
-                                </p>
-                                <p className="url-container">
-                                    <div className="url-row">
-                                        <div className="endpoint-label">Endpoint URL:</div> &nbsp;
-                                        <p className="link" >{process.env.REACT_APP_SERVICE_URL + "/v0/" + model.alias}</p>
-                                    </div>
-
-                                </p>
-                                <p className="url-container">
-                                    <div className="url-row">
-                                        <div className="endpoint-label">Fetch URL:</div> &nbsp;
-                                        <p className="link">{process.env.REACT_APP_SERVICE_URL + "/v0/" + model.alias + "/status/:id"}</p>
-                                    </div>
+                                    {endpoint.description} <br /><br />
                                 </p>
                             </div>
                         </div>
@@ -267,18 +269,38 @@ const Model = () => {
 
                                 <table className="gap">
                                     <tr>
-                                        <th>parameter</th>
-                                        <th>type</th>
-                                        <th>required</th>
-                                        <th>default</th>
-                                        <th>description</th>
+                                        <th>Parameter</th>
+                                        <th>Type</th>
+                                        <th>Required</th>
+                                        <th>Default</th>
+                                        <th>Description</th>
                                     </tr>
-                                    {model.inputs.map((param, index) => (
+                                    {endpoint.inputs.map((param, index) => (
                                         <tr>
                                             <td className="centered-text">{param.title}</td>
                                             <td className="centered-text">{param.type}</td>
                                             <td className="centered-text">{param.is_required ? "yes" : "no"}</td>
                                             <td className="centered-text">{param.default_value || "-"}</td>
+                                            <td>{param.description}</td>
+                                        </tr>
+                                    ))
+                                    }
+                                </table>
+                            </div>
+                            <h3 className="params-title title-area">
+                                Output Attributes
+                            </h3>
+                            <div className="table-container">
+                                <table className="gap">
+                                    <tr>
+                                        <th>parameter</th>
+                                        <th>type</th>
+                                        <th>description</th>
+                                    </tr>
+                                    {endpoint.outputs.map((param, index) => (
+                                        <tr>
+                                            <td className="centered-text">{param.title}</td>
+                                            <td className="centered-text">{param.type || "-"}</td>
                                             <td>{param.description}</td>
                                         </tr>
                                     ))
@@ -309,7 +331,7 @@ const Model = () => {
                                         <Code code={"{\n\t'id': 'XXXXX'\n}"} />
                                         <br />
 
-                                        <p>4 - After getting job id make a <span className="method-name">GET</span> request to the Fetch URL. It will return the status of your request. When status is "completed" it will return the output.</p>
+                                        <p>4 - After getting job id make a <span className="method-name">GET</span> request to the Get URL. It will return the status of your request. When status is "completed" it will return the output.</p>
                                         <CodeWithHeader codes={codes.fetch} />
                                         <br />
 
@@ -321,26 +343,7 @@ const Model = () => {
                             </div>
 
                         </div>
-                        <h3 className="params-title title-area">
-                            Output Attributes
-                        </h3>
-                        <div className="table-container">
-                            <table className="gap">
-                                <tr>
-                                    <th>parameter</th>
-                                    <th>type</th>
-                                    <th>description</th>
-                                </tr>
-                                {model.outputs.map((param, index) => (
-                                    <tr>
-                                        <td className="centered-text">{param.title}</td>
-                                        <td className="centered-text">{param.type || "-"}</td>
-                                        <td>{param.description}</td>
-                                    </tr>
-                                ))
-                                }
-                            </table>
-                        </div>
+
                         {/* <div className="examples">
                         <h3 className="title-area">
                             Examples
@@ -355,4 +358,4 @@ const Model = () => {
     );
 }
 
-export default Model;
+export default Endpoint;

@@ -13,9 +13,6 @@ const LogIn = () => {
                 <br />
                 <GoogleAuthButton method={"login"} />
                 <GithubAuthButton method={"login"} />
-                <div className="under-auth">
-                    <Link to={"/sign-up"}> Go to Sign Up </Link>
-                </div>
             </div>
         </div>
     );

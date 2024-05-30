@@ -1,12 +1,14 @@
 .home-banner {
   background: linear-gradient(160deg,
-      rgba(6, 11, 39, 0.804),
-      var(--background-color),
-      var(--background-color));
+  rgba(8, 15, 50, 0.804),
+          var(--background-color),
+          var(--background-color));
   padding: 50px 10vw;
-  padding-top: 10%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: 96vh;
 }
 
 .home-title-container {
@@ -14,30 +16,35 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width:100%;
+  width: 100%;
+  margin-top: 8%;
 }
 
-  .home-title {
-  font-size: 40px;
+.home-title {
+  font-size: 45px;
   font-weight: 700;
   background-color: transparent;
   cursor: default;
   background: -webkit-linear-gradient(340deg,
-  rgba(183, 176, 254, 0.893), rgba(255, 255, 255, 0.729), #d48585);
-  background-clip: text; /* Adjust background as span */
+      rgba(183, 176, 254, 0.893), rgb(215, 174, 213), #ed6b6be9);
+  background-clip: text;
+  /* Adjust background as span */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  margin-bottom: 5%;
 }
 
 
 .home-list {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
   list-style: none;
   margin-bottom: 20px;
-  margin-top: 20px;
-  padding: 0 1.8%;
-  gap: 10px;
+  margin-top: 6%;
+  z-index: 0;
+  padding-left: 0px;
 }
 
 .home-list-item {
@@ -48,6 +55,7 @@
   backdrop-filter: blur(10px);
   background-color: rgba(23, 23, 23, 0.338);
   cursor: default;
+  width: 29%;
 }
 
 .home-list-item:hover {
@@ -73,19 +81,19 @@
   color: #e8f4f692;
 }
 
-.latest-models-header {
+.latest-endpoints-header {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   padding: 20px 12%;
 }
 
-.all-models-icon {
+.all-endpoints-icon {
   padding-top: 3px;
 }
 
 @media screen and (max-width: 768px) {
-  .latest-models-title {
+  .latest-endpoints-title {
     visibility: hidden;
   }
 
@@ -108,6 +116,10 @@
   .home-list {
     padding-left: 0px;
     flex-direction: column;
+    margin-left: 0px;
+  }
+  .home-list-item {
+    width: fit-content;
   }
 
 }

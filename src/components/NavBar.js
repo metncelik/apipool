@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { IoClose, IoMenu } from "react-icons/io5";
 
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../hooks/useAuthState';
 // import { onAuthStateChanged } from "firebase/auth";
 // import { auth } from '../database/firebaseConfig';
 
@@ -41,7 +41,7 @@ const NavBar = () => {
                 </div>
 
                 <div className={`navbar-list ${isVisible ? 'visible' : ''}`}>
-                    <NavLink onClick={() => { setIsVisible(!isVisible); }} to="models" className='nav-link'>Models</NavLink>
+                    <NavLink onClick={() => { setIsVisible(!isVisible); }} to="endpoints" className='nav-link'>Endpoints</NavLink>
                     <NavLink onClick={() => { setIsVisible(!isVisible); }} to="pricing" className='nav-link'>Pricing</NavLink>
                     {!auth.isLoggedIn ?
                         <>

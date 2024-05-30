@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import '../../styles/tabs/console/Settings.css';
 import { BiLogOut } from 'react-icons/bi';
 import { useNavigate } from "react-router-dom";
-import { AddEmailAuthForm, AddGithubAuthButton, AddGoogleAuthButton, ChangePassword, SendEmailVerification } from "../../components/Auth";
-import useAuth from '../../hooks/useAuth';
+import { AddEmailAuthForm, AddGithubAuthButton, AddGoogleAuthButton, ChangePassword, SendEmailVerificationButton } from "../../components/Auth";
+import useAuth from '../../hooks/useAuthState';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import useConsoleState from '../../hooks/useConsoleState';
 import Expandable from '../../components/Expandable';
@@ -18,8 +18,8 @@ const Settings = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axiosPrivate.delete(`/logout`);
-      if (response.status === 200) return;
+      const response = await axiosPrivate.delete(`/auth/logout`);
+      if (response.status !== 200) return;
       setAuth({ isLoggedIn: false });
       localStorage.removeItem("isLoggedIn");
       navigate("/login", { state: { from: "/console" }, replace: true });
@@ -55,26 +55,25 @@ const Settings = () => {
 
   return (
     <div className="settings container">
-        
-            {/* <h2>Settings</h2>
-            <br /> */}
             <Expandable label={"Auth Methods"} expanded={true}>
-              <table className="auth-table">
-                {/* <thead>
+              <table className="console-table auth-table">
+                <thead>
                   <tr>
                     <th>Provider</th>
                     <th>Email</th>
                     <th>Verified</th>
                     <th>Added At</th>
                   </tr>
-                </thead> */}
+                </thead>
                 <tbody>
                   {consoleState.authMethods?.map((authMethod, index) => (
                     <tr key={index}>
                       <td>{authMethod.provider}</td>
                       <td>{authMethod.email}</td>
-                      <td>{authMethod.verified ? "yes" :
-                        <SendEmailVerification email={authMethod.email} />
+                      <td> {authMethod.verified ? "yes" :
+                      <span style={{backgroundColor: "red"}}>
+                        <SendEmailVerificationButton email={authMethod.email} />
+                      </span>
                       }
 
                       </td>

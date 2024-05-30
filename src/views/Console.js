@@ -6,15 +6,16 @@ import Settings from '../tabs/console/Settings';
 import { LuSettings } from "react-icons/lu";
 // import { BsCreditCard } from "react-icons/bs";
 import { IoKeyOutline, IoStatsChart } from "react-icons/io5";
-import useAuth from '../hooks/useAuth';
+import useAuth from '../hooks/useAuthState';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import useConsoleState from '../hooks/useConsoleState';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Loading from '../components/Loading';
 import APIKeys from '../tabs/console/APIKeys';
-// import MyModels from '../tabs/console/MyModels';
+import { BsFilesAlt } from 'react-icons/bs';
+// import MyEndpoints from '../tabs/console/MyEndpoints';
 // import { CgAddR } from 'react-icons/cg';
-// import AddModel from '../tabs/console/AddModel';
+// import AddEndpoint from '../tabs/console/AddEndpoint';
 
 
 const Console = () => {
@@ -53,21 +54,24 @@ const Console = () => {
     {
       name: "API Keys",
       component: <APIKeys />,
-      icon: <IoKeyOutline />
+      icon: <IoKeyOutline />,
+      active: true
     },
     {
       name: "Insights",
       component: <Insights />,
-      icon: <IoStatsChart />
+      icon: <IoStatsChart />,
+      active: true
+    },
+    {
+      name: "My Endpoints",
+      component: null,
+      icon: <BsFilesAlt />,
+      active: false
     },
     // {
-    //   name: "My Models",
-    //   component: <MyModels />,
-    //   icon: <BsFilesAlt />
-    // },
-    // {
-    //   name: "Add Model",
-    //   component: <AddModel />,
+    //   name: "Add Endpoint",
+    //   component: <AddEndpoint />,
     //   icon: <CgAddR />
     // },
     // {
@@ -78,7 +82,8 @@ const Console = () => {
     {
       name: "Settings",
       component: <Settings />,
-      icon: <LuSettings />
+      icon: <LuSettings />,
+      active: true
     }
   ];
 
@@ -99,7 +104,18 @@ const Console = () => {
           <ul className="menu">
             {tabs.map((tab, index) => {
               return (
-                <li
+                <>
+                {!tab.active ? <li
+                className='menu-element disabled-tab'
+                >
+                  {tab.icon}
+                  <div className="menu-label">
+                    {tab.name}
+                  </div>
+                  <div className='coming-label'>
+                    COMING
+                  </div>
+                </li> : <li
                   className={`menu-element ${searchParams.get("tab") === index.toString() && "active-tab"}`}
                   onClick={() => setSearchParams({ "tab": index })}
                 >
@@ -107,8 +123,9 @@ const Console = () => {
                   <div className="menu-label">
                     {tab.name}
                   </div>
-                </li>
-              )
+                  </li>}
+                </>
+              );
             })}
           </ul>
         </div>

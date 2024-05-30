@@ -1,5 +1,5 @@
 import { axiosAuth } from "../api/axios"
-import useAuth from "./useAuth";
+import useAuth from "./useAuthState";
 
 const useRefresh = () => {
     const { setAuth } = useAuth();

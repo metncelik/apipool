@@ -1,4 +1,4 @@
-import '../../styles/tabs/console/AddModel.css'
+import '../../styles/tabs/console/AddEndpoint.css'
 import ToggleButton from '../../components/ToggleButton';
 import { useState } from 'react';
 import { BsFillLockFill, BsFillUnlockFill } from "react-icons/bs";
@@ -6,7 +6,7 @@ import { MdOutlineClose } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 
 
-const AddModel = () => {
+const AddEndpoint = () => {
     const [isPublic, setIsPublic] = useState(false);
 
     const handleSubmit = (e) => {
@@ -34,8 +34,8 @@ const AddModel = () => {
     }
 
     return (
-        <div className="add-model container">
-            <form className='add-model-form' onSubmit={handleSubmit}>
+        <div className="add-endpoint container">
+            <form className='add-endpoint-form' onSubmit={handleSubmit}>
 
                 <div className="form-element">
                     <input className='console-input' type="text" id="name" name="name" placeholder="Name *" />
@@ -60,7 +60,7 @@ const AddModel = () => {
                 </div>
                 <div className="form-element">
                     <ToggleButton
-                        text="Public Model: "
+                        text="Public Endpoint: "
                         defaultState={isPublic}
                         stateSetter={setIsPublic}
                         icons={[<BsFillUnlockFill size={10} />, <BsFillLockFill size={10} />]}
@@ -137,11 +137,11 @@ const AddModel = () => {
                     <button>Add Endpoint</button>
                 </div>
                 <div className="form-element">
-                    <button type="submit">Submit Model</button>
+                    <button type="submit">Submit Endpoint</button>
                 </div>
             </form>
         </div>
     );
 };
 
-export default AddModel;
+export default AddEndpoint;

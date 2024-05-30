@@ -1,4 +1,4 @@
-.model-main {
+.endpoint-main {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,27 +28,26 @@
 .url-row {
   display: flex;
   flex-direction: row;
-  margin-top: 3px;
 }
 
 .endpoint-label {
   color: rgb(190, 190, 190);
 }
 
+.urls-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
+}
+
 .url-container {
-  padding-top: 5px;
+  padding: 5px 10px;
   word-wrap: break-word;
-}
-
-.method-name-container {
-  padding: 5px 0px;
-}
-
-.method-name {
-  background-color: rgb(122, 122, 122);
-  border-radius: 20%;
-  padding: 0px 3px;
-  color: rgb(18, 8, 48);
+  background-color: #171717;
+  margin: 0px 5px;
+  border-radius: 10px;
+  border: 1px solid rgba(211, 211, 211, 0.075);
+  cursor: pointer;
 }
 
 .languages-container {
@@ -128,7 +127,7 @@
 
 
 @media screen and (max-width: 768px){
-  .model-main {
+  .endpoint-main {
     display: block;
     margin-left: 10px;
     margin-right: 10px;
