@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { axiosAuth } from "../api/axios";
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import "../styles/views/VerifyEmail.css";
+import useAxiosAuth from "../hooks/useAxiosAuth";
 
 const VerifyEmail = () => {
     const [searchParams] = useSearchParams();
@@ -10,6 +10,7 @@ const VerifyEmail = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(true);
     const [secretKey, setSecretKey] = useState();
+    const axiosAuth = useAxiosAuth();
 
     useEffect(() => {
         if (!searchParams.has("secretKey")) {
@@ -20,34 +21,18 @@ const VerifyEmail = () => {
         setSecretKey(searchParams.get("secretKey"));
 
         const verify = async () => {
-            try {
-                setIsPending(true);
-                const headers = { Authorization: secretKey };
-                const response = await axiosAuth.get(`/email/verify`, { headers });
-                console.log(response);
-                navigate("/login");
-                setIsPending(false);
-            } catch (error) {
-                setErrorMessage(error.response?.data?.message);
-                setIsPending(false);
-            }
+            setIsPending(true);
+            const headers = { Authorization: secretKey };
+            const response = await axiosAuth.get(`/email/verify`, { headers });
+            setIsPending(false);
+            // if (!response) return;
+            navigate("/login");
         };
 
         verify();
     }, [secretKey]);
 
     if (isPending) return <Loading />
-
-    return (
-        <div className="verify-email-main">
-            <h1>Verify Email</h1>
-            {errorMessage && (
-                <div className='error-message'>
-                    {errorMessage}
-                </div>
-            )}
-        </div>
-    );
 };
 
 export default VerifyEmail;

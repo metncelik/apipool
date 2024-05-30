@@ -23,8 +23,9 @@ const useAxiosAuth = () => {
                 const errorMessage = error.response.data.message;
                 if (errorMessage === "Email not verified!") {
                     setIsModalOpen(true);
+                    return;
                 }
-                enqueueSnackbar("AUTH SERVER ERROR: " + error.response.data.message, { variant: "error" });
+                enqueueSnackbar(error.response.data.message, { variant: "error" });
             }
         );
         return () => {

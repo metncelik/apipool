@@ -31,14 +31,14 @@ const getCodes = (endpointAlias) => {
         },
         "make_request": {
             "Python": "import requests\n\n" +
-                `url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias}" \n\n` +
+                `url = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias}" \n\n` +
                 "headers = headers \n" +
                 "body = body \n\n" +
                 "response = requests.post(url, headers=headers, json=body)\n" +
                 "print(response.text)",
 
             "JavaScript": "const axios = require(\"axios\");\n\n" +
-                `const url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias}";  \n\n` +
+                `const url = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias}";  \n\n` +
                 "const headers = headers  \n" +
                 "const body = body  \n\n" +
                 "axios.post(url, body, { headers })\n" +
@@ -55,7 +55,7 @@ const getCodes = (endpointAlias) => {
                 "\t\"net/http\"\n" +
                 ")\n\n" +
                 "func main() {\n" +
-                `\turl := "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias}"  \n\n` +
+                `\turl := "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias}"  \n\n` +
                 "\theaders := headers  \n" +
                 "\tbody := body  \n\n" +
                 "\treq, err := http.NewRequest(\"POST\", url, bytes.NewBuffer(body))\n" +
@@ -75,7 +75,7 @@ const getCodes = (endpointAlias) => {
                 "}",
 
             "PHP":
-                `$url = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias}";  \n\n` +
+                `$url = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias}";  \n\n` +
                 "$headers = headers;  \n" +
                 "$body = body;  \n\n" +
                 "$ch = curl_init($url);\n" +
@@ -92,7 +92,7 @@ const getCodes = (endpointAlias) => {
             "Python":
                 "import requests\n" +
                 "import time\n" +
-                `\nid = "id"  # Replace with job id\nfetch_url = f"${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/{id}"\n\n` +
+                `\nid = "id"  # Replace with job id\nfetch_url = f"${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/{id}"\n\n` +
                 "for _ in range(5):\n" +
                 "\tresponse = requests.get(fetch_url)\n" +
                 "\tdata = response.json()\n" +
@@ -102,7 +102,7 @@ const getCodes = (endpointAlias) => {
                 "\ttime.sleep(10)\n",
             "JavaScript": "const axios = require(\"axios\");\n" +
                 "\n" +
-                `\nconst id = "id"  // Replace with job id\nconst fetchUrl = \`${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/\${id}\`;\n\n` +
+                `\nconst id = "id"  // Replace with job id\nconst fetchUrl = \`${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/\${id}\`;\n\n` +
                 "for (let i = 0; i < 5; i++) {\n" +
                 "\ttry {\n" +
                 "\t\tconst response = await axios.get(fetchUrl);\n" +
@@ -126,7 +126,7 @@ const getCodes = (endpointAlias) => {
                 ")\n" +
                 "\n" +
                 "func main() {\n" +
-                `\n\tid := "id"  // Replace with job id\n\tfetchUrl := "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/" + id\n\n` +
+                `\n\tid := "id"  // Replace with job id\n\tfetchUrl := "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/" + id\n\n` +
                 "\tfor i := 0; i < 5; i++ {\n" +
                 "\t\tresp, err := http.Get(fetchUrl)\n" +
                 "\t\tif err != nil {\n" +
@@ -150,7 +150,7 @@ const getCodes = (endpointAlias) => {
                 "\t\ttime.Sleep(10 * time.Second)\n" +
                 "\t}\n" +
                 "}\n",
-            "PHP": `$id = "id";  // Replace with job id\n$fetchUrl = "${process.env.REACT_APP_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/" . $id;\n\n` +
+            "PHP": `$id = "id";  // Replace with job id\n$fetchUrl = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/" . $id;\n\n` +
                 "for ($i = 0; $i < 5; $i++) {\n" +
                 "\t$ch = curl_init(fetchUrl);\n" +
                 "\tcurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n" +
@@ -182,10 +182,11 @@ const Endpoint = () => {
         const getData = async () => {
             setIsPending(true);
             const response = await axiosPrivate("/endpoints/by-alias/" + alias);
+            setIsPending(false);
+            if (!response) return;
             const endpointData = response.data.endpoint;
             setEndpoint(endpointData);
             setCodes(getCodes(endpointData.alias));
-            setIsPending(false);
         };
         getData();
     }, [alias]);
@@ -238,14 +239,14 @@ const Endpoint = () => {
                                 <p className="url-container">
                                     <div className="url-row">
                                         <div className="endpoint-label">POST:</div> &nbsp;
-                                        <p className="link" onClick={(e)=>{navigator.clipboard.writeText(e.target.innerText)}}>{process.env.REACT_APP_SERVICE_URL + "/v0/" + endpoint.alias}</p>
+                                        <p className="link" onClick={(e)=>{navigator.clipboard.writeText(e.target.innerText)}}>{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpoint.alias}</p>
                                     </div>
 
                                 </p>
                                 <p className="url-container">
                                     <div className="url-row">
                                         <div className="endpoint-label">GET:</div> &nbsp;
-                                        <p className="link" onClick={(e)=>{navigator.clipboard.writeText(e.target.innerText)}}>{process.env.REACT_APP_SERVICE_URL + "/v0/" + endpoint.alias + "/status/:id"}</p>
+                                        <p className="link" onClick={(e)=>{navigator.clipboard.writeText(e.target.innerText)}}>{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpoint.alias + "/status/:id"}</p>
                                     </div>
                                 </p>
                             </div>

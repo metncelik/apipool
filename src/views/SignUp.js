@@ -11,7 +11,7 @@ const SignUp = () => {
                 </h2>
                 <SignUpWithEmail />
                 <br />
-                <GoogleAuthButton method={"sign-up"} />
+                {/* <GoogleAuthButton method={"sign-up"} /> */}
                 <GithubAuthButton method={"sign-up"} />
             </div>
         </div>

@@ -32,9 +32,10 @@ const Settings = () => {
   const getAuthMethods = useCallback(async () => {
     setIsPending(true);
     const response = await axiosPrivate.get(`/auth/auth-methods`);
+    setIsPending(false);
+    if (!response) return;
     const authMethods = response.data.authMethods;
     setConsoleState({ ...consoleState, authMethods });
-    setIsPending(false);
   }, []);
 
   useEffect(() => {

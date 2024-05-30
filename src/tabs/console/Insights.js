@@ -16,9 +16,9 @@ const Insights = () => {
     const getrequests = async () => {
         setIsPending(true);
         const response = await axiosPrivate.get('/api-keys/requests');
+        setIsPending(false);
         if (!response) return;
         setConsoleState({ ...consoleState, requests: response.data.requests });
-        setIsPending(false);
     };
 
     useEffect(() => {
@@ -39,11 +39,9 @@ const Insights = () => {
         <div className="overview container console-container full">
             {consoleState.requests?.length === 0
                 ?
-                <div className="table-empty">
-                    <div className="table-empty-sublabel">
-                        No recent activity.
-                    </div>
-                </div>
+                <p className="table-empty-sublabel">
+                    No recent activity.
+                </p>
                 :
                 <div className="table-container">
                     <table className='console-table requests-table'>
@@ -56,7 +54,7 @@ const Insights = () => {
                             <th>Endpoint</th>
                         </tr>
 
-                    
+
 
                         {consoleState.requests?.map((request, index) => (
                             <tr key={`row${index}`}>

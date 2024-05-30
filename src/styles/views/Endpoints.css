@@ -4,6 +4,7 @@
             var(--background-color),
             var(--background-color));
     padding-top: 80px;
+    min-height: 100vh;
 }
 
 .load-more-button {

@@ -14,11 +14,6 @@
     margin-bottom: 15px;
 }
 
-.apikeys-empty-sublabel {
-    font-size: 18px;
-    color: rgba(62, 153, 153, 0.845);
-}
-
 .apikeys-copy{
     display: flex;
     flex-direction: row;

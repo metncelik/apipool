@@ -38,13 +38,13 @@ const LoginWithEmail = () => {
             withCredentials: true
         });
         setIsPending(false);
+        setPassword('');
         if(!response) return;
 
         setAuth({ isLoggedIn: true });
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("email", email);
         navigate(navigateTo);
-        setPassword('');
     };
 
     const handleForgatPassword = async (e) => {
@@ -112,9 +112,9 @@ const ResetPasswordForm = () => {
         const secretKey = searchParams.get("secretKey");
         const headers = { Authorization: secretKey };
         const response = await axiosAuth.post("/email/reset-password", { password }, { headers });
-        if (!response) return;
         setPassword('');
         setPasswordAgain('');
+        if (!response) return;
         navigate("/login");
     }
 
@@ -160,7 +160,7 @@ const SignUpWithEmail = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         setIsPending(true);
-        
+
         if (password != passwordAgain) {
             enqueueSnackbar("Passwords do not match.", { variant: "error" });
             return;
@@ -169,14 +169,14 @@ const SignUpWithEmail = () => {
         const data = { user: { email, password } };
         const response = await axiosAuth.post(`/sign-up`, data);
         setIsPending(false);
+        setPassword('');
+        setPasswordAgain('');
         if (!response) return;
 
         localStorage.setItem("email", email)
         localStorage.setItem("isLoggedIn", true);
         setAuth({ isLoggedIn: true });
         navigate("/console");
-        setPassword('');
-        setPasswordAgain('');
 
     };
 
@@ -221,16 +221,14 @@ const ChangePassword = () => {
             newPassword: password,
         });
         setIsPending(false);
+        setCurrentPassword("");
+        setPassword("");
+        setPasswordAgain("");
         if (!response) return;
 
         setAuth({ isLoggedIn: false })
         localStorage.setItem("isLoggedIn", false);
         navigate("/login");
-
-        setCurrentPassword("");
-        setPassword("");
-        setPasswordAgain("");
-
     }
 
     return (
@@ -347,7 +345,6 @@ const AddEmailAuthForm = ({ updateAuthMethods }) => {
         const response = await axiosAuth.post("/email/add", { user: { email, password } });
         if (!response) return;
         updateAuthMethods();
-
     }
 
     return (

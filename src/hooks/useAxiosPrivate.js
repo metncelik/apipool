@@ -24,6 +24,7 @@ const useAxiosPrivate = () => {
 
         const responseIntercept = axiosPrivate.interceptors.response.use(
             response => {
+                if (!response) return;
                 if (response.data?.message)
                     enqueueSnackbar(response.data.message, { variant: "default" });
                 return response;
@@ -47,7 +48,7 @@ const useAxiosPrivate = () => {
                     navigate("/login");
                     return;
                 }
-                enqueueSnackbar("SERVER ERROR:" + error.response.data.message, { variant: "error" });
+                enqueueSnackbar(error.response.data.message, { variant: "error" });
             }
         );
         return () => {

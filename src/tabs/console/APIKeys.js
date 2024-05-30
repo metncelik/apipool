@@ -22,9 +22,9 @@ const APIKeys = () => {
     const getAPIKeys = async () => {
         setIsPending(true);
         const response = await axiosPrivate.get('/api-keys');
+        setIsPending(false);
         if (!response) return;
         setConsoleState({ ...consoleState, apiKeys: response.data?.apiKeys });
-        setIsPending(false);
     };
 
     const addAPIKey = async (e) => {
@@ -35,21 +35,19 @@ const APIKeys = () => {
         }
         setIsPending(true);
         const response = await axiosPrivate.post('/api-keys', { apiTitle: apiTitle });
-        if(!response) return;
+        setIsPending(false);
+        if(!response) return;   
         setAPITitle('');
         setConsoleState({ ...consoleState, apiKeys: [response.data.apiKey, ...consoleState.apiKeys] });
-        setIsPending(false);
     };
 
     const deleteAPIKey = async () => {
         setIsPending(true);
         const response = await axiosPrivate.delete(`/api-keys/${selectedKey}`);
-        if (!response) {
-            setIsPending(false);
-            return;
-        };
-        setConsoleState({ ...consoleState, apiKeys: consoleState.apiKeys.filter(apiKey => apiKey.api_key !== selectedKey) });
         setIsPending(false);
+        if (!response) return;
+        
+        setConsoleState({ ...consoleState, apiKeys: consoleState.apiKeys.filter(apiKey => apiKey.api_key !== selectedKey) });
     };
 
     const copyToClipboard = (id) => {
@@ -60,7 +58,7 @@ const APIKeys = () => {
     useEffect(() => {
         if (consoleState.apiKeys) return setIsPending(false);
         getAPIKeys();
-    }, [consoleState]);
+    }, []);
 
     if (isPending) return <Loading />;
 
@@ -93,14 +91,14 @@ const APIKeys = () => {
             }
             {consoleState.apiKeys?.length === 0
                 ?
-                <div className="table-empty">
+                <>
                     {/* <div className="table-empty-label">
                     You have no API Keys
                 </div> */}
                     <div className="table-empty-sublabel">
                         Create an API Key to access the API.
                     </div>
-                </div>
+                </>
                 :
                 <div className="apikeys-table table-container">
                     <table className='console-table api-keys-table'>

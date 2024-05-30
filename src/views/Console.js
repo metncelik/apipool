@@ -30,15 +30,11 @@ const Console = () => {
 
   useEffect(() => {
     const getMe = async () => {
-      try {
-        setIsPending(true);
-        const response = await axiosPrivate.get("/user/me");
-        setConsoleState({ consoleState, user: response.data.user });
-        setIsPending(false);
-      } catch (error) {
-        console.log(error);
-        setIsPending(false);
-      }
+      setIsPending(true);
+      const response = await axiosPrivate.get("/user/me");
+      setIsPending(false);
+      if (!response) return;
+      setConsoleState({ consoleState, user: response.data.user });
     };
     const activeTab = searchParams.get("tab");
     if (!activeTab) {
