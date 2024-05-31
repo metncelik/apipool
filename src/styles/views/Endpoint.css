@@ -21,8 +21,8 @@
   font-size: 15px;
 }
 
-.centered-text {
-  text-align: center;
+.left-align {
+  text-align: left;
 }
 
 .url-row {
@@ -38,6 +38,7 @@
   display: flex;
   flex-direction: row;
   margin-top: 5px;
+  flex-wrap: wrap;
 }
 
 .url-container {
@@ -48,6 +49,9 @@
   border-radius: 10px;
   border: 1px solid rgba(211, 211, 211, 0.075);
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 3px;
 }
 
 .url-container:hover {

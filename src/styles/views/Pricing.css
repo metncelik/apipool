@@ -2,11 +2,6 @@
     display: block;
     justify-content: center;
     align-items: center;
-    padding: 30px 20%;
-    background: linear-gradient(160deg,
-    rgba(8, 15, 50, 0.804),
-            var(--background-color),
-            var(--background-color));
     text-align: center;
     padding-top: 10%;
 }
@@ -35,10 +30,12 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-wrap: balance;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .pricing-table {
-    margin: 60px 0px;
+    margin: 90px auto;
 }
 
 .pricing-table th {

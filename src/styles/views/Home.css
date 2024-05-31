@@ -1,8 +1,4 @@
 .home-banner {
-  background: linear-gradient(160deg,
-  rgba(8, 15, 50, 0.804),
-          var(--background-color),
-          var(--background-color));
   padding: 50px 10vw;
   display: flex;
   flex-direction: column;
@@ -26,7 +22,7 @@
   background-color: transparent;
   cursor: default;
   background: -webkit-linear-gradient(340deg,
-      rgba(183, 176, 254, 0.893), rgb(215, 174, 213), #ed6b6be9);
+  rgba(183, 176, 254, 0.893), rgb(215, 174, 213), #ed6b6be9);
   background-clip: text;
   /* Adjust background as span */
   -webkit-background-clip: text;
@@ -36,6 +32,7 @@
 
 
 .home-list {
+  backdrop-filter: blur(1000px);
   display: flex;
   flex-direction: row;
   justify-content: space-between;

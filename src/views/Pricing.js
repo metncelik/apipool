@@ -1,8 +1,10 @@
+import Banner from '../components/Banner';
 import '../styles/views/Pricing.css'
 
 const Pricing = () => {
     return (
         <div className="pricing-main">
+            <Banner color="green"/>
             <h2 className='pricing-title'>Pricing</h2>
             <p className='pricing-description'>Pay as you go and use as much as you want. Our flexible pricing options allow you to scale your usage based on your needs.</p>
             <div className='table-container'>

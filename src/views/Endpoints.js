@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 import { AiOutlineSearch } from 'react-icons/ai';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import Banner from '../components/Banner';
 
 const Endpoints = () => {
     const [endpoints, setEndpoints] = useState([])
@@ -51,6 +52,7 @@ const Endpoints = () => {
 
     return (
         <div className='endpoints-main'>
+            <Banner color="#3c23b8"/>
             <div>
                 <div className="all-endpoints-header">
 

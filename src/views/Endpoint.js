@@ -239,7 +239,7 @@ const Endpoint = () => {
                 </div>
                 :
                 <div className="endpoint-main">
-                    <Banner title={`${endpoint.title} API`} imageUrl={endpoint.image_url} />
+                    <Banner image={endpoint.image_url} margin={"150px"}/>
                     <div className="endpoint-body container">
                         <div className="description-container">
                             <div className="urls-container">
@@ -285,11 +285,11 @@ const Endpoint = () => {
                                     </tr>
                                     {endpoint.inputs.map((param, index) => (
                                         <tr>
-                                            <td className="centered-text">{param.title}</td>
-                                            <td className="centered-text">{param.type}</td>
-                                            <td className="centered-text">{param.is_required ? "yes" : "no"}</td>
-                                            <td className="centered-text">{param.default_value || "-"}</td>
-                                            <td>{param.description}</td>
+                                            <td>{param.title}</td>
+                                            <td>{param.type}</td>
+                                            <td>{param.is_required ? "yes" : "no"}</td>
+                                            <td>{param.default_value || "-"}</td>
+                                            <td className="left-align">{param.description}</td>
                                         </tr>
                                     ))
                                     }
@@ -301,15 +301,15 @@ const Endpoint = () => {
                             <div className="table-container">
                                 <table className="gap">
                                     <tr>
-                                        <th>parameter</th>
-                                        <th>type</th>
-                                        <th>description</th>
+                                        <th>Parameter</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
                                     </tr>
                                     {endpoint.outputs.map((param, index) => (
-                                        <tr>
-                                            <td className="centered-text">{param.title}</td>
-                                            <td className="centered-text">{param.type || "-"}</td>
-                                            <td>{param.description}</td>
+                                        <tr key={`output-param${index}`}>
+                                            <td>{param.title}</td>
+                                            <td>{param.type || "-"}</td>
+                                            <td className="left-align">{param.description}</td>
                                         </tr>
                                     ))
                                     }
@@ -321,13 +321,13 @@ const Endpoint = () => {
                                     Usage
                                 </h3>
                                 <div className="gap">
-                                    <p>1- Create a headers variable with your API key.</p>
+                                    <p>Create a headers variable with your API key.</p>
                                     <CodeWithHeader codes={codes.create_header} />
                                     <br />
-                                    <p>2- Create a request body with the parameters in the table above.</p>
+                                    <p>Create a request body with the parameters in the table above.</p>
                                     <CodeWithHeader codes={codes.create_body} />
                                     <br />
-                                    <p>3- Make a <span className="method-name">POST</span> request to the Endpoint URL with the header and body.
+                                    <p>Make a <span className="method-name">POST</span> request to the Endpoint URL with the header and body.
                                         {false &&
                                             <span> It will return the output.</span>
                                         }
@@ -339,7 +339,7 @@ const Endpoint = () => {
                                         <Code code={"{\n\t'id': 'XXXXX'\n}"} />
                                         <br />
 
-                                        <p>4 - After getting job id make a <span className="method-name">GET</span> request to the Get URL. It will return the status of your request. When status is "completed" it will return the output.</p>
+                                        <p>After getting job id make a <span className="method-name">GET</span> request to the Get URL. It will return the status of your request. When status is "completed" it will return the output.</p>
                                         <CodeWithHeader codes={codes.fetch} />
                                         <br />
 

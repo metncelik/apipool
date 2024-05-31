@@ -43,8 +43,8 @@ const Billing = () => {
                             //     return(
                             //     <tr key={index}>
                             //         <td>{bill.date}</td>
-                            //         <td className='centered-text'>{"bill.amount"}</td>
-                            //         <td className='centered-text'>{"bill.status"}</td>
+                            //         <td>{"bill.amount"}</td>
+                            //         <td>{"bill.status"}</td>
                             //     </tr>
                             //     )
                             // })

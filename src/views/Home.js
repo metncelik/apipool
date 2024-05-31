@@ -7,6 +7,7 @@ import Loading from '../components/Loading';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuthState';
 import HeroLogo from '../components/HeroLogo';
+import Banner from '../components/Banner';
 
 const Home = () => {
     const [endpoints, setEndpoints] = useState([])
@@ -19,7 +20,7 @@ const Home = () => {
     const requestRef = useRef();
 
     const animate = useCallback((time) => {
-        setAngle(prevAngle => prevAngle + 0.5); 
+        setAngle(prevAngle => prevAngle + 0.5);
         requestRef.current = requestAnimationFrame(animate);
     }, []);
 
@@ -37,19 +38,19 @@ const Home = () => {
 
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-            if (distance <150) {
+            if (distance < 150) {
                 cancelAnimationFrame(requestRef.current);
             };
 
-            const maxDistance = 550; 
+            const maxDistance = 550;
             const newOpacity = Math.max(0.4, Math.min(1, 1 - distance / maxDistance));
             setOpacity(newOpacity);
 
         };
 
-        
+
         requestRef.current = requestAnimationFrame(animate);
-        
+
         document.addEventListener('mousemove', handleMouseMove);
 
         return () => {
@@ -75,12 +76,12 @@ const Home = () => {
 
     return (
         <div className="home">
+            <Banner color="#3c23b8"/>
             <div className='hero-container'>
                 <div className="home-banner">
                     <div className="home-title-container">
-
                         <h2 className='home-title' >
-                        Empower Your Apps with AI
+                            Empower Your Apps with AI
                         </h2>
                         <div id='logo-wrapper' style={{ transform: `rotate(${angle}deg)`, opacity: opacity, transition: '1s' }}>
                             <HeroLogo />
