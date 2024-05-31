@@ -9,7 +9,7 @@ const TermsOfService = () => {
 
     return (
         <div class="legal tos-container">
-            <Banner color={"grey"} height={"150px"} />
+            <Banner color={"grey"}/>
             <h1>API POOL - Terms of Service</h1>
 
             <h2>1. Introduction</h2>

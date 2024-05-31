@@ -1,8 +1,10 @@
 import '../styles/views/SignUp.css'
 import { GithubAuthButton, GoogleAuthButton, SignUpWithEmail } from '../components/Auth';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="auth-main">
             <div className='auth-box'>
@@ -14,7 +16,10 @@ const SignUp = () => {
                 {/* <GoogleAuthButton method={"sign-up"} /> */}
                 <GithubAuthButton method={"sign-up"} />
                 <br />
-                <p className='sign-up-info'>By signing up, you are accepting our <span className='sign-up-info-link' to="/terms-of-service">Terms of Service</span> and <span className='sign-up-info-link' to="/privacy-policy">Privacy Policy</span>.</p>
+                <p className='sign-up-info'>By signing up, you are accepting our 
+                <span onClick={()=>(navigate('/terms-of-service'))} className='sign-up-info-link'>Terms of Service</span>, 
+                <span onClick={()=>(navigate('/privacy-policy'))}  className='sign-up-info-link' >Privacy Policy</span> and 
+                <span onClick={()=>(navigate('/refund-policy'))}   className='sign-up-info-link'>Refund Policy</span>.</p>
             </div>
         </div>
     );

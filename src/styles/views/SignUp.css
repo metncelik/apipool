@@ -1,11 +1,16 @@
 .sign-up-info {
+    font-size: 14px;
     font-weight: 100;
 }
 
 .sign-up-info-link {
-    color: #488bd3bb;
+    
+    color: #5f79d7c9;
     text-decoration: underline;
+    margin-left: 5px;
+    cursor: pointer;
 }
+
 
 @media screen and (max-width: 768px) {
     .auth-container{

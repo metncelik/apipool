@@ -16,8 +16,11 @@ const Footer = () => {
                 <div className="footer-links">
                     <Link to={'/privacy-policy'} className='footer-link'>Privacy Policy</Link>
                     <Link to={'/terms-of-service'} className='footer-link'>Terms of Service</Link>
+                    <Link to={'/refund-policy'} className='footer-link'>Refund Policy</Link>
                 </div>
+                <div className='copy-right'>
                 © API POOL 2024. All rights reserved.
+                </div>
             </div>
         </div>
     );

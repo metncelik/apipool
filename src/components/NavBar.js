@@ -1,11 +1,8 @@
 import '../styles/components/Navbar.css'
 import { useEffect, useState } from 'react'
 import { IoClose, IoMenu } from "react-icons/io5";
-
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuthState';
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from '../database/firebaseConfig';
 
 const NavBar = () => {
     const [isVisible, setIsVisible] = useState(false)
@@ -21,7 +18,7 @@ const NavBar = () => {
     console.log(location.pathname);
 
     useEffect(() => {
-        if (['/sign-up', '/console', '/login', '/reset-password', '/terms-of-service', '/privacy-policy'].includes(location.pathname)) setStickyNavbar(true)
+        if (['/sign-up', '/console', '/login', '/reset-password', '/terms-of-service', '/privacy-policy', '/refund-policy'].includes(location.pathname)) setStickyNavbar(true)
         else setStickyNavbar(false);
     }, [location.pathname])
 

@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
 
     return (
         <div className="legal pp-container">
-            <Banner color={"grey"} height={"150px"} />
+            <Banner color={"grey"}/>
             <h1>API POOL - Privacy Policy</h1>
 
             <h2>1. Introduction</h2>
