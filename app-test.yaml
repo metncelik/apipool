@@ -1,4 +1,4 @@
-service: test-apipool-client
+service: test-client
 runtime: nodejs20
 handlers:
   # Serve all static files with url ending with a file extension
