@@ -13,10 +13,6 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Loading from '../components/Loading';
 import ApiKeys from '../tabs/console/ApiKeys';
 import { BsFilesAlt } from 'react-icons/bs';
-// import MyEndpoints from '../tabs/console/MyEndpoints';
-// import { CgAddR } from 'react-icons/cg';
-// import AddEndpoint from '../tabs/console/AddEndpoint';
-
 
 const Console = () => {
   const [searchParams, setSearchParams] = useSearchParams()
