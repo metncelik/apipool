@@ -44,7 +44,7 @@ const Settings = () => {
   }, [consoleState]);
 
   const methodComponents = {
-    "Google": <AddGoogleAuthButton />,
+    // "Google": <AddGoogleAuthButton />,
     "Github": <AddGithubAuthButton />,
     "Email": <AddEmailAuthForm updateAuthMethods={getAuthMethods} />
   }
@@ -54,6 +54,7 @@ const Settings = () => {
   return (
     <div className="settings container">
             <Expandable label={"Auth Methods"} expanded={true}>
+              <div className='table-container'>
               <table className="console-table auth-table">
                 <thead>
                   <tr>
@@ -81,6 +82,7 @@ const Settings = () => {
                   }
                 </tbody>
               </table>
+              </div>
             </Expandable>
             {
               Object.keys(methodComponents).map((method) => {

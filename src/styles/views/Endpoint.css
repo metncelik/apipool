@@ -50,6 +50,19 @@
   cursor: pointer;
 }
 
+.url-container:hover {
+  background-color: #1d1d1d;
+}
+
+.url-container:active {
+  background-color: #2e2e2e;
+  border-color: rgba(211, 211, 211, 0.273);
+}
+
+.endpoint-url {
+  color: #085AA2;
+}
+
 .languages-container {
   display: flex;
   flex-direction: row;

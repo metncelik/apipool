@@ -1,4 +1,4 @@
-import '../../styles/tabs/console/APIKeys.css';
+import '../../styles/tabs/console/ApiKeys.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useEffect, useState } from 'react';
 import Loading from '../../components/Loading';
@@ -7,36 +7,33 @@ import { MdDeleteOutline } from "react-icons/md";
 import Modal from '../../components/Modal';
 import useConsoleState from '../../hooks/useConsoleState';
 import useModal from '../../hooks/useModal';
+import { useSnackbar } from "notistack";
+import { useCallback } from 'react';
 
-//TODO: usereducer for console state and find a better way to deleting apikey
-
-const APIKeys = () => {
+const ApiKeys = () => {
     const axiosPrivate = useAxiosPrivate();
-    const [apiTitle, setAPITitle] = useState(null);
+    const [apiTitle, setAPITitle] = useState('');
     const [isPending, setIsPending] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
     const { isModalOpen, setIsModalOpen } = useModal(false);
     const [selectedKey, setSelectedKey] = useState(null);
     const [consoleState, setConsoleState] = useConsoleState(null);
+    const { enqueueSnackbar } = useSnackbar("");
 
-    const getAPIKeys = async () => {
+    const getApiKeys = useCallback(async () => {
+        if (consoleState.apiKeys) return setIsPending(false);
         setIsPending(true);
         const response = await axiosPrivate.get('/api-keys');
         setIsPending(false);
         if (!response) return;
         setConsoleState({ ...consoleState, apiKeys: response.data?.apiKeys });
-    };
+    }, []);
 
     const addAPIKey = async (e) => {
         e.preventDefault();
-        const apiTitleRegex = /^[a-z][a-z0-9_-]*$/;
-        if (!apiTitleRegex.test(apiTitle)) {
-            return setErrorMessage("Invalid API Title. It should start with a lowercase letter or a number, and can contain lowercase letters, numbers, underscores, and hyphens.");
-        }
         setIsPending(true);
         const response = await axiosPrivate.post('/api-keys', { apiTitle: apiTitle });
         setIsPending(false);
-        if(!response) return;   
+        if (!response) return;
         setAPITitle('');
         setConsoleState({ ...consoleState, apiKeys: [response.data.apiKey, ...consoleState.apiKeys] });
     };
@@ -46,21 +43,21 @@ const APIKeys = () => {
         const response = await axiosPrivate.delete(`/api-keys/${selectedKey}`);
         setIsPending(false);
         if (!response) return;
-        
         setConsoleState({ ...consoleState, apiKeys: consoleState.apiKeys.filter(apiKey => apiKey.api_key !== selectedKey) });
     };
 
     const copyToClipboard = (id) => {
         const text = document.getElementById(id).innerText;
         navigator.clipboard.writeText(text);
+        enqueueSnackbar("API Key copied to clipboard", { variant: "default" });
     };
 
     useEffect(() => {
         if (consoleState.apiKeys) return setIsPending(false);
-        getAPIKeys();
+        getApiKeys();
     }, []);
 
-    if (isPending) return <Loading />;
+    if (isPending || !consoleState.apiKeys) return <Loading />;
 
     return (
         <div className="apikeys container">
@@ -84,21 +81,11 @@ const APIKeys = () => {
                     </div>
                 </button>
             </form>
-            {errorMessage &&
-                <div className="error-message">
-                    {errorMessage}
-                </div>
-            }
-            {consoleState.apiKeys?.length === 0
+            {consoleState.apiKeys.length === 0
                 ?
-                <>
-                    {/* <div className="table-empty-label">
-                    You have no API Keys
-                </div> */}
-                    <div className="table-empty-sublabel">
-                        Create an API Key to access the API.
-                    </div>
-                </>
+                <div className="table-empty-sublabel">
+                    Create an API Key to access the API.
+                </div>
                 :
                 <div className="apikeys-table table-container">
                     <table className='console-table api-keys-table'>
@@ -116,18 +103,13 @@ const APIKeys = () => {
                                     copyToClipboard(`key${index}`)
                                 }} >
                                     {apiKey.api_key}
+                                    <span className='copy-icon'>
+                                        <FaRegCopy size={20} className="apikeys-copy-icon" />
+                                    </span>
                                 </td>
 
                                 <td>{(new Date(apiKey.created_at)).toLocaleDateString("en-EN")}</td>
                                 <td className='table-actions'>
-                                    <button
-                                        onClick={() => {
-                                            copyToClipboard(`key${index}`)
-                                        }}
-                                        className="apikeys-copy "
-                                    >
-                                        <FaRegCopy size={18} className="apikeys-copy-icon" />
-                                    </button>
                                     <button
                                         onClick={() => {
                                             setIsModalOpen(true);
@@ -157,4 +139,4 @@ const APIKeys = () => {
     );
 }
 
-export default APIKeys;
+export default ApiKeys;

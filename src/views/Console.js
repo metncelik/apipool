@@ -11,7 +11,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import useConsoleState from '../hooks/useConsoleState';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Loading from '../components/Loading';
-import APIKeys from '../tabs/console/APIKeys';
+import ApiKeys from '../tabs/console/ApiKeys';
 import { BsFilesAlt } from 'react-icons/bs';
 // import MyEndpoints from '../tabs/console/MyEndpoints';
 // import { CgAddR } from 'react-icons/cg';
@@ -49,7 +49,7 @@ const Console = () => {
   const tabs = [
     {
       name: "API Keys",
-      component: <APIKeys />,
+      component: <ApiKeys />,
       icon: <IoKeyOutline />,
       active: true
     },

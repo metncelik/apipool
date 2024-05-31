@@ -14,12 +14,8 @@
     margin-bottom: 15px;
 }
 
-.apikeys-copy{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-right: 10px;
+.copy-icon{
+    margin-left: 10px;
     background-color:rgb(13, 36, 36);
 }
 

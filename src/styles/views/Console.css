@@ -8,21 +8,20 @@
   height: 100%;
   background-color: var(--background-color);
   color: white;
-  padding: 20px 0px;
   border-right: 1px solid rgba(255, 255, 255, 0.188);
 }
 
 .menu {
   list-style: none;
-  padding: 0;
+  padding: 10px;
 }
 
 .menu li {
   cursor: pointer;
   transition: background-color 0.1s;
   border-radius: 15px;
-  margin: 0px 10px;
   padding: 15px 15px;
+  margin: 10px 0px;
 }
 
 .menu-element {
@@ -42,7 +41,7 @@
 }
 
 .menu-element:hover {
-  background-color: #34375633;
+  background-color: #3437563e;
 }
 
 .disabled-tab:hover {
@@ -140,9 +139,9 @@
 }
 
 .console-table {
-  width: 100%;
   border-collapse: collapse;
   margin: 10px 0px;
+  width: 100%;
 }
 
 .table-actions {

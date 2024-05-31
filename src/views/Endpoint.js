@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import { axiosPrivate } from "../api/axios";
+import { useSnackbar } from "notistack";
 
 const Code = ({ code }) => {
     return (
@@ -177,6 +178,7 @@ const Endpoint = () => {
     const [codes, setCodes] = useState(null)
     const [isPending, setIsPending] = useState(true)
     const [selectedLanguage, setSelectedLanguage] = useState("Python");
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         const getData = async () => {
@@ -190,6 +192,11 @@ const Endpoint = () => {
         };
         getData();
     }, [alias]);
+
+    const copyToClipBoard = (id) => {
+        navigator.clipboard.writeText(document.getElementById(id).innerText);
+        enqueueSnackbar("Copied to clipboard", { variant: "default" });
+    }
 
     const CodeWithHeader = ({ codes, language }) => {
         const languages = [
@@ -236,17 +243,17 @@ const Endpoint = () => {
                     <div className="endpoint-body container">
                         <div className="description-container">
                             <div className="urls-container">
-                                <p className="url-container">
+                                <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
                                     <div className="url-row">
-                                        <div className="endpoint-label">POST:</div> &nbsp;
-                                        <p className="link" onClick={(e)=>{navigator.clipboard.writeText(e.target.innerText)}}>{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpoint.alias}</p>
+                                        <div className="endpoint-label">POST</div> &nbsp;
+                                        <p className="endpoint-url" id="fetch-url">{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpoint.alias}</p>
                                     </div>
 
                                 </p>
-                                <p className="url-container">
+                                <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
                                     <div className="url-row">
-                                        <div className="endpoint-label">GET:</div> &nbsp;
-                                        <p className="link" onClick={(e)=>{navigator.clipboard.writeText(e.target.innerText)}}>{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpoint.alias + "/status/:id"}</p>
+                                        <div className="endpoint-label">GET</div> &nbsp;
+                                        <p className="endpoint-url" id="get-url">{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpoint.alias + "/status/:id"}</p>
                                     </div>
                                 </p>
                             </div>

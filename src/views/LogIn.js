@@ -1,6 +1,5 @@
 import '../styles/views/LogIn.css'
 import { GithubAuthButton, GoogleAuthButton, LoginWithEmail } from '../components/Auth';
-import { Link } from 'react-router-dom';
 
 const LogIn = () => {
     return (

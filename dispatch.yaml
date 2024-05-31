@@ -2,8 +2,9 @@ dispatch:
   - url: "apipool.ai/*"
     service: default
 
-  - url: "master.apipool.ai/*"
-    service: master
+  - url: "x.apipool.ai/*"
+    service: x
 
-  - url: "d-service.apipool.ai/*"
-    service: d-service
+  - url: "run.apipool.ai/*"
+    service: run
+
