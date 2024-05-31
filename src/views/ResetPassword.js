@@ -5,9 +5,9 @@ const ResetPassword = () => {
     return (
         <div className="auth-main">
             <div className="auth-box">
-                <h2>
+                <h1>
                     Reset Password
-                </h2>
+                </h1>
                 <ResetPasswordForm />
             </div>
         </div>

@@ -30,6 +30,14 @@
   flex-direction: row;
 }
 
+.endpoint-title {
+  color: #ffffffd6;
+  font-size: 30px;
+  font-weight: 800;
+  align-self: flex-start;
+  margin-bottom: 20px;
+}
+
 .endpoint-label {
   color: rgb(190, 190, 190);
 }
@@ -44,10 +52,10 @@
 .url-container {
   padding: 5px 10px;
   word-wrap: break-word;
-  background-color: #171717;
+  background-color: #131313;
   margin: 0px 5px;
   border-radius: 10px;
-  border: 1px solid rgba(211, 211, 211, 0.075);
+  border: 2px solid rgba(45, 45, 45, 0.471);
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -55,7 +63,7 @@
 }
 
 .url-container:hover {
-  background-color: #1d1d1d;
+  background-color: #181818;
 }
 
 .url-container:active {
@@ -64,7 +72,8 @@
 }
 
 .endpoint-url {
-  color: #085AA2;
+  color: #735ebf;
+  font-weight: 100;
 }
 
 .languages-container {

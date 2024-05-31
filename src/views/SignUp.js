@@ -6,13 +6,15 @@ const SignUp = () => {
     return (
         <div className="auth-main">
             <div className='auth-box'>
-                <h2>
+                <h1>
                     Sign Up
-                </h2>
+                </h1>
                 <SignUpWithEmail />
                 <br />
                 {/* <GoogleAuthButton method={"sign-up"} /> */}
                 <GithubAuthButton method={"sign-up"} />
+                <br />
+                <p className='sign-up-info'>By signing up, you are accepting our <span className='sign-up-info-link' to="/terms-of-service">Terms of Service</span> and <span className='sign-up-info-link' to="/privacy-policy">Privacy Policy</span>.</p>
             </div>
         </div>
     );

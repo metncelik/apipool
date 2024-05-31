@@ -5,9 +5,9 @@ const LogIn = () => {
     return (
         <div className="auth-main">
             <div className='auth-box'>
-                <h2>
+                <h1>
                     Login
-                </h2>
+                </h1>
                 <LoginWithEmail />
                 <br />
                 {/* <GoogleAuthButton method={"login"} /> */}

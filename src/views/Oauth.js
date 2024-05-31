@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuthState";
 import Loading from "../components/Loading";
 import "../styles/views/Oauth.css";
 import useAxiosAuth from "../hooks/useAxiosAuth";
+import { enqueueSnackbar, useSnackbar } from "notistack";
 
 const Oauth = () => {
     const { provider, method } = useParams();
@@ -11,14 +12,19 @@ const Oauth = () => {
     const { setAuth } = useAuth();
     const [isPending, setIsPending] = useState(true);
     const axiosAuth = useAxiosAuth();
+    const {endqueueSnackbar} = useSnackbar();
 
     useEffect(() => {
         const authorize = async () => {
             setIsPending(true);
-            if (!window.location.search.includes("code"))
+            const params = new URLSearchParams(window.location.search);
+            if (params.includes('error_description')) {
+                enqueueSnackbar(params.get('error_description'), { variant: "error" });
+                return navigate("/login");
+            }
+            if (!params.includes("code"))
                 return navigate("/login");
 
-            const params = new URLSearchParams(window.location.search);
             const code = params.get('code');
 
             const body = { code };

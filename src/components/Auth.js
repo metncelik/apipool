@@ -15,7 +15,8 @@ const LoginWithEmail = () => {
     const [password, setPassword] = useState("");
     const { auth, setAuth } = useAuth();
     const axiosAuth = useAxiosAuth();
-    const { isModalOpen } = useModal(false);
+    const { isModalOpen, setIsModalOpen } = useModal(false);
+    const [mailForgat, setMailForgat] = useState(false);
 
     const navigate = useNavigate();
     const navigateTo = "/console";
@@ -47,10 +48,11 @@ const LoginWithEmail = () => {
         navigate(navigateTo);
     };
 
-    const handleForgatPassword = async (e) => {
-        e.preventDefault();
+    const handleForgatPassword = async () => {
         enqueueSnackbar("Verify Email sending...", { variant: "info" });
-        await axiosAuth.post("/email/reset-password/send", { email });
+        const response = await axiosAuth.post("/email/reset-password/send", { email });
+        if (!response) return;
+        setMailForgat(false);
     };
 
     const handleSendEmailVerification = async (e) => {
@@ -67,7 +69,7 @@ const LoginWithEmail = () => {
                 </div>
                 <button disabled={isPending} type='submit' className='auth-button'>{isPending ? "..." : "Login"}</button>
                 <div className="under-auth">
-                    {isModalOpen && (
+                    {isModalOpen && !mailForgat && (
                         <Modal
                             actionCallback={handleSendEmailVerification}
                             actionType='warning'
@@ -76,7 +78,16 @@ const LoginWithEmail = () => {
                             message='Your email address has not been verified yet. Would you like to resend the verification email?'
                         />
                     )}
-                    <a onClick={handleForgatPassword}>Forgot password?</a>
+                    {isModalOpen && mailForgat && (
+                        <Modal
+                            actionCallback={handleForgatPassword}
+                            actionType='info'
+                            buttonLabel='Send'
+                            buttonColor='green'
+                            message='Would you like to send reset password email?'
+                        />
+                    )}
+                    <a onClick={() => {setMailForgat(true); setIsModalOpen(true)}}>Forgot password?</a>
                 </div>
             </form>
 

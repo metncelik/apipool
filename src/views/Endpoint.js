@@ -239,8 +239,9 @@ const Endpoint = () => {
                 </div>
                 :
                 <div className="endpoint-main">
-                    <Banner image={endpoint.image_url} margin={"150px"}/>
+                    <Banner image={endpoint.image_url} margin={150} />
                     <div className="endpoint-body container">
+                        <h1 className="endpoint-title">{endpoint.title} API</h1>
                         <div className="description-container">
                             <div className="urls-container">
                                 <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
@@ -257,12 +258,12 @@ const Endpoint = () => {
                                     </div>
                                 </p>
                             </div>
-                            <div className="title-area">
-                                <h3 className="description-title">
+                            {/* <div className="title-area">
+                                <h2 className="description-title">
                                     Info
-                                </h3>
-                            </div>
-                            <div className="gap">
+                                </h2>
+                            </div> */}
+                            <div className="gap section">
                                 <p className="description-content">
                                     {endpoint.description} <br /><br />
                                 </p>
@@ -270,9 +271,9 @@ const Endpoint = () => {
                         </div>
 
                         <div className="params-container">
-                            <h3 className="params-title title-area">
+                            <h2 className="params-title title-area">
                                 Body Attributes
-                            </h3>
+                            </h2>
                             <div className="table-container">
 
                                 <table className="gap">
@@ -295,9 +296,9 @@ const Endpoint = () => {
                                     }
                                 </table>
                             </div>
-                            <h3 className="params-title title-area">
+                            <h2 className="params-title title-area">
                                 Output Attributes
-                            </h3>
+                            </h2>
                             <div className="table-container">
                                 <table className="gap">
                                     <tr>
@@ -317,9 +318,9 @@ const Endpoint = () => {
                             </div>
 
                             <div className="usage">
-                                <h3 className="title-area">
+                                <h2 className="title-area">
                                     Usage
-                                </h3>
+                                </h2>
                                 <div className="gap">
                                     <p>Create a headers variable with your API key.</p>
                                     <CodeWithHeader codes={codes.create_header} />
@@ -353,9 +354,9 @@ const Endpoint = () => {
                         </div>
 
                         {/* <div className="examples">
-                        <h3 className="title-area">
+                        <h2 className="title-area">
                             Examples
-                            </h3>
+                            </h2>
                         </div> */}
 
 

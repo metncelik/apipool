@@ -22,7 +22,7 @@ const EndpointList = ({ endpoints }) => {
                             />
 
                             <div className="endpoint-info">
-                                <div className="endpoint-title">
+                                <div className="endpoint-info-title">
                                     <div className="endpoint-name">
                                         {endpoint.endpoint_title}
                                     </div>

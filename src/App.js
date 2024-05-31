@@ -18,6 +18,8 @@ import { ConsoleProvider } from './contexts/ConsoleContext';
 import VerifyEmail from './views/VerifyEmail';
 import { SnackbarProvider } from 'notistack';
 import { ModalProvider } from './contexts/ModalContext';
+import TermsOfService from './views/TermsOfService';
+import PrivacyPolicy from './views/PrivacyPolicy';
 
 function App() {
   return (
@@ -45,6 +47,8 @@ function App() {
                 <Console />
               </ConsoleProvider>
             } />
+            <Route exact path='/terms-of-service' element={<TermsOfService/>}/>
+            <Route exact path='/privacy-policy' element={<PrivacyPolicy/>}/>
             <Route exact path='*' element={<NotFound />} />
           </Routes>
           <footer>

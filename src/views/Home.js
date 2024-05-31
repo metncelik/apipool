@@ -59,30 +59,31 @@ const Home = () => {
         };
     }, [animate]);
 
+    const getData = async () => {
+        try {
+            setIsPending(true);
+            const response = await axiosPrivate("/endpoints?limit=8&offset=0");
+            setEndpoints(response.data?.endpoints);
+            setIsPending(false);
+        } catch (error) {
+            setIsPending(false);
+        }
+    };
 
     useEffect(() => {
-        const getData = async () => {
-            try {
-                setIsPending(true);
-                const response = await axiosPrivate("/endpoints?limit=8&offset=0");
-                setEndpoints(response.data?.endpoints);
-                setIsPending(false);
-            } catch (error) {
-                setIsPending(false);
-            }
-        };
+        window.scrollTo(0, 0);
         getData();
     }, []);
 
     return (
         <div className="home">
-            <Banner color="#3c23b8"/>
+            <Banner color="#3c23b8" />
             <div className='hero-container'>
                 <div className="home-banner">
                     <div className="home-title-container">
-                        <h2 className='home-title' >
+                        <h1 className='home-title' >
                             Empower Your Apps with AI
-                        </h2>
+                        </h1>
                         <div id='logo-wrapper' style={{ transform: `rotate(${angle}deg)`, opacity: opacity, transition: '1s' }}>
                             <HeroLogo />
                         </div>
@@ -91,21 +92,21 @@ const Home = () => {
 
                     <ul className='home-list'>
                         <li className='home-list-item home-list-item-2'>
-                            <h3 className='home-list-item-title'>
+                            <h2 className='home-list-item-title'>
                                 Pay As You Go
-                            </h3>
+                            </h2>
                             <p className='home-list-description'>With our API services, you'll enjoy the flexibility of paying based on your actual usage. No upfront costs or hidden fees.</p>
                         </li>
                         <li className='home-list-item'>
-                            <h3 className='home-list-item-title'>
+                            <h2 className='home-list-item-title'>
                                 Wide Range of APIs
-                            </h3>
+                            </h2>
                             <p className='home-list-description'>Explore a diverse set of endpoints tailored to your needs. Our API offers a comprehensive range of AI endpoints to choose from.</p>
                         </li>
                         <li className='home-list-item'>
-                            <h3 className='home-list-item-title'>
+                            <h2 className='home-list-item-title'>
                                 No Setup Required
-                            </h3>
+                            </h2>
                             <p className='home-list-description'>Our API services are designed for effortless integration, allowing you to get started without any hassle.</p>
                         </li>
                     </ul>

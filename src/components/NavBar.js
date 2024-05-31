@@ -21,7 +21,7 @@ const NavBar = () => {
     console.log(location.pathname);
 
     useEffect(() => {
-        if (['/sign-up', '/console', '/login', '/reset-password'].includes(location.pathname)) setStickyNavbar(true)
+        if (['/sign-up', '/console', '/login', '/reset-password', '/terms-of-service', '/privacy-policy'].includes(location.pathname)) setStickyNavbar(true)
         else setStickyNavbar(false);
     }, [location.pathname])
 
@@ -30,9 +30,9 @@ const NavBar = () => {
             <nav className={`navbar ${stickyNavbar ? 'navbar-sticky' : 'navbar-fixed' }`}>
                 <div className="title-menu">
                     <Link style={{ textDecoration: 'none' }} to={"/"} className="title-container">
-                        <h1 className='title'>
+                        <div className='title'>
                             API <span className='pool'>POOL</span>
-                        </h1>
+                        </div>
                     </Link>
 
                     <div onClick={menuClickHandler} className='navbar-menu'>

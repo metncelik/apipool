@@ -25,6 +25,7 @@
   border-radius: 5rem;
   padding: 0px 20px;
   transition: none;
+  background-color: transparent;
 }
 
 .navbar-sticky {
@@ -40,10 +41,10 @@
 .navbar-fixed {
   margin-top: 20px;
   justify-content: space-between;
-  background-color: #00000084;
+  background-color: #000000ac;
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.188);
-  min-width: 30vw;
+  min-width: 32vw;
 }
 
 .title-menu {

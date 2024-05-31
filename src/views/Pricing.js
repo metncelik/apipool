@@ -1,11 +1,16 @@
+import { useEffect } from 'react';
 import Banner from '../components/Banner';
 import '../styles/views/Pricing.css'
 
 const Pricing = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <div className="pricing-main">
             <Banner color="green"/>
-            <h2 className='pricing-title'>Pricing</h2>
+            <h1 className='pricing-title'>Pricing</h1>
             <p className='pricing-description'>Pay as you go and use as much as you want. Our flexible pricing options allow you to scale your usage based on your needs.</p>
             <div className='table-container'>
                 <table className='pricing-table'>
