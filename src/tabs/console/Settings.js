@@ -44,7 +44,7 @@ const Settings = () => {
   }, [consoleState]);
 
   const methodComponents = {
-    // "Google": <AddGoogleAuthButton />,
+    "Google": <AddGoogleAuthButton />,
     "Github": <AddGithubAuthButton />,
     "Email": <AddEmailAuthForm updateAuthMethods={getAuthMethods} />
   }

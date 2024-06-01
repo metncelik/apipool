@@ -10,7 +10,7 @@ const LogIn = () => {
                 </h1>
                 <LoginWithEmail />
                 <br />
-                {/* <GoogleAuthButton method={"login"} /> */}
+                <GoogleAuthButton method={"login"} />
                 <GithubAuthButton method={"login"} />
             </div>
         </div>

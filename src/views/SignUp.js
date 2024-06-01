@@ -13,7 +13,7 @@ const SignUp = () => {
                 </h1>
                 <SignUpWithEmail />
                 <br />
-                {/* <GoogleAuthButton method={"sign-up"} /> */}
+                <GoogleAuthButton method={"sign-up"} />
                 <GithubAuthButton method={"sign-up"} />
                 <br />
                 <p className='sign-up-info'>By signing up, you are accepting our 

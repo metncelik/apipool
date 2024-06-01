@@ -2,11 +2,7 @@ import '../../styles/tabs/console/Insights.css';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useEffect, useState } from 'react';
 import Loading from '../../components/Loading';
-import { FaRegCopy } from "react-icons/fa";
-import { MdDeleteOutline } from "react-icons/md";
-import PopupModule from '../../components/Modal';
 import useConsoleState from '../../hooks/useConsoleState';
-
 
 const Insights = () => {
     const axiosPrivate = useAxiosPrivate();
@@ -62,7 +58,7 @@ const Insights = () => {
                                 <td><p style={{ color: statusColors[request.status] || "#BCD7D7" }}>{new Date() - new Date(request.started_at) > 10 * 60 * 1000 && !request.finished_at ? "UNKNOWN" : request.status}</p></td>
                                 <td>{Math.floor(request.execution_time / 1000) || "-"}</td>
                                 <td>{Math.floor(request.delay_time / 1000) || "-"}</td>
-                                <td>{request.api_title}</td>
+                                <td>{request.api_key_title}</td>
                                 <td>{request.api_title}</td>
                             </tr>
                         ))
