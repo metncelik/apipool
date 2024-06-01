@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import useAuth from "../hooks/useAuthState";
 import Loading from "../components/Loading";
 import "../styles/views/Oauth.css";
 import useAxiosAuth from "../hooks/useAxiosAuth";
-import { enqueueSnackbar, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 
 const Oauth = () => {
     const { provider, method } = useParams();
@@ -12,20 +12,20 @@ const Oauth = () => {
     const { setAuth } = useAuth();
     const [isPending, setIsPending] = useState(true);
     const axiosAuth = useAxiosAuth();
-    const {endqueueSnackbar} = useSnackbar();
+    const {enqueueSnackbar} = useSnackbar();
+    const [searchParams] = useSearchParams()
 
     useEffect(() => {
         const authorize = async () => {
             setIsPending(true);
-            const params = new URLSearchParams(window.location.search);
-            if (params.includes('error_description')) {
-                enqueueSnackbar(params.get('error_description'), { variant: "error" });
+            if (searchParams.has('error_description')) {
+                enqueueSnackbar(searchParams.get('error_description'), { variant: "error" });
                 return navigate("/login");
             }
-            if (!params.includes("code"))
+            if (!searchParams.has("code"))
                 return navigate("/login");
 
-            const code = params.get('code');
+            const code = searchParams.get('code');
 
             const body = { code };
             const response = await axiosAuth.post(`/${provider}/${method}`, body);

@@ -8,7 +8,7 @@ const RefundPolicy = () => {
 
     return (
         <div className="legal rp-container">
-            <Banner color="green"/>
+            <Banner color="grey"/>
             <h1>API POOL - Refund Policy</h1>
 
             <h2>1. Introduction</h2>
