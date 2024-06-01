@@ -59,7 +59,7 @@ const Insights = () => {
                         {consoleState.requests?.map((request, index) => (
                             <tr key={`row${index}`}>
                                 <td>{(new Date(request.started_at)).toLocaleTimeString()}</td>
-                                <td><p style={{ color: statusColors[request.status] || "#BCD7D7" }}>{request.status}</p></td>
+                                <td><p style={{ color: statusColors[request.status] || "#BCD7D7" }}>{new Date() - new Date(request.started_at) > 10 * 60 * 1000 && !request.finished_at ? "UNKNOWN" : request.status}</p></td>
                                 <td>{Math.floor(request.execution_time / 1000) || "-"}</td>
                                 <td>{Math.floor(request.delay_time / 1000) || "-"}</td>
                                 <td>{request.api_title}</td>

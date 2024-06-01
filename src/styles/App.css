@@ -147,7 +147,7 @@ button:active {
 
 .table-container {
   margin-top: 20px;
-  overflow-x: scroll;
+  overflow-x: auto;
   display: flex;
   flex-direction: row;
 }

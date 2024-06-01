@@ -49,7 +49,7 @@ const LoginWithEmail = () => {
     };
 
     const handleForgatPassword = async () => {
-        enqueueSnackbar("Verify Email sending...", { variant: "info" });
+        enqueueSnackbar("Password Reset Email sending...", { variant: "info" });
         const response = await axiosAuth.post("/email/reset-password/send", { email });
         if (!response) return;
         setMailForgat(false);

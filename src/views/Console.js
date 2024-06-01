@@ -125,13 +125,13 @@ const Console = () => {
         <div className="tab-view">
           <div className="tab-view-header">
             <div className="info">
-              <p>E-mail:</p>
+              {/* <p>E-mail:</p> */}
               <div className="value">
                 {consoleState.user?.email}
               </div>
             </div>
             <div className="info">
-              <p>Balance:</p>
+              {/* <p>Balance:</p> */}
               <div className="value">
                 {parseFloat(consoleState.user?.balance).toFixed(2)}$
               </div>

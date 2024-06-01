@@ -14,9 +14,7 @@ const NavBar = () => {
     const menuClickHandler = () => {
         setIsVisible(!isVisible);
     }
-
-    console.log(location.pathname);
-
+    
     useEffect(() => {
         if (['/sign-up', '/console', '/login', '/reset-password', '/terms-of-service', '/privacy-policy', '/refund-policy'].includes(location.pathname)) setStickyNavbar(true)
         else setStickyNavbar(false);
