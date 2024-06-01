@@ -18,10 +18,10 @@ const Oauth = () => {
     useEffect(() => {
         const authorize = async () => {
             setIsPending(true);
-            if (searchParams.has('error_description')) {
+            if (method == error && searchParams.has('error_description')) {
                 enqueueSnackbar(searchParams.get('error_description'), { variant: "error" });
                 return navigate("/login");
-            }
+            } else if (method == error) return;
             if (!searchParams.has("code"))
                 return navigate("/login");
 
