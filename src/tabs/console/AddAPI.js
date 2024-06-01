@@ -1,4 +1,4 @@
-import '../../styles/tabs/console/AddEndpoint.css'
+import '../../styles/tabs/console/AddAPI.css'
 import ToggleButton from '../../components/ToggleButton';
 import { useState } from 'react';
 import { BsFillLockFill, BsFillUnlockFill } from "react-icons/bs";
@@ -6,7 +6,7 @@ import { MdOutlineClose } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 
 
-const AddEndpoint = () => {
+const AddAPI = () => {
     const [isPublic, setIsPublic] = useState(false);
 
     const handleSubmit = (e) => {
@@ -34,8 +34,8 @@ const AddEndpoint = () => {
     }
 
     return (
-        <div className="add-endpoint container">
-            <form className='add-endpoint-form' onSubmit={handleSubmit}>
+        <div className="add-api container">
+            <form className='add-api-form' onSubmit={handleSubmit}>
 
                 <div className="form-element">
                     <input className='console-input' type="text" id="name" name="name" placeholder="Name *" />
@@ -60,7 +60,7 @@ const AddEndpoint = () => {
                 </div>
                 <div className="form-element">
                     <ToggleButton
-                        text="Public Endpoint: "
+                        text="Public API: "
                         defaultState={isPublic}
                         stateSetter={setIsPublic}
                         icons={[<BsFillUnlockFill size={10} />, <BsFillLockFill size={10} />]}
@@ -70,11 +70,11 @@ const AddEndpoint = () => {
 
                 <h3>ENDPOINTS</h3>
 
-                <div className="endpoints-row">
-                    <div className="endpoint-chip">
+                <div className="apis-row">
+                    <div className="api-chip">
                         end
                     </div>
-                    <div className="endpoint-chip">
+                    <div className="api-chip">
                         end2
                     </div>
                 </div>
@@ -134,14 +134,14 @@ const AddEndpoint = () => {
                     <button>Add Output</button>
                 </div>
                 <div className="form-element">
-                    <button>Add Endpoint</button>
+                    <button>Add API</button>
                 </div>
                 <div className="form-element">
-                    <button type="submit">Submit Endpoint</button>
+                    <button type="submit">Submit API</button>
                 </div>
             </form>
         </div>
     );
 };
 
-export default AddEndpoint;
+export default AddAPI;

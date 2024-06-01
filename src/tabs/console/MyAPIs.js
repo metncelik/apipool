@@ -1,64 +1,64 @@
 import { useEffect, useState } from 'react';
 import useConsoleState from '../../hooks/useConsoleState';
-import '../../styles/tabs/console/MyEndpoints.css'
+import '../../styles/tabs/console/MyAPIs.css'
 // import { CgAddR } from "react-icons/cg";
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 // import Loading from '../../components/Loading';
 import { MdDeleteOutline, MdEdit } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
-const MyEndpoints = () => {
+const MyAPIs = () => {
     const [consoleState, setConsoleState] = useConsoleState();
     const axiosPrivate = useAxiosPrivate();
     const [isPending, setIsPending] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const getMyEndpoints = async () => {
-        const response = await axiosPrivate.get(`/endpoints/my-endpoints`);
+    const getMyAPIs = async () => {
+        const response = await axiosPrivate.get(`/apis/my-apis`);
         if (!response || response.errorMessage) {
             setIsPending(false);
             setErrorMessage(response.errorMessage);
             return;
         }
         setIsPending(false);
-        setConsoleState({ ...consoleState, endpoints: response.data?.endpoints });
+        setConsoleState({ ...consoleState, apis: response.data?.apis });
     }
 
     useEffect(() => {
-        if (consoleState.endpoints) return setIsPending(false);
-        getMyEndpoints();
+        if (consoleState.apis) return setIsPending(false);
+        getMyAPIs();
     }, [consoleState]);
 
     return (
-        <div className="my-endpoints container">
-            {/* <button className="add-endpoint" onClick={() => {
+        <div className="my-apis container">
+            {/* <button className="add-api" onClick={() => {
                 setSearchParams({ "tab": parseInt(searchParams.get("tab")) + 1 });
             }}>
                 <span className='button-label'>
                     <CgAddR size={20} />
                     &nbsp;
-                    Add Endpoint
+                    Add API
                 </span>
             </button> */}
             {errorMessage && <div className='error-message'>{errorMessage}</div>}
-            {consoleState.endpoints ?
-                <table className='console-table endpoints-table'>
+            {consoleState.apis ?
+                <table className='console-table apis-table'>
                     <tr>
-                        <th>Endpoint Name</th>
-                        <th>Endpoint Alias</th>
+                        <th>API Name</th>
+                        <th>API Alias</th>
                         <th>Visibility</th>
                         <th>Created</th>
                         <th>Actions</th>
                     </tr>
 
-                    {consoleState.endpoints.map((endpoint, index) => {
+                    {consoleState.apis.map((api, index) => {
                         return (
                             <tr key={index}>
-                                <td>{endpoint.title}</td>
-                                <td>{endpoint.alias}</td>
-                                <td>{endpoint.is_public ? "PUBLIC" : "PRIVATE"}</td>
-                                <td>{(new Date(endpoint.created_at)).toLocaleDateString('en-GB')}</td>
+                                <td>{api.title}</td>
+                                <td>{api.alias}</td>
+                                <td>{api.is_public ? "PUBLIC" : "PRIVATE"}</td>
+                                <td>{(new Date(api.created_at)).toLocaleDateString('en-GB')}</td>
                                 <td className='table-actions'>
                                     <button className='edit-button'>
                                         <MdEdit size={20} />
@@ -71,11 +71,11 @@ const MyEndpoints = () => {
                         )
                     })}
                 </table>
-                : <div className='no-endpoints'>No endpoints found</div>
+                : <div className='no-apis'>No apis found</div>
             }
 
         </div>
     );
 };
 
-export default MyEndpoints;
+export default MyAPIs;

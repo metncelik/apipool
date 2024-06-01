@@ -2,13 +2,13 @@ import './styles/App.css'
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import Home from './views/Home';
-import Endpoints from './views/Endpoints';
+import APIs from './views/APIs';
 import Pricing from './views/Pricing';
 import Blogs from './views/Blogs';
 import SignUp from './views/SignUp';
 import LogIn from './views/LogIn';
 import Console from "./views/Console";
-import Endpoint from "./views/Endpoint";
+import API from "./views/API";
 import NotFound from './views/NotFound';
 import ResetPassword from './views/ResetPassword';
 import Oauth from './views/Oauth';
@@ -34,12 +34,12 @@ function App() {
           </header>
           <Routes>
             <Route index element={<Home />} />
-            <Route path='endpoints' element={<Endpoints />} />
+            <Route path='apis' element={<APIs />} />
             <Route exact path='/pricing' element={<Pricing />} />
             <Route exact path='/blogs' element={<Blogs />} />
             <Route exact path='/sign-up' element={<SignUp />} />
             <Route exact path='/login' element={<LogIn />} />
-            <Route exact path='/endpoint/:alias' element={<Endpoint />} />
+            <Route exact path='/api/:alias' element={<API />} />
             <Route exact path='/oauth/:provider/:method' element={<Oauth />} />
             <Route exact path='/reset-password' element={<ResetPassword />} />
             <Route exact path='/verify-email' element={<VerifyEmail />} />

@@ -56,14 +56,14 @@ const Console = () => {
       active: true
     },
     {
-      name: "My Endpoints",
+      name: "My APIs",
       component: null,
       icon: <BsFilesAlt />,
       active: false
     },
     // {
-    //   name: "Add Endpoint",
-    //   component: <AddEndpoint />,
+    //   name: "Add API",
+    //   component: <AddAPI />,
     //   icon: <CgAddR />
     // },
     // {

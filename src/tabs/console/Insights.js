@@ -51,7 +51,7 @@ const Insights = () => {
                             <th>Execution (sec.)</th>
                             <th>Delay (sec.)</th>
                             <th>API Key</th>
-                            <th>Endpoint</th>
+                            <th>API</th>
                         </tr>
 
 
@@ -63,7 +63,7 @@ const Insights = () => {
                                 <td>{Math.floor(request.execution_time / 1000) || "-"}</td>
                                 <td>{Math.floor(request.delay_time / 1000) || "-"}</td>
                                 <td>{request.api_title}</td>
-                                <td>{request.endpoint_title}</td>
+                                <td>{request.api_title}</td>
                             </tr>
                         ))
                         }

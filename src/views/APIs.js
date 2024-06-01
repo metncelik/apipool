@@ -1,13 +1,13 @@
-import '../styles/views/Endpoints.css';
-import EndpointList from '../components/EndpointList';
+import '../styles/views/APIs.css';
+import APIList from '../components/APIList';
 import { useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 import { AiOutlineSearch } from 'react-icons/ai';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Banner from '../components/Banner';
 
-const Endpoints = () => {
-    const [endpoints, setEndpoints] = useState([])
+const APIs = () => {
+    const [apis, setAPIs] = useState([])
     const [isPending, setIsPending] = useState(false)
     const axiosPrivate = useAxiosPrivate();
     const [offset, setOffset] = useState(0);
@@ -18,44 +18,44 @@ const Endpoints = () => {
     const [searchQuery, setSearchQuery] = useState("")
 
 
-    const getEndpoints = async () => {
+    const getAPIs = async () => {
         const limit = 8;
         setIsPending(true);
-        const response = await axiosPrivate(`/endpoints?limit=${limit}&offset=${offset}`);
+        const response = await axiosPrivate(`/apis?limit=${limit}&offset=${offset}`);
         setIsPending(false);
         if (!response) return;
-        const newEndpoints = response.data?.endpoints;
+        const newAPIs = response.data?.apis;
 
-        if (newEndpoints.length < limit) {
+        if (newAPIs.length < limit) {
             setIsEnd(true);
-            if (newEndpoints.length === 0) return;
+            if (newAPIs.length === 0) return;
         }
-        setEndpoints(endpoints.concat(newEndpoints));
+        setAPIs(apis.concat(newAPIs));
         setOffset(response.data.lastOffset);
     };
 
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        getEndpoints();
+        getAPIs();
     }, []);
 
     const search = async (e) => {
         e.preventDefault();
         setIsPending(true);
         if (searchQuery === "") return;
-        const response = await axiosPrivate(`/endpoints/query-alias?alias=${searchQuery}`);
+        const response = await axiosPrivate(`/apis/query-alias?alias=${searchQuery}`);
         setIsPending(false);
         if (!response) return;
-        setEndpoints(response.data?.endpoints);
+        setAPIs(response.data?.apis);
         setSearchQuery("");
     }
 
     return (
-        <div className='endpoints-main'>
+        <div className='apis-main'>
             <Banner color="#3c23b8"/>
             <div>
-                <div className="all-endpoints-header">
+                <div className="all-apis-header">
 
                     <div className="categories">
                         {/* {categories.map((category, index) => (
@@ -69,7 +69,7 @@ const Endpoints = () => {
                     </div>
 
                     <form className="search-container" onSubmit={search}>
-                        <input type="text" placeholder="endpoint id..." value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} />
+                        <input type="text" placeholder="api id..." value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} />
                         <button type="submit" className="search-button">
                             <AiOutlineSearch size={25} style={{ paddingTop: '5px', fill: 'cadetblue' }} />
                         </button>
@@ -79,10 +79,10 @@ const Endpoints = () => {
                     {isPending ?
                         <Loading />
                         :
-                        <EndpointList endpoints={endpoints} />
+                        <APIList apis={apis} />
                     }
                     {!isEnd &&
-                        (<button className="load-more-button" onClick={getEndpoints}>
+                        (<button className="load-more-button" onClick={getAPIs}>
                             Load More...
                         </button>)
                     }
@@ -92,4 +92,4 @@ const Endpoints = () => {
     );
 }
 
-export default Endpoints;
+export default APIs;

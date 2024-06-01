@@ -12,19 +12,19 @@
     line-height: 10.5;
 }
 
-.add-endpoint-form {
+.add-api-form {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
 }
 
-.add-endpoint-form label {
+.add-api-form label {
     margin-bottom: 10px;
     color: rgba(255, 255, 255, 0.637);
 }
 
-.endpoints-row {
+.apis-row {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -32,7 +32,7 @@
     flex-wrap: wrap;
 }
 
-.endpoint-chip {
+.api-chip {
     margin-right: 10px;
     margin-bottom: 10px;
     background-color: aqua;
@@ -42,11 +42,11 @@
     cursor: pointer;
 }
 
-.selected-endpoint-chip {
+.selected-api-chip {
     background-color: aliceblue;
 
 }
 
-.endpoint-chip:hover {
+.api-chip:hover {
     background-color: aliceblue;
 }

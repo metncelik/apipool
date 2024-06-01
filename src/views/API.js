@@ -1,5 +1,5 @@
 import Banner from "../components/Banner";
-import '../styles/views/Endpoint.css'
+import '../styles/views/API.css'
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { stackoverflowDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ const Code = ({ code }) => {
     )
 }
 
-const getCodes = (endpointAlias) => {
+const getCodes = (apiAlias) => {
     return {
         "create_header": {
             "Python": "headers = {\n\t\"Authorization\": \"Bearer API_KEY\", #Get your api key from console\n}\n",
@@ -32,14 +32,14 @@ const getCodes = (endpointAlias) => {
         },
         "make_request": {
             "Python": "import requests\n\n" +
-                `url = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias}" \n\n` +
+                `url = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias}" \n\n` +
                 "headers = headers \n" +
                 "body = body \n\n" +
                 "response = requests.post(url, headers=headers, json=body)\n" +
                 "print(response.text)",
 
             "JavaScript": "const axios = require(\"axios\");\n\n" +
-                `const url = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias}";  \n\n` +
+                `const url = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias}";  \n\n` +
                 "const headers = headers  \n" +
                 "const body = body  \n\n" +
                 "axios.post(url, body, { headers })\n" +
@@ -56,7 +56,7 @@ const getCodes = (endpointAlias) => {
                 "\t\"net/http\"\n" +
                 ")\n\n" +
                 "func main() {\n" +
-                `\turl := "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias}"  \n\n` +
+                `\turl := "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias}"  \n\n` +
                 "\theaders := headers  \n" +
                 "\tbody := body  \n\n" +
                 "\treq, err := http.NewRequest(\"POST\", url, bytes.NewBuffer(body))\n" +
@@ -76,7 +76,7 @@ const getCodes = (endpointAlias) => {
                 "}",
 
             "PHP":
-                `$url = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias}";  \n\n` +
+                `$url = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias}";  \n\n` +
                 "$headers = headers;  \n" +
                 "$body = body;  \n\n" +
                 "$ch = curl_init($url);\n" +
@@ -93,7 +93,7 @@ const getCodes = (endpointAlias) => {
             "Python":
                 "import requests\n" +
                 "import time\n" +
-                `\nid = "id"  # Replace with job id\nfetch_url = f"${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/{id}"\n\n` +
+                `\nid = "id"  # Replace with job id\nfetch_url = f"${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias + "/status"}/{id}"\n\n` +
                 "for _ in range(5):\n" +
                 "\tresponse = requests.get(fetch_url)\n" +
                 "\tdata = response.json()\n" +
@@ -103,7 +103,7 @@ const getCodes = (endpointAlias) => {
                 "\ttime.sleep(10)\n",
             "JavaScript": "const axios = require(\"axios\");\n" +
                 "\n" +
-                `\nconst id = "id"  // Replace with job id\nconst fetchUrl = \`${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/\${id}\`;\n\n` +
+                `\nconst id = "id"  // Replace with job id\nconst fetchUrl = \`${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias + "/status"}/\${id}\`;\n\n` +
                 "for (let i = 0; i < 5; i++) {\n" +
                 "\ttry {\n" +
                 "\t\tconst response = await axios.get(fetchUrl);\n" +
@@ -127,7 +127,7 @@ const getCodes = (endpointAlias) => {
                 ")\n" +
                 "\n" +
                 "func main() {\n" +
-                `\n\tid := "id"  // Replace with job id\n\tfetchUrl := "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/" + id\n\n` +
+                `\n\tid := "id"  // Replace with job id\n\tfetchUrl := "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias + "/status"}/" + id\n\n` +
                 "\tfor i := 0; i < 5; i++ {\n" +
                 "\t\tresp, err := http.Get(fetchUrl)\n" +
                 "\t\tif err != nil {\n" +
@@ -151,7 +151,7 @@ const getCodes = (endpointAlias) => {
                 "\t\ttime.Sleep(10 * time.Second)\n" +
                 "\t}\n" +
                 "}\n",
-            "PHP": `$id = "id";  // Replace with job id\n$fetchUrl = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpointAlias + "/status"}/" . $id;\n\n` +
+            "PHP": `$id = "id";  // Replace with job id\n$fetchUrl = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias + "/status"}/" . $id;\n\n` +
                 "for ($i = 0; $i < 5; $i++) {\n" +
                 "\t$ch = curl_init(fetchUrl);\n" +
                 "\tcurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n" +
@@ -172,9 +172,9 @@ const getCodes = (endpointAlias) => {
     }
 }
 
-const Endpoint = () => {
+const API = () => {
     const { alias } = useParams()
-    const [endpoint, setEndpoint] = useState()
+    const [api, setAPI] = useState()
     const [codes, setCodes] = useState(null)
     const [isPending, setIsPending] = useState(true)
     const [selectedLanguage, setSelectedLanguage] = useState("Python");
@@ -183,12 +183,12 @@ const Endpoint = () => {
     useEffect(() => {
         const getData = async () => {
             setIsPending(true);
-            const response = await axiosPrivate("/endpoints/by-alias/" + alias);
+            const response = await axiosPrivate("/apis/by-alias/" + alias);
             setIsPending(false);
             if (!response) return;
-            const endpointData = response.data.endpoint;
-            setEndpoint(endpointData);
-            setCodes(getCodes(endpointData.alias));
+            const apiData = response.data.api;
+            setAPI(apiData);
+            setCodes(getCodes(apiData.alias));
         };
         getData();
     }, [alias]);
@@ -238,23 +238,23 @@ const Endpoint = () => {
                     <Loading />
                 </div>
                 :
-                <div className="endpoint-main">
-                    <Banner image={endpoint.image_url} margin={150} />
-                    <div className="endpoint-body container">
-                        <h1 className="endpoint-title">{endpoint.title} API</h1>
+                <div className="api-main">
+                    <Banner image={api.image_url} margin={150} />
+                    <div className="api-body container">
+                        <h1 className="api-title">{api.title} API</h1>
                         <div className="description-container">
                             <div className="urls-container">
                                 <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
                                     <div className="url-row">
-                                        <div className="endpoint-label">POST</div> &nbsp;
-                                        <p className="endpoint-url" id="fetch-url">{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpoint.alias}</p>
+                                        <div className="api-label">POST</div> &nbsp;
+                                        <p className="api-url" id="fetch-url">{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + api.alias}</p>
                                     </div>
 
                                 </p>
                                 <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
                                     <div className="url-row">
-                                        <div className="endpoint-label">GET</div> &nbsp;
-                                        <p className="endpoint-url" id="get-url">{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + endpoint.alias + "/status/:id"}</p>
+                                        <div className="api-label">GET</div> &nbsp;
+                                        <p className="api-url" id="get-url">{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + api.alias + "/status/:id"}</p>
                                     </div>
                                 </p>
                             </div>
@@ -265,7 +265,7 @@ const Endpoint = () => {
                             </div> */}
                             <div className="gap section">
                                 <p className="description-content">
-                                    {endpoint.description} <br /><br />
+                                    {api.description} <br /><br />
                                 </p>
                             </div>
                         </div>
@@ -284,11 +284,11 @@ const Endpoint = () => {
                                         <th>Default</th>
                                         <th>Description</th>
                                     </tr>
-                                    {endpoint.inputs.map((param, index) => (
+                                    {api.inputs.map((param, index) => (
                                         <tr>
                                             <td>{param.title}</td>
                                             <td>{param.type}</td>
-                                            <td>{param.is_required ? "yes" : "no"}</td>
+                                            <td>{param.is_required !== null ? param.is_required.toString() : "-"}</td>
                                             <td>{param.default_value || "-"}</td>
                                             <td className="left-align">{param.description}</td>
                                         </tr>
@@ -306,7 +306,7 @@ const Endpoint = () => {
                                         <th>Type</th>
                                         <th>Description</th>
                                     </tr>
-                                    {endpoint.outputs.map((param, index) => (
+                                    {api.outputs.map((param, index) => (
                                         <tr key={`output-param${index}`}>
                                             <td>{param.title}</td>
                                             <td>{param.type || "-"}</td>
@@ -328,7 +328,7 @@ const Endpoint = () => {
                                     <p>Create a request body with the parameters in the table above.</p>
                                     <CodeWithHeader codes={codes.create_body} />
                                     <br />
-                                    <p>Make a <span className="method-name">POST</span> request to the Endpoint URL with the header and body.
+                                    <p>Make a <span className="method-name">POST</span> request to the API URL with the header and body.
                                         {false &&
                                             <span> It will return the output.</span>
                                         }
@@ -367,4 +367,4 @@ const Endpoint = () => {
     );
 }
 
-export default Endpoint;
+export default API;

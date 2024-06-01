@@ -38,7 +38,7 @@ const NavBar = () => {
                 </div>
 
                 <div className={`navbar-list ${isVisible ? 'visible' : ''}`}>
-                    <NavLink onClick={() => { setIsVisible(!isVisible); }} to="endpoints" className='nav-link'>Endpoints</NavLink>
+                    <NavLink onClick={() => { setIsVisible(!isVisible); }} to="apis" className='nav-link'>APIs</NavLink>
                     <NavLink onClick={() => { setIsVisible(!isVisible); }} to="pricing" className='nav-link'>Pricing</NavLink>
                     {!auth.isLoggedIn ?
                         <>

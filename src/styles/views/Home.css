@@ -78,19 +78,19 @@
   color: #e8f4f692;
 }
 
-.latest-endpoints-header {
+.latest-apis-header {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   padding: 20px 12%;
 }
 
-.all-endpoints-icon {
+.all-apis-icon {
   padding-top: 3px;
 }
 
 @media screen and (max-width: 768px) {
-  .latest-endpoints-title {
+  .latest-apis-title {
     visibility: hidden;
   }
 

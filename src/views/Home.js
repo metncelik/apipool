@@ -1,5 +1,5 @@
 import '../styles/views/Home.css'
-import EndpointList from "../components/EndpointList";
+import APIList from "../components/APIList";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -10,7 +10,7 @@ import HeroLogo from '../components/HeroLogo';
 import Banner from '../components/Banner';
 
 const Home = () => {
-    const [endpoints, setEndpoints] = useState([])
+    const [apis, setAPIs] = useState([])
     const [angle, setAngle] = useState(0);
     const [opacity, setOpacity] = useState(0.6);
     const [isPending, setIsPending] = useState(true)
@@ -62,8 +62,8 @@ const Home = () => {
     const getData = async () => {
         try {
             setIsPending(true);
-            const response = await axiosPrivate("/endpoints?limit=8&offset=0");
-            setEndpoints(response.data?.endpoints);
+            const response = await axiosPrivate("/apis?limit=8&offset=0");
+            setAPIs(response.data?.apis);
             setIsPending(false);
         } catch (error) {
             setIsPending(false);
@@ -101,7 +101,7 @@ const Home = () => {
                             <h2 className='home-list-item-title'>
                                 Wide Range of APIs
                             </h2>
-                            <p className='home-list-description'>Explore a diverse set of endpoints tailored to your needs. Our API offers a comprehensive range of AI endpoints to choose from.</p>
+                            <p className='home-list-description'>Explore a diverse set of apis tailored to your needs. Our API offers a comprehensive range of AI apis to choose from.</p>
                         </li>
                         <li className='home-list-item'>
                             <h2 className='home-list-item-title'>
@@ -113,16 +113,16 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="latest-endpoints-header">
-                <Link to={"endpoints"} className='label-link'>
-                    See All Endpoints
-                    <MdKeyboardArrowRight size={20} className='all-endpoints-icon' />
+            <div className="latest-apis-header">
+                <Link to={"apis"} className='label-link'>
+                    See All APIs
+                    <MdKeyboardArrowRight size={20} className='all-apis-icon' />
                 </Link>
             </div>
             {isPending ?
                 <Loading />
                 :
-                <EndpointList endpoints={endpoints} />
+                <APIList apis={apis} />
             }
         </div>
     );
