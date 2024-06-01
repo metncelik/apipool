@@ -5,6 +5,7 @@ import Loading from '../components/Loading';
 import { AiOutlineSearch } from 'react-icons/ai';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Banner from '../components/Banner';
+import { useSearchParams } from 'react-router-dom';
 
 const APIs = () => {
     const [apis, setAPIs] = useState([])
@@ -16,6 +17,7 @@ const APIs = () => {
         // "LLM", "Stable Diffusion", "Image Generation", "Audio Generation", "Video Generation", "Inpainting", "Controlnet", "Super Resolution", "Face Enhancing", "Text to Image", "Image to Image", "Image to Text"
     ]
     const [searchQuery, setSearchQuery] = useState("")
+    const [searchParams, setSearchParams] = useSearchParams("")
 
 
     const getAPIs = async () => {
@@ -42,11 +44,12 @@ const APIs = () => {
 
     const search = async (e) => {
         e.preventDefault();
+        if (!searchQuery) return;
         setIsPending(true);
-        if (searchQuery === "") return;
         const response = await axiosPrivate(`/apis/query-alias?alias=${searchQuery}`);
         setIsPending(false);
         if (!response) return;
+        setSearchParams({ "q": searchQuery });
         setAPIs(response.data?.apis);
         setSearchQuery("");
     }
