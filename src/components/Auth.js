@@ -100,7 +100,6 @@ const LoginWithEmail = () => {
 const ResetPasswordForm = () => {
     const [password, setPassword] = useState("");
     const [passwordAgain, setPasswordAgain] = useState("");
-    const { setAuth } = useAuth();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
@@ -174,6 +173,7 @@ const SignUpWithEmail = () => {
 
         if (password != passwordAgain) {
             enqueueSnackbar("Passwords do not match.", { variant: "error" });
+            setIsPending(false);
             return;
         }
 
