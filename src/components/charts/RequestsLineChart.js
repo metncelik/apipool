@@ -10,13 +10,12 @@ const RequestsLineChart = ({ requestsByHour, statuses }) => {
         const hours = getHoursArray();
         const data = hours.map((h, i) => {
             return requestsByHour.find(r => new Date(r.hour).getHours() === h && r.status === status)?.count;
-        }
-        );
+        });
         return data || [];
     };
 
     return (
-        <Line className='chart' data={
+        <Line className='chart' itemType='line' typeof='line' data={
             {
                 labels: getHoursArray(),
                 datasets: [
@@ -25,7 +24,7 @@ const RequestsLineChart = ({ requestsByHour, statuses }) => {
                         data: getTableData("COMPLETED"),
                         borderColor: statuses["COMPLETED"].color,
                         backgroundColor: statuses["COMPLETED"].color,
-                        borderWidth: 2,
+                        borderWidth: 1,
                         fill: false,
                         tension: .5
                     }
@@ -35,7 +34,7 @@ const RequestsLineChart = ({ requestsByHour, statuses }) => {
                         data: getTableData("FAILED"),
                         borderColor: statuses["FAILED"].color,
                         backgroundColor: statuses["FAILED"].color,
-                        borderWidth: 2,
+                        borderWidth: 1,
                         fill: false,
                         tension: .5
                     }

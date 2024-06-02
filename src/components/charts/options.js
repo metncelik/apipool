@@ -1,13 +1,14 @@
 export const options = {
+    responsive: true,
     scales: {
         y: {
             suggestedMin: 0,
+            suggestedMax: 5,
             grid: {
                 color: 'grey',
                 lineWidth: .2,
             },
             ticks: {
-
                 color: 'grey',
                 font: {
                     size: 15,
