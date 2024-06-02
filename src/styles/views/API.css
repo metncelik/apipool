@@ -88,6 +88,10 @@
   width: 100%;
 }
 
+.param-description {
+  min-width: 350px;
+}
+
 .language {
   border-bottom: 1px solid transparent;
   padding: 10px;

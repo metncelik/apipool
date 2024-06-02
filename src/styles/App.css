@@ -153,10 +153,10 @@ button:active {
 }
 
 table {
-  min-width: 50vw;
-  width: max-content;
+  min-width: 60%;
+  /* width: max-content; */
   border-collapse: collapse;
-  margin: 10px 0px;
+  /* margin: 10px 0px; */
 }
 
 th,

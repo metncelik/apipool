@@ -61,8 +61,8 @@
 .apis-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: center;
+    gap: 20px;
     padding-left: 0;
 }
 

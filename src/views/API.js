@@ -278,7 +278,7 @@ const API = () => {
 
                                 <table className="gap">
                                     <tr>
-                                        <th>Parameter</th>
+                                        <th className="left-align">Parameter</th>
                                         <th>Type</th>
                                         <th>Required</th>
                                         <th>Default</th>
@@ -286,11 +286,11 @@ const API = () => {
                                     </tr>
                                     {api.inputs.map((param, index) => (
                                         <tr>
-                                            <td>{param.title}</td>
+                                            <td className="left-align">{param.title}</td>
                                             <td>{param.type}</td>
                                             <td>{param.is_required !== null ? param.is_required.toString() : "-"}</td>
                                             <td>{param.default_value || "-"}</td>
-                                            <td className="left-align">{param.description}</td>
+                                            <td className="left-align param-description">{param.description}</td>
                                         </tr>
                                     ))
                                     }
@@ -302,15 +302,15 @@ const API = () => {
                             <div className="table-container">
                                 <table className="gap">
                                     <tr>
-                                        <th>Parameter</th>
+                                        <th  className="left-align">Parameter</th>
                                         <th>Type</th>
                                         <th>Description</th>
                                     </tr>
                                     {api.outputs.map((param, index) => (
                                         <tr key={`output-param${index}`}>
-                                            <td>{param.title}</td>
+                                            <td className="left-align">{param.title}</td>
                                             <td>{param.type || "-"}</td>
-                                            <td className="left-align">{param.description}</td>
+                                            <td className="left-align param-description">{param.description}</td>
                                         </tr>
                                     ))
                                     }
