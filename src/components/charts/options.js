@@ -47,12 +47,12 @@ export const options = {
     },
     plugins: {
         legend: {
-            display: true,
+            display: document.querySelector("div").clientWidth > 768,
             position: 'bottom',
             labels: {
                 color: 'grey',
                 font: {
-                    size: 14,
+                    size: '15rem',
                     weight: 450,
                     family: "Lexend"
                 }
