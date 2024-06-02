@@ -10,7 +10,7 @@ const TimesBarChart = ({times}) => {
     const getTableData = (dataType) => {
         const hours = getHoursArray();
         const data = hours.map((h, i) => {
-            return times.find(r => new Date(r.hour).getHours() === h.getHours())?.[dataType];
+            return times.find(r => new Date(r.hour).getHours() === h)?.[dataType];
         });
         return data || [];
     }
@@ -18,7 +18,7 @@ const TimesBarChart = ({times}) => {
     return (
         <Bar className='chart bar-chart' data={
             {
-                labels: getHoursArray().map(h => h.getHours()),
+                labels: getHoursArray(),
                 datasets: [
                     {
                         label: 'Execution Time (sec.)',

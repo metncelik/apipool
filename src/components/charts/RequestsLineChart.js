@@ -9,7 +9,7 @@ const RequestsLineChart = ({ requestsByHour, statuses }) => {
     const getTableData = (status) => {
         const hours = getHoursArray();
         const data = hours.map((h, i) => {
-            return requestsByHour.find(r => new Date(r.hour).getHours() === h.getHours() && r.status === status)?.count;
+            return requestsByHour.find(r => new Date(r.hour).getHours() === h && r.status === status)?.count;
         }
         );
         return data || [];
@@ -18,7 +18,7 @@ const RequestsLineChart = ({ requestsByHour, statuses }) => {
     return (
         <Line className='chart' data={
             {
-                labels: getHoursArray().map(h => h.getHours() + ":00"),
+                labels: getHoursArray(),
                 datasets: [
                     {
                         label: 'Successful Requests',

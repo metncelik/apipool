@@ -33,10 +33,7 @@ export const options = {
                     weight: 100,
                     family: "Lexend"
                 },
-                padding: 14,
-                callback: function (value) {
-                    return value % 3 === 0 ? value : null
-                }
+                padding: 14
             }
         }
     },
@@ -83,8 +80,9 @@ export const options = {
                         borderWidth: 0
                     };
                 },
-                
-
+                title: function (context) {
+                    return context[0].label + ':00';
+                }
             },
             enabled: true,
             displayColors: false
