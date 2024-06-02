@@ -42,7 +42,7 @@ const PrivacyPolicy = () => {
             <p>By signing up for an account on API POOL, you acknowledge that you have read, understood, and agree to be bound by this Privacy Policy.</p>
 
             <h2>8. Contact Information</h2>
-            <p>If you have any questions or concerns regarding this Privacy Policy, please contact us at <a href="mailto:support@apipool.com">support@apipool.com</a>.</p>
+            <p>If you have any questions or concerns regarding this Privacy Policy, please contact us at <a href="mailto:contact@apipool.com">contact@apipool.com</a>.</p>
 
             <p>Thank you for using API POOL!</p>
         </div>

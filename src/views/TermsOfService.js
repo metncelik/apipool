@@ -68,7 +68,7 @@ const TermsOfService = () => {
             <p>These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which API POOL operates, without regard to its conflict of law principles.</p>
 
             <h2>13. Contact Information</h2>
-            <p>If you have any questions or concerns regarding these Terms, please contact us at <a href="mailto:support@apipool.com">support@apipool.com</a>.</p>
+            <p>If you have any questions or concerns regarding these Terms, please contact us at <a href="mailto:contact@apipool.com">contact@apipool.com</a>.</p>
 
             <p>By creating and/or using an account on API POOL, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. Thank you for using API POOL!</p>
         </div>

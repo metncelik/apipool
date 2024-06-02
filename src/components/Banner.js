@@ -3,10 +3,10 @@ import '../styles/components/Banner.css'
 const Banner = ({image, color, margin, height}) => {
       const beforeStyle = color && !image ? {
         backgroundColor: color,
-        minHeight: height || 250
       }:  {
         backgroundImage: `url(${image})`
       };
+      beforeStyle.minHeight = height || 250;
       const bannerStyle = {
         height: margin || 0
       }

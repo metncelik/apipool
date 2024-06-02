@@ -15,8 +15,6 @@ const Home = () => {
     const [opacity, setOpacity] = useState(0.6);
     const [isPending, setIsPending] = useState(true)
     const axiosPrivate = useAxiosPrivate();
-    const { auth } = useAuth();
-
     const requestRef = useRef();
 
     const animate = useCallback((time) => {
@@ -77,7 +75,7 @@ const Home = () => {
 
     return (
         <div className="home">
-            <Banner color="#3c23b8" />
+            <Banner color="#3c23b8"/>
             <div className='hero-container'>
                 <div className="home-banner">
                     <div className="home-title-container">

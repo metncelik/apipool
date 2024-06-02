@@ -239,7 +239,7 @@ const API = () => {
                 </div>
                 :
                 <div className="api-main">
-                    <Banner image={api.image_url} margin={150} />
+                    <Banner image={api.image_url} margin={150} height={300}/>
                     <div className="api-body container">
                         <h1 className="api-title">{api.title} API</h1>
                         <div className="description-container">

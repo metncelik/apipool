@@ -37,7 +37,7 @@ const RefundPolicy = () => {
                 <li>Username and email address associated with the account</li>
                 <li>Details of the transaction and the reason for the refund request</li>
             </ul>
-            <p>Submit refund requests to <a href="mailto:support@apipool.com">support@apipool.com</a>. We will review your request and respond within 10 business days.</p>
+            <p>Submit refund requests to <a href="mailto:contact@apipool.com">contact@apipool.com</a>. We will review your request and respond within 10 business days.</p>
 
             <h2>6. Changes to This Refund Policy</h2>
             <p>We reserve the right to update this Refund Policy from time to time. When changes are made, we will notify users by sending an email with the updated Refund Policy. Continued use of the platform following such modifications indicates your acceptance of the new Refund Policy.</p>
@@ -46,7 +46,7 @@ const RefundPolicy = () => {
             <p>By signing up for an account on API POOL, you acknowledge that you have read, understood, and agree to be bound by this Refund Policy.</p>
 
             <h2>8. Contact Information</h2>
-            <p>If you have any questions or concerns regarding this Refund Policy, please contact us at <a href="mailto:support@apipool.com">support@apipool.com</a>.</p>
+            <p>If you have any questions or concerns regarding this Refund Policy, please contact us at <a href="mailto:contact@apipool.com">contact@apipool.com</a>.</p>
 
             <p>Thank you for using API POOL!</p>
         </div>
