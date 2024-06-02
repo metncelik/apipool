@@ -120,7 +120,7 @@ const Home = () => {
             {isPending ?
                 <Loading />
                 :
-                <APIList apis={[...apis, ...apis, ...apis, ...apis, ...apis, ...apis]} />
+                <APIList apis={[...apis]} />
             }
         </div>
     );
