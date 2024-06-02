@@ -11,7 +11,7 @@ import { useSnackbar } from "notistack";
 const Code = ({ code }) => {
     return (
         <div className="code-container">
-            <SyntaxHighlighter style={stackoverflowDark} customStyle={{ padding: "20px" }} language={"JAVASCRIPT"} children={code} className={"code border-radius"} />
+            <SyntaxHighlighter style={stackoverflowDark} customStyle={{ padding: "20px", backgroundColor: "#131a20" }} language={"JAVASCRIPT"} children={code} className={"code border-radius"} />
         </div>
     )
 }
@@ -222,7 +222,7 @@ const API = () => {
                 </div>
                 <SyntaxHighlighter
                     style={stackoverflowDark}
-                    customStyle={{ padding: "15px" }}
+                    customStyle={{ padding: "15px", backgroundColor: "#131a20" }}
                     language={selectedLanguage.toLocaleLowerCase()}
                     children={codes[selectedLanguage]}
                     className={"code"}

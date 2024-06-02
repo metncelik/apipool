@@ -33,15 +33,16 @@
   justify-content: space-between;
   width: 100%;
   border: none;
-  border-bottom: 1px solid rgba(205, 22, 22, 0.188);
+  background-color: #09070F;
+  border-bottom: 1px solid rgba(64, 60, 60, 0.188);
   border-radius: 0px;
-  padding: 10px 20px;
+  padding: 10px 50px;
 }
 
 .navbar-fixed {
   margin-top: 20px;
   justify-content: space-between;
-  background-color: #000000ac;
+  background-color: #000000ca;
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.188);
   min-width: 32vw;

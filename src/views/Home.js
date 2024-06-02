@@ -75,7 +75,7 @@ const Home = () => {
 
     return (
         <div className="home">
-            <Banner color="#3c23b8"/>
+            <Banner color="grey"/>
             <div className='hero-container'>
                 <div className="home-banner">
                     <div className="home-title-container">

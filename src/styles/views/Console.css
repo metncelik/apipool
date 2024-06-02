@@ -1,14 +1,20 @@
 .console {
   display: flex;
   flex-direction: row;
+  min-height: 90vh;
+  background-color: rgba(16, 15, 15, 0.745);
+  border-top: 2px solid rgba(30, 29, 29, 0.5);
+  border-bottom: 2px solid rgba(30, 29, 29, 0.5);
+  box-shadow: 0px 0px 10px 0px rgba(17, 17, 17, 0.5) inset;
 }
 
 .sidebar {
-  width: fit-content;
+  width: 20%;
   height: 100%;
-  background-color: var(--background-color);
   color: white;
-  border-right: 1px solid rgba(255, 255, 255, 0.188);
+  border-right: 3px solid rgba(30, 29, 29, 0.5);
+  box-shadow: 0px 0px 10px 0px rgba(17, 17, 17, 0.5) inset;
+  height: auto;
 }
 
 .menu {
@@ -67,7 +73,6 @@
   width: 100%;
   min-height: 50vh;
   padding: 20px;
-  background-color: var(--background-color);
 }
 
 .tab-view-header {
@@ -94,23 +99,23 @@
 
 .value {
   padding-left: 5px;
-  color: rgba(166, 166, 166, 0.822);
-  font-weight: 200;
+  color: rgba(175, 167, 167, 0.896);
+  font-weight: 400;
 }
 
 .console-input {
-  border: 1px solid rgba(99, 99, 213, 0.263);
+  border: 2px solid rgba(44, 43, 43, 0.578);
   padding-left: 10px;
   margin-right: 10px;
   border-radius: 10px;
-  background-color: transparent;
+  background-color: rgba(34, 34, 34, 0.354);
   outline: none;
   color: rgba(255, 255, 255, 0.571);
   border-radius: 8px;
 }
 
 .console-input:focus {
-  border: 1px solid rgba(99, 99, 213, 0.678);
+  border: 2px solid rgba(102, 106, 158, 0.578);
 }
 
 .console-text-area {
@@ -135,13 +140,13 @@
 
 .console-select option {
   padding: 30px 10px;
-  background-color: var(--background-color);
 }
 
 .console-table {
   border-collapse: collapse;
   margin: 10px 0px;
   width: 100%;
+  background-color: rgba(34, 34, 34, 0.354);
 }
 
 .table-actions {

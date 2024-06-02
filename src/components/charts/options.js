@@ -5,7 +5,7 @@ export const options = {
             suggestedMin: 0,
             suggestedMax: 5,
             grid: {
-                color: 'grey',
+                color: '#27282e',
                 lineWidth: .2,
             },
             ticks: {
@@ -25,7 +25,8 @@ export const options = {
         },
         x: {
             grid: {
-                lineWidth: 0
+                lineWidth: 0.2,
+                color: '#27282e',
             },
             ticks: {
                 color: 'grey',
@@ -34,8 +35,11 @@ export const options = {
                     weight: 100,
                     family: "Lexend"
                 },
-                padding: 14
-            }
+                padding: 14,
+                callback: function (value, index) {
+                    return value % 4 == 0 ? this.getLabelForValue(value) : '';
+                }
+            },
         }
     },
     hoverRadius: 3,
@@ -52,8 +56,8 @@ export const options = {
             labels: {
                 color: 'grey',
                 font: {
-                    size: '15rem',
-                    weight: 450,
+                    size: '13rem',
+                    weight: 400,
                     family: "Lexend"
                 }
             }

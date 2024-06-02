@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: rgba(10, 7, 15, 0.229);
+  padding-bottom: 0%;
 }
 
 .title-area {
@@ -95,28 +97,28 @@
 .language {
   border-bottom: 1px solid transparent;
   padding: 10px;
-  background-color: rgb(28, 27, 27);
+  background-color: #0F1318;
   font-weight: 800;
   font-size: 15px;
-  border-bottom: 1px solid rgba(211, 211, 211, 0.075);
+  border-bottom: 2px solid rgba(211, 211, 211, 0.075);
   border-radius: 0px;
 }
 
 .language:hover {
-  background-color: rgb(45, 40, 45);
+  background-color: #181d24;
 }
 
 .language:active {
-  background-color: rgb(58, 52, 58);
+  background-color: #191e25;
 }
 
 .selected-language {
-  border-bottom: 1px solid rgba(211, 211, 211, 0.278);
-  background-color: rgba(34, 34, 34, 0.578);
+  border-bottom: 2px solid rgba(211, 211, 211, 0.576);
+  background-color: #0F1318;
 }
 
 .selected-language:hover {
-  background-color: rgba(34, 34, 34, 0.678);
+  background-color: #0F1318;
 }
 
 .python{

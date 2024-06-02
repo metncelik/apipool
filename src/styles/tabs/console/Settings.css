@@ -5,6 +5,21 @@
     align-items: flex-start;
 }
 
+.auth-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: transparent;
+    border-radius: 8px;
+}
+
+.auth-table th {
+    padding: 10px 20px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.671);
+    background-color: transparent;
+    border-bottom: 1px solid rgba(41, 39, 39, 0.671);
+}
+
 .input-group {
     padding: 10px 0px;
     width: 20%;
