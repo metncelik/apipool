@@ -56,7 +56,7 @@ export const options = {
             labels: {
                 color: 'grey',
                 font: {
-                    size: '13rem',
+                    size: '12rem',
                     weight: 400,
                     family: "Lexend"
                 }
@@ -65,7 +65,7 @@ export const options = {
         },
         tooltip: {
             backgroundColor: 'rgb(14, 14, 15)',
-            borderColor: 'rgba(202, 202, 215, 0.141)',
+            // borderColor: 'rgba(202, 202, 215, 0.141)',
             borderWidth: 2,
             padding: 15,
             cornerRadius: 10,

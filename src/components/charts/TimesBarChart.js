@@ -21,7 +21,7 @@ const TimesBarChart = ({times}) => {
                 labels: getHoursArray(),
                 datasets: [
                     {
-                        label: 'Execution Time (sec.)',
+                        label: 'Avg. execution Time (sec.)',
                         data: getTableData("avg_execution"),
                         fill: true,
                         backgroundColor: 'rgba(49, 176, 185, 0.594)',
@@ -31,7 +31,7 @@ const TimesBarChart = ({times}) => {
                         tension: .3
                     },
                     {
-                        label: 'Delay Time (sec.)',
+                        label: 'Avg. delay Time (sec.)',
                         data: getTableData("avg_delay"),
                         fill: true,
                         backgroundColor: 'rgba(10, 60, 63, 0.765)',

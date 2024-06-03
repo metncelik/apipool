@@ -3,6 +3,22 @@
     display: block;
 }
 
+.insights-header{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+} 
+
+.refresh-button {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+    margin-bottom: 20px;
+} 
+
 .charts-container {
     display: flex;
     flex-wrap: wrap;

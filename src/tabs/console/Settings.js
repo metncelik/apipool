@@ -53,56 +53,58 @@ const Settings = () => {
 
   return (
     <div className="settings container">
-            <Expandable label={"Auth Methods"} expanded={true}>
-              <div className='table-container'>
-              <table className="console-table auth-table">
-                <thead>
-                  <tr>
-                    <th>Provider</th>
-                    <th>Email</th>
-                    <th>Verified</th>
-                    <th>Added At</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {consoleState.authMethods?.map((authMethod, index) => (
-                    <tr key={index}>
-                      <td>{authMethod.provider}</td>
-                      <td>{authMethod.email}</td>
-                      <td> {authMethod.verified ? "yes" :
-                      <span style={{backgroundColor: "red"}}>
-                        <SendEmailVerificationButton email={authMethod.email} />
-                      </span>
-                      }
-
-                      </td>
-                      <td>{new Date(authMethod.added_at).toLocaleDateString('en-GB')}</td>
-                    </tr>
-                  ))
+      <Expandable label={"Auth"} expanded={true}>
+        <div className='table-container'>
+          <table className="console-table auth-table">
+            <thead>
+              <tr>
+                <th>Provider</th>
+                <th>Email</th>
+                <th>Verified</th>
+                <th>Added At</th>
+              </tr>
+            </thead>
+            <tbody>
+              {consoleState.authMethods?.map((authMethod, index) => (
+                <tr key={index}>
+                  <td>{authMethod.provider}</td>
+                  <td>{authMethod.email}</td>
+                  <td> {authMethod.verified ? "yes" :
+                    <span style={{ backgroundColor: "red" }}>
+                      <SendEmailVerificationButton email={authMethod.email} />
+                    </span>
                   }
-                </tbody>
-              </table>
-              </div>
-            </Expandable>
-            {
-              Object.keys(methodComponents).map((method) => {
-                if (!consoleState.authMethods.some((authMethod) => authMethod.provider === method)) {
-                  return (
-                    <Expandable label={`Add ${method} Auth`}>
-                      {methodComponents[method]}
-                    </Expandable>
-                  );
-                }
-              })
+
+                  </td>
+                  <td>{new Date(authMethod.added_at).toLocaleDateString('en-GB')}</td>
+                </tr>
+              ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <Expandable label={"Add Auth Method"}>
+        {
+          Object.keys(methodComponents).map((method) => {
+            if (!consoleState.authMethods.some((authMethod) => authMethod.provider === method)) {
+              return (
+                <Expandable label={`Add ${method} Auth`}>
+                  {methodComponents[method]}
+                </Expandable>
+              );
             }
-        
+          })
+        }
+        </Expandable>
+        {consoleState.authMethods?.some((authMethod) => authMethod.provider === "Email" && authMethod.verified) &&
+          <Expandable label={"Change password"}>
+            <ChangePassword />
+          </Expandable >
+        }
+      </Expandable>
 
 
-      {consoleState.authMethods?.some((authMethod) => authMethod.provider === "Email" && authMethod.verified) &&
-        <Expandable label={"Change password"}>
-          <ChangePassword />
-        </Expandable >
-      }
+
 
       <div className='logout'>
         <button className='logout-button' onClick={handleLogout}>

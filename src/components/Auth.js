@@ -246,9 +246,9 @@ const ChangePassword = () => {
         <div>
             <form className="change-password">
                 <div className="input-group change-input-group">
-                    <input className='password-input' type="password" placeholder='current password' value={currentPassword} onChange={(e) => { setCurrentPassword(e.target.value) }} />
-                    <input className='password-input' type="password" placeholder='new password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
-                    <input className='password-input' type="password" placeholder='new password again' value={passwordAgain} onChange={(e) => { setPasswordAgain(e.target.value) }} />
+                    <input className='password-input console-input' type="password" placeholder='current password' value={currentPassword} onChange={(e) => { setCurrentPassword(e.target.value) }} />
+                    <input className='password-input console-input' type="password" placeholder='new password' value={password} onChange={(e) => { setPassword(e.target.value) }} />
+                    <input className='password-input console-input' type="password" placeholder='new password again' value={passwordAgain} onChange={(e) => { setPasswordAgain(e.target.value) }} />
                 </div>
                 <button disabled={isPending} type='submit' onClick={clickHandler}>
                     {isPending ? "..." : "Change"}

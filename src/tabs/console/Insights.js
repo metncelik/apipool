@@ -10,6 +10,7 @@ import { FaQuestionCircle } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { RequestsLineChart } from '../../components/charts/RequestsLineChart';
 import { TimesBarChart } from '../../components/charts/TimesBarChart';
+import { IoMdRefreshCircle } from "react-icons/io";
 
 
 const Insights = () => {
@@ -17,7 +18,7 @@ const Insights = () => {
     const [isPending, setIsPending] = useState(false);
     const [consoleState, setConsoleState] = useConsoleState(null);
 
-    const getrequests = async () => {
+    const getInsights = async () => {
         setIsPending(true);
         const response = await axiosPrivate.get('/api-keys/requests');
         setIsPending(false);
@@ -28,7 +29,7 @@ const Insights = () => {
     useEffect(() => {
         if (consoleState.insights) return setIsPending(false);
         console.log(consoleState.insights);
-        getrequests();
+        getInsights();
     }, [consoleState]);
 
     if (isPending) return <Loading />;
@@ -69,6 +70,11 @@ const Insights = () => {
                 </p>
                 :
                 <>
+                    <div className="insights-header">
+                        <div className='refreshButton' onClick={getInsights} >
+                            <IoMdRefreshCircle size={30} color='grey'/>
+                        </div>
+                    </div>
                     <div className="charts-container">
                         <div className="chart-container">
                             <RequestsLineChart statuses={statuses} requestsByHour={consoleState.insights?.requestsByHour} />
