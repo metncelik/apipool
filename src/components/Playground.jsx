@@ -59,7 +59,8 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
 
     const sendRequest = async (e) => {
         try {
-            e.preventDefault()
+            e.preventDefault();
+            setIsPending(true);
             if (!auth.isLoggedIn)
                 return enqueueSnackbar("Log in to use the playground", { variant: "info" });
             for (const input of inputs) {
@@ -70,7 +71,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             const response = await axiosPrivate.get('/api-keys/get-one');
             if (!response) return;
             const apiKey = response.data.apiKey;
-            
+
             // Parse numbers in body values and pop last item if it's an empty string
             let parsedBody = {};
             for (let key in body) {
@@ -84,7 +85,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                     parsedBody[key] = parseFloat(body[key]) || body[key];
                 }
             }
-            
+
             setOutputValues({})
             const res = await axios.post(postURL, { input: parsedBody }, {
                 headers: {
@@ -95,7 +96,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             const jobID = res.data.id;
             if (!jobID) return enqueueSnackbar("Failed to send request", { variant: "error" });
             enqueueSnackbar("Request sent successfully", { variant: "info" });
-            
+
             let count = 0;
             const limit = 60;
             setIsPending(true);
