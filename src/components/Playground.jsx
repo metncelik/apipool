@@ -27,7 +27,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
     );
     const [outputValues, setOutputValues] = useState({});
     const [isPending, setIsPending] = useState(false);
-    let fetchIntervalId;
+    const [fetchIntervalId, setFetchIntervalId] = useState(null);
 
     const fetchResult = async (jobID, apiKey) => {
         try {
@@ -60,7 +60,6 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
     const sendRequest = async (e) => {
         try {
             e.preventDefault();
-            setIsPending(true);
             if (!auth.isLoggedIn)
                 return enqueueSnackbar("Log in to use the playground", { variant: "info" });
             for (const input of inputs) {
@@ -68,6 +67,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                     return enqueueSnackbar(`${input.title} is required`, { variant: "error" });
                 }
             }
+            setIsPending(true);
             const response = await axiosPrivate.get('/api-keys/get-one');
             if (!response) return;
             const apiKey = response.data.apiKey;
@@ -111,7 +111,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                     count = 0;
                 }
             }, 5000);
-            fetchIntervalId = intervalId;
+            setFetchIntervalId(intervalId);
         } catch (error) {
             enqueueSnackbar(error.message, { variant: "error" });
         }
@@ -125,7 +125,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                 clearInterval(fetchIntervalId);
             }
         };
-    }, []);
+    }, [fetchIntervalId]);
 
 
 
