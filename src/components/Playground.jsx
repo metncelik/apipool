@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../styles/components/Playground.css';
 import useAuth from '../hooks/useAuthState';
 import { useSnackbar } from 'notistack';
@@ -27,7 +27,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
     );
     const [outputValues, setOutputValues] = useState({});
     const [isPending, setIsPending] = useState(false);
-    const [fetchIntervalId, setFetchIntervalId] = useState(null);
+    const fetchIntervalId = useRef(null);
 
     const fetchResult = async (jobID, apiKey) => {
         try {
@@ -40,7 +40,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             if (response.data.status === 'FAILED')
                 return enqueueSnackbar(response.data.error, { variant: "error" });
             else if (response.data.status === 'COMPLETED') {
-                clearInterval(fetchIntervalId);
+                clearInterval(fetchIntervalId.current);
                 setIsPending(false);
                 enqueueSnackbar("Request completed successfully", { variant: "success" });
                 return setOutputValues(response.data.output);
@@ -49,7 +49,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             await new Promise(r => setTimeout(r, 5000));
 
         } catch (error) {
-            clearInterval(fetchIntervalId);
+            clearInterval(fetchIntervalId.current);
             setIsPending(false);
             if (error.response)
                 return enqueueSnackbar(error.response.data.error, { variant: "error" });
@@ -106,12 +106,12 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                 await fetchResult(jobID, apiKey)
                 count++;
                 if (count === limit) {
-                    clearInterval(intervalId);
+                    clearInterval(intervalId.current);
                     setIsPending(false);
                     count = 0;
                 }
             }, 5000);
-            setFetchIntervalId(intervalId);
+            fetchIntervalId.current = intervalId;
         } catch (error) {
             enqueueSnackbar(error.message, { variant: "error" });
         }
@@ -122,7 +122,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
     useEffect(() => {
         return () => {
             if (fetchIntervalId) {
-                clearInterval(fetchIntervalId);
+                clearInterval(fetchIntervalId.current);
             }
         };
     }, [fetchIntervalId]);
