@@ -7,6 +7,10 @@
   padding-bottom: 0%;
 }
 
+.api-body {
+  max-width: 64vw;
+}
+
 .title-area {
   margin-top: 30px;
   margin-bottom: 10px;
@@ -171,5 +175,10 @@
     margin-left: 10px;
     margin-right: 10px;
   }
+
+  .api-body {
+    max-width: 100%;
+  }
+  
   
 }

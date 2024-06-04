@@ -9,7 +9,7 @@ const TimesBarChart = ({times}) => {
 
     const getTableData = (dataType) => {
         const hours = getHoursArray();
-        const data = hours.map((h, i) => {
+        const data = hours.map((h) => {
             return times.find(r => new Date(r.hour).getHours() === h)?.[dataType];
         });
         return data || [];

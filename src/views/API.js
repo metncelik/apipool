@@ -1,6 +1,7 @@
 import Banner from "../components/Banner";
 import '../styles/views/API.css'
 import SyntaxHighlighter from "react-syntax-highlighter";
+import Playground from "../components/Playground";
 import { stackoverflowDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -97,7 +98,7 @@ const getCodes = (apiAlias) => {
                 "for _ in range(5):\n" +
                 "\tresponse = requests.get(fetch_url)\n" +
                 "\tdata = response.json()\n" +
-                "\tif response.status_code == 200 and data.get(\"status\") == \"completed\":\n" +
+                "\tif response.status_code == 200 and data.get(\"status\") == \"COMPLETED\":\n" +
                 "\t\tprint(data) \n" +
                 "\t\tbreak \n" +
                 "\ttime.sleep(10)\n",
@@ -108,7 +109,7 @@ const getCodes = (apiAlias) => {
                 "\ttry {\n" +
                 "\t\tconst response = await axios.get(fetchUrl);\n" +
                 "\t\tconst data = response.data;\n" +
-                "\t\tif (response.status === 200 && data.status === \"completed\") {\n" +
+                "\t\tif (response.status === 200 && data.status === \"COMPLETED\") {\n" +
                 "\t\t\tconsole.log(data); \n" +
                 "\t\t\tbreak; \n" +
                 "\t\t}\n" +
@@ -143,7 +144,7 @@ const getCodes = (apiAlias) => {
                 "\t\t\t\tfmt.Println(\"Error decoding response:\", err)\n" +
                 "\t\t\t\treturn\n" +
                 "\t\t\t}\n" +
-                "\t\t\tif status, ok := data[\"status\"].(string); ok && status == \"completed\" {\n" +
+                "\t\t\tif status, ok := data[\"status\"].(string); ok && status == \"COMPLETED\" {\n" +
                 "\t\t\t\tfmt.Println(\"Response:\", data) \n" +
                 "\t\t\t\tbreak \n" +
                 "\t\t\t}\n" +
@@ -161,7 +162,7 @@ const getCodes = (apiAlias) => {
                 "\n" +
                 "\tif ($httpCode === 200) {\n" +
                 "\t\t$data = json_decode($response, true);\n" +
-                "\t\tif (isset($data[\"status\"]) && $data[\"status\"] === \"completed\") {\n" +
+                "\t\tif (isset($data[\"status\"]) && $data[\"status\"] === \"COMPLETED\") {\n" +
                 "\t\t\tprint_r($data); \n" +
                 "\t\t\tbreak; \n" +
                 "\t\t}\n" +
@@ -179,6 +180,8 @@ const API = () => {
     const [isPending, setIsPending] = useState(true)
     const [selectedLanguage, setSelectedLanguage] = useState("Python");
     const { enqueueSnackbar } = useSnackbar();
+    const [postURL, setPostURL] = useState("");
+    const [fetchURL, setFetchURL] = useState("");
 
     useEffect(() => {
         const getData = async () => {
@@ -192,6 +195,13 @@ const API = () => {
         };
         getData();
     }, [alias]);
+
+    useEffect(() => {
+        if (api) {
+            setPostURL(process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + api.alias);
+            setFetchURL(process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + api.alias + "/status/");
+        }
+    }, [api]);
 
     const copyToClipBoard = (id) => {
         navigator.clipboard.writeText(document.getElementById(id).innerText);
@@ -231,6 +241,8 @@ const API = () => {
         );
     };
 
+
+
     return (
         <div>
             {isPending ?
@@ -239,36 +251,39 @@ const API = () => {
                 </div>
                 :
                 <div className="api-main">
-                    <Banner image={api.image_url} margin={150} height={300}/>
+                    <Banner image={api.image_url} margin={150} height={300} />
                     <div className="api-body container">
                         <h1 className="api-title">{api.title} API</h1>
                         <div className="description-container">
                             <div className="urls-container">
-                                <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
+                                <p className="url-container" onClick={() => { copyToClipBoard('post-url') }}>
                                     <div className="url-row">
                                         <div className="api-label">POST</div> &nbsp;
-                                        <p className="api-url" id="fetch-url">{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + api.alias}</p>
+                                        <p className="api-url" id='post-url'>{postURL}</p>
                                     </div>
 
                                 </p>
                                 <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
                                     <div className="url-row">
                                         <div className="api-label">GET</div> &nbsp;
-                                        <p className="api-url" id="get-url">{process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + api.alias + "/status/:id"}</p>
+                                        <p className="api-url" id="fetch-url">{fetchURL + ":id"}</p>
                                     </div>
                                 </p>
                             </div>
                             {/* <div className="title-area">
                                 <h2 className="description-title">
                                     Info
-                                </h2>
-                            </div> */}
+                                    </h2>
+                                </div> */}
                             <div className="gap section">
                                 <p className="description-content">
                                     {api.description} <br /><br />
                                 </p>
                             </div>
                         </div>
+
+                        <h2  className="params-title title-area">Playground</h2>
+                        <Playground inputs={api.inputs} postURL={postURL} fetchURL={fetchURL} outputs={api.outputs} />
 
                         <div className="params-container">
                             <h2 className="params-title title-area">
@@ -284,7 +299,7 @@ const API = () => {
                                         <th>Default</th>
                                         <th>Description</th>
                                     </tr>
-                                    {api.inputs.map((param, index) => (
+                                    {api.inputs.map((param) => (
                                         <tr>
                                             <td className="left-align">{param.title}</td>
                                             <td>{param.type}</td>
@@ -302,7 +317,7 @@ const API = () => {
                             <div className="table-container">
                                 <table className="gap">
                                     <tr>
-                                        <th  className="left-align">Parameter</th>
+                                        <th className="left-align">Parameter</th>
                                         <th>Type</th>
                                         <th>Description</th>
                                     </tr>
@@ -340,13 +355,13 @@ const API = () => {
                                         <Code code={"{\n\t'id': 'XXXXX'\n}"} />
                                         <br />
 
-                                        <p>After getting job id make a <span className="method-name">GET</span> request to the Get URL. It will return the status of your request. When status is "completed" it will return the output.</p>
+                                        <p>After getting job id make a <span className="method-name">GET</span> request to the Get URL. It will return the status of your request. When status is "COMPLETED" it will return the output.</p>
                                         <CodeWithHeader codes={codes.fetch} />
                                         <br />
 
                                     </div>
                                     <p>Response:</p>
-                                    <Code code={"{\n\t'status': 'completed',\n\t'output': {}\n}"} />
+                                    <Code code={"{\n\t'status': 'COMPLETED',\n\t'output': {}\n}"} />
                                     <br />
                                 </div>
                             </div>

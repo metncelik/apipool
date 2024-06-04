@@ -53,7 +53,9 @@ const Settings = () => {
 
   return (
     <div className="settings container">
-      <Expandable label={"Auth"} expanded={true}>
+      <Expandable 
+       padding={'30px'}
+      label={"Auth"} expanded={true}>
         <div className='table-container'>
           <table className="console-table auth-table">
             <thead>
@@ -83,7 +85,8 @@ const Settings = () => {
             </tbody>
           </table>
         </div>
-        <Expandable label={"Add Auth Method"}>
+        <Expandable 
+        label={"Add Auth Method"}>
         {
           Object.keys(methodComponents).map((method) => {
             if (!consoleState.authMethods.some((authMethod) => authMethod.provider === method)) {
@@ -97,7 +100,8 @@ const Settings = () => {
         }
         </Expandable>
         {consoleState.authMethods?.some((authMethod) => authMethod.provider === "Email" && authMethod.verified) &&
-          <Expandable label={"Change password"}>
+          <Expandable 
+          label={"Change password"}>
             <ChangePassword />
           </Expandable >
         }

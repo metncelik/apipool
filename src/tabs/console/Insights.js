@@ -28,7 +28,6 @@ const Insights = () => {
 
     useEffect(() => {
         if (consoleState.insights) return setIsPending(false);
-        console.log(consoleState.insights);
         getInsights();
     }, [consoleState]);
 
@@ -71,8 +70,8 @@ const Insights = () => {
                 :
                 <>
                     <div className="insights-header">
-                        <div className='refreshButton' onClick={getInsights} >
-                            <IoMdRefreshCircle size={30} color='grey'/>
+                        <div className='refresh-button' onClick={getInsights} >
+                            <IoMdRefreshCircle size={30} />
                         </div>
                     </div>
                     <div className="charts-container">

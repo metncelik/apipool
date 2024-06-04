@@ -13,11 +13,13 @@
 } 
 
 .refresh-button {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    cursor: pointer;
+    color: grey;
 } 
+
+.refresh-button:hover {
+    color: #ffffffb4;
+}
 
 .charts-container {
     display: flex;
@@ -52,6 +54,8 @@
     min-height: 200px;
     min-width: 25rem;
 }
+
+
 
 .bar-chart {
     /* background-color: rgba(10, 60, 63, 0.765); */

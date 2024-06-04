@@ -25,41 +25,46 @@ import RefundPolicy from './views/RefundPolicy.js';
 function App() {
   return (
     <BrowserRouter>
-    <SnackbarProvider>
-      <ModalProvider>
-      <AuthProvider>
-        <div className="app">
-          <header className="header">
-            <NavBar />
-          </header>
-          <Routes>
-            <Route index element={<Home />} />
-            <Route path='apis' element={<APIs />} />
-            <Route exact path='/pricing' element={<Pricing />} />
-            <Route exact path='/blogs' element={<Blogs />} />
-            <Route exact path='/sign-up' element={<SignUp />} />
-            <Route exact path='/login' element={<LogIn />} />
-            <Route exact path='/api/:alias' element={<API />} />
-            <Route exact path='/oauth/:provider/:method' element={<Oauth />} />
-            <Route exact path='/reset-password' element={<ResetPassword />} />
-            <Route exact path='/verify-email' element={<VerifyEmail />} />
-            <Route exact path='/console' element={
-              <ConsoleProvider>
-                <Console />
-              </ConsoleProvider>
-            } />
-            <Route exact path='/terms-of-service' element={<TermsOfService/>}/>
-            <Route exact path='/privacy-policy' element={<PrivacyPolicy/>}/>
-            <Route exact path='/refund-policy' element={<RefundPolicy/>}/>
-            <Route exact path='*' element={<NotFound />} />
-          </Routes>
-          <footer>
-            <Footer />
-          </footer>
-        </div>
-      </AuthProvider>
-      </ModalProvider>
-    </SnackbarProvider>
+      <SnackbarProvider>
+        <ModalProvider>
+          <AuthProvider>
+            <div className="app">
+              <header className="header">
+                <NavBar />
+              </header>
+              <Routes>
+                <Route index element={<Home />} />
+                <Route path='apis' element={<APIs />} />
+                <Route exact path='/pricing' element={<Pricing />} />
+                <Route exact path='/blogs' element={<Blogs />} />
+                <Route exact path='/sign-up' element={<SignUp />} />
+                <Route exact path='/login' element={<LogIn />} />
+                <Route exact path='/api/:alias' element={
+
+                  <API />
+
+                } />
+
+                <Route exact path='/oauth/:provider/:method' element={<Oauth />} />
+                <Route exact path='/reset-password' element={<ResetPassword />} />
+                <Route exact path='/verify-email' element={<VerifyEmail />} />
+                <Route exact path='/console' element={
+                  <ConsoleProvider>
+                    <Console />
+                  </ConsoleProvider>
+                } />
+                <Route exact path='/terms-of-service' element={<TermsOfService />} />
+                <Route exact path='/privacy-policy' element={<PrivacyPolicy />} />
+                <Route exact path='/refund-policy' element={<RefundPolicy />} />
+                <Route exact path='*' element={<NotFound />} />
+              </Routes>
+              <footer>
+                <Footer />
+              </footer>
+            </div>
+          </AuthProvider>
+        </ModalProvider>
+      </SnackbarProvider>
     </BrowserRouter>
   );
 }

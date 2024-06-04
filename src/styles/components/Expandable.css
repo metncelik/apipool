@@ -1,16 +1,15 @@
 .expandable-component{
-    padding: 10px 30px;
     border: white 1px solid;
     border-radius: 10px;
-    margin: 15px 0px;
-    background-color: rgba(34, 34, 34, 0.354);
     /* background-color: #121417; */
     border: rgba(202, 202, 215, 0.141) 1px solid;
     cursor: pointer;
+    margin: 5px;
 }
 
 .content {
     padding: 20px;
+    margin-top: 10px;
 }
 
 .expandable-label {
@@ -18,5 +17,4 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin: 10px 0;
 }

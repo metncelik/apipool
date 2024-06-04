@@ -1,3 +1,5 @@
+import { AiOutlineRadiusBottomleft } from "react-icons/ai";
+
 export const options = {
     responsive: true,
     scales: {
@@ -85,8 +87,10 @@ export const options = {
                         borderWidth: 0
                     };
                 },
-                title: function (context) {
-                    return context[0].label + ':00';
+                title: function (context, data) {
+                    const label =  context[0].label 
+                    const index =  context[0].dataIndex 
+                    return (index < 12 && parseInt(label) > 12 ? 'Yesterday ' + label : label) + ':00';
                 }
             },
             enabled: true,
