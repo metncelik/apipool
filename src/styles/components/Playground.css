@@ -7,6 +7,7 @@
     padding: 10px;
     margin: 5px;
     border-radius: 10px;
+    min-height: 50vh;
 }
 
 .p-input {
@@ -14,8 +15,6 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    /* background-color: red; */
-    min-width: 300px;
 }
 
 .p-form {
@@ -31,6 +30,17 @@
 
 }
 
+.p-form-element {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+}
+
+.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
 .p-form-element-container {
     display: flex;
     flex-direction: column;
@@ -41,7 +51,7 @@
 }
 
 .p-form-input {
-    border-radius: 10px;
+    border-radius: 5px;
     margin: 5px;
     padding: 5px;
     background-color: rgb(50, 163, 152);
@@ -63,6 +73,14 @@
     overflow: auto;
 }
 
+.p-form-text-input:read-only {
+    min-height: 200px;
+}
+
+.p-form-text-input:disabled {
+    min-height: fit-content;
+}
+
 .p-form-number-input {
     border: 1px solid black;
     color: black;
@@ -70,15 +88,26 @@
 
 .p-form-number-input::-webkit-inner-spin-button,
 .p-form-number-input::-webkit-outer-spin-button {
-    /* appearance: none; */
     margin: 0;
-    background-color: blue;
-    border: 2px solid blue;
 }
 
 .p-form-number-input::-webkit-inner-spin-button:active,
 .p-form-number-input::-webkit-outer-spin-button:active {
     background-color: #ccc;
+}
+
+input[type=file]::file-selector-button {
+    padding: .3em .6em;
+    border-radius: .2em;
+    background-color: #e9ebf099;
+    border-radius: 5px;
+    outline: none;
+    border: 2px solid #0d0d0dd0;
+    transition: 0.2s;
+}
+
+input[type=file]::file-selector-button:hover {
+    background-color: #ffffffda;
 }
 
 .p-form-button {
@@ -87,9 +116,15 @@
     font-size: 15px;
     margin: 10px 5px;
 }
+
 .p-form-button:hover {
     background-color: rgba(11, 114, 11, 0.938);
 }
+
+.p-form-button:focus {
+    background-color: rgba(11, 114, 11, 0.938);
+}
+
 .p-form-button:disabled {
     background-color: #f2f2f283;
     color: #2b2929;
@@ -155,13 +190,21 @@
     cursor: pointer;
 }
 
-
 .output-selector-button:disabled {
     background-color: #f2f2f283;
     color: #2b2929;
     cursor: not-allowed;
-    {margin: '5px'}
-  }
+    margin: '5px'
+}
+
+.p-output-status {
+    width: 100%;
+    text-align: center;
+    color: #c4baba;
+    font-size: 15px;
+    margin: 5px;
+
+}
 
 
 @media screen and (max-width: 768px) {

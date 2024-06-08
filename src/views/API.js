@@ -20,16 +20,16 @@ const Code = ({ code }) => {
 const getCodes = (apiAlias) => {
     return {
         "create_header": {
-            "Python": "headers = {\n\t\"Authorization\": \"Bearer API_KEY\", #Get your api key from console\n}\n",
-            "JavaScript": "const headers = {\n\t'Authorization': 'Bearer API_KEY', //Get your api key from console\n};\n",
-            "Go": "headers := map[string]string{\n\t\"Authorization\": \"Bearer API_KEY\", //Get your api key from console\n}\n",
-            "PHP": "$headers = array(\n\t'Authorization: Bearer API_KEY', //Get your api key from console\n);\n"
+            "Python": "headers = {\n    \"Authorization\": \"Bearer API_KEY\", #Get your api key from console\n}\n",
+            "JavaScript": "const headers = {\n    'Authorization': 'Bearer API_KEY', //Get your api key from console\n};\n",
+            "Go": "headers := map[string]string{\n    \"Authorization\": \"Bearer API_KEY\", //Get your api key from console\n}\n",
+            "PHP": "$headers = array(\n    'Authorization: Bearer API_KEY', //Get your api key from console\n);\n"
         },
         "create_body": {
-            "Python": "body = {\n\t\"parameter1\": \"value1\",\n\t\"parameter2\": \"value2\"\n}\n",
-            "JavaScript": "const body = {\n\t\"parameter1\": \"value1\",\n\t\"parameter2\": \"value2\"\n};\n",
-            "Go": "body := map[string]interface{}{\n\t\"parameter\": \"value\",\n\t\"parameter2\": \"value2\",\n}\n",
-            "PHP": "$body = {\n\t\"parameter\": \"value\",\n\t\"parameter2\": \"value2\"\n};\n"
+            "Python": "body = {\n    \"parameter1\": \"value1\",\n    \"parameter2\": \"value2\"\n}\n",
+            "JavaScript": "const body = {\n    \"parameter1\": \"value1\",\n    \"parameter2\": \"value2\"\n};\n",
+            "Go": "body := map[string]interface{}{\n    \"parameter\": \"value\",\n    \"parameter2\": \"value2\",\n}\n",
+            "PHP": "$body = {\n    \"parameter\": \"value\",\n    \"parameter2\": \"value2\"\n};\n"
         },
         "make_request": {
             "Python": "import requests\n\n" +
@@ -44,36 +44,36 @@ const getCodes = (apiAlias) => {
                 "const headers = headers  \n" +
                 "const body = body  \n\n" +
                 "axios.post(url, body, { headers })\n" +
-                "\t.then(response => {\n" +
-                "\t\tconsole.log(response.data);\n" +
-                "\t})\n" +
-                "\t.catch(error => {\n" +
-                "\t\tconsole.error(error);\n" +
+                "    .then(response => {\n" +
+                "        console.log(response.data);\n" +
+                "    })\n" +
+                "    .catch(error => {\n" +
+                "        console.error(error);\n" +
                 "});",
 
             "Go": "package main\n\n" +
                 "import (\n" +
-                "\t\"bytes\"\n" +
-                "\t\"net/http\"\n" +
+                "    \"bytes\"\n" +
+                "    \"net/http\"\n" +
                 ")\n\n" +
                 "func main() {\n" +
-                `\turl := "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias}"  \n\n` +
-                "\theaders := headers  \n" +
-                "\tbody := body  \n\n" +
-                "\treq, err := http.NewRequest(\"POST\", url, bytes.NewBuffer(body))\n" +
-                "\tif err != nil {\n" +
-                "\t\tpanic(err)\n" +
-                "\t}\n\n" +
-                "\tfor key, value := range headers {\n" +
-                "\t\treq.Header.Set(key, value)\n" +
-                "\t}\n\n" +
-                "\tclient := &http.Client{}\n" +
-                "\tresp, err := client.Do(req)\n" +
-                "\tif err != nil {\n" +
-                "\t\tpanic(err)\n" +
-                "\t}\n" +
-                "\tdefer resp.Body.Close()\n\n" +
-                "\t// Process resp as needed\n" +
+                `    url := "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias}"  \n\n` +
+                "    headers := headers  \n" +
+                "    body := body  \n\n" +
+                "    req, err := http.NewRequest(\"POST\", url, bytes.NewBuffer(body))\n" +
+                "    if err != nil {\n" +
+                "        panic(err)\n" +
+                "    }\n\n" +
+                "    for key, value := range headers {\n" +
+                "        req.Header.Set(key, value)\n" +
+                "    }\n\n" +
+                "    client := &http.Client{}\n" +
+                "    resp, err := client.Do(req)\n" +
+                "    if err != nil {\n" +
+                "        panic(err)\n" +
+                "    }\n" +
+                "    defer resp.Body.Close()\n\n" +
+                "    // Process resp as needed\n" +
                 "}",
 
             "PHP":
@@ -96,78 +96,78 @@ const getCodes = (apiAlias) => {
                 "import time\n" +
                 `\nid = "id"  # Replace with job id\nfetch_url = f"${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias + "/status"}/{id}"\n\n` +
                 "for _ in range(5):\n" +
-                "\tresponse = requests.get(fetch_url)\n" +
-                "\tdata = response.json()\n" +
-                "\tif response.status_code == 200 and data.get(\"status\") == \"COMPLETED\":\n" +
-                "\t\tprint(data) \n" +
-                "\t\tbreak \n" +
-                "\ttime.sleep(10)\n",
+                "    response = requests.get(fetch_url)\n" +
+                "    data = response.json()\n" +
+                "    if response.status_code == 200 and data.get(\"status\") == \"COMPLETED\":\n" +
+                "        print(data) \n" +
+                "        break \n" +
+                "    time.sleep(10)\n",
             "JavaScript": "const axios = require(\"axios\");\n" +
                 "\n" +
                 `\nconst id = "id"  // Replace with job id\nconst fetchUrl = \`${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias + "/status"}/\${id}\`;\n\n` +
                 "for (let i = 0; i < 5; i++) {\n" +
-                "\ttry {\n" +
-                "\t\tconst response = await axios.get(fetchUrl);\n" +
-                "\t\tconst data = response.data;\n" +
-                "\t\tif (response.status === 200 && data.status === \"COMPLETED\") {\n" +
-                "\t\t\tconsole.log(data); \n" +
-                "\t\t\tbreak; \n" +
-                "\t\t}\n" +
-                "\t} catch (error) {\n" +
-                "\t\tconsole.error(\"Error:\", error.message);\n" +
-                "\t}\n" +
-                "\tawait new Promise(resolve => setTimeout(resolve, 10000));\n" +
+                "    try {\n" +
+                "        const response = await axios.get(fetchUrl);\n" +
+                "        const data = response.data;\n" +
+                "        if (response.status === 200 && data.status === \"COMPLETED\") {\n" +
+                "            console.log(data); \n" +
+                "            break; \n" +
+                "        }\n" +
+                "    } catch (error) {\n" +
+                "        console.error(\"Error:\", error.message);\n" +
+                "    }\n" +
+                "    await new Promise(resolve => setTimeout(resolve, 10000));\n" +
                 "}\n",
             "Go": "package main\n" +
                 "\n" +
                 "import (\n" +
-                "\t\"encoding/json\"\n" +
-                "\t\"fmt\"\n" +
-                "\t\"net/http\"\n" +
-                "\t\"time\"\n" +
+                "    \"encoding/json\"\n" +
+                "    \"fmt\"\n" +
+                "    \"net/http\"\n" +
+                "    \"time\"\n" +
                 ")\n" +
                 "\n" +
                 "func main() {\n" +
-                `\n\tid := "id"  // Replace with job id\n\tfetchUrl := "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias + "/status"}/" + id\n\n` +
-                "\tfor i := 0; i < 5; i++ {\n" +
-                "\t\tresp, err := http.Get(fetchUrl)\n" +
-                "\t\tif err != nil {\n" +
-                "\t\t\tfmt.Println(\"Error:\", err)\n" +
-                "\t\t\treturn\n" +
-                "\t\t}\n" +
-                "\t\tdefer resp.Body.Close()\n" +
+                `\n    id := "id"  // Replace with job id\n    fetchUrl := "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias + "/status"}/" + id\n\n` +
+                "    for i := 0; i < 5; i++ {\n" +
+                "        resp, err := http.Get(fetchUrl)\n" +
+                "        if err != nil {\n" +
+                "            fmt.Println(\"Error:\", err)\n" +
+                "            return\n" +
+                "        }\n" +
+                "        defer resp.Body.Close()\n" +
                 "\n" +
-                "\t\tvar data map[string]interface{}\n" +
-                "\t\tif resp.StatusCode == http.StatusOK {\n" +
-                "\t\t\terr := json.NewDecoder(resp.Body).Decode(&data)\n" +
-                "\t\t\tif err != nil {\n" +
-                "\t\t\t\tfmt.Println(\"Error decoding response:\", err)\n" +
-                "\t\t\t\treturn\n" +
-                "\t\t\t}\n" +
-                "\t\t\tif status, ok := data[\"status\"].(string); ok && status == \"COMPLETED\" {\n" +
-                "\t\t\t\tfmt.Println(\"Response:\", data) \n" +
-                "\t\t\t\tbreak \n" +
-                "\t\t\t}\n" +
-                "\t\t}\n" +
-                "\t\ttime.Sleep(10 * time.Second)\n" +
-                "\t}\n" +
+                "        var data map[string]interface{}\n" +
+                "        if resp.StatusCode == http.StatusOK {\n" +
+                "            err := json.NewDecoder(resp.Body).Decode(&data)\n" +
+                "            if err != nil {\n" +
+                "                fmt.Println(\"Error decoding response:\", err)\n" +
+                "                return\n" +
+                "            }\n" +
+                "            if status, ok := data[\"status\"].(string); ok && status == \"COMPLETED\" {\n" +
+                "                fmt.Println(\"Response:\", data) \n" +
+                "                break \n" +
+                "            }\n" +
+                "        }\n" +
+                "        time.Sleep(10 * time.Second)\n" +
+                "    }\n" +
                 "}\n",
             "PHP": `$id = "id";  // Replace with job id\n$fetchUrl = "${process.env.REACT_APP_RUN_SERVICE_URL + "/v0/" + apiAlias + "/status"}/" . $id;\n\n` +
                 "for ($i = 0; $i < 5; $i++) {\n" +
-                "\t$ch = curl_init(fetchUrl);\n" +
-                "\tcurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n" +
-                "\t$response = curl_exec($ch);\n" +
-                "\t$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);\n" +
-                "\tcurl_close($ch);\n" +
+                "    $ch = curl_init(fetchUrl);\n" +
+                "    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n" +
+                "    $response = curl_exec($ch);\n" +
+                "    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);\n" +
+                "    curl_close($ch);\n" +
                 "\n" +
-                "\tif ($httpCode === 200) {\n" +
-                "\t\t$data = json_decode($response, true);\n" +
-                "\t\tif (isset($data[\"status\"]) && $data[\"status\"] === \"COMPLETED\") {\n" +
-                "\t\t\tprint_r($data); \n" +
-                "\t\t\tbreak; \n" +
-                "\t\t}\n" +
-                "\t}\n" +
-                "\tsleep(10);\n" +
+                "    if ($httpCode === 200) {\n" +
+                "        $data = json_decode($response, true);\n" +
+                "        if (isset($data[\"status\"]) && $data[\"status\"] === \"COMPLETED\") {\n" +
+                "            print_r($data); \n" +
+                "            break; \n" +
+                "        }\n" +
+                "    }\n" +
+                "    sleep(10);\n" +
                 "}\n"
         }
     }
@@ -244,10 +244,10 @@ const API = () => {
 
 
     return (
-        <div>
+        <>
             {isPending ?
                 <div>
-                    <Loading />
+                    <Loading/>
                 </div>
                 :
                 <div className="api-main">
@@ -272,8 +272,8 @@ const API = () => {
                             </div>
                             {/* <div className="title-area">
                                 <h2 className="description-title">
-                                    Info
-                                    </h2>
+                                Info
+                                </h2>
                                 </div> */}
                             <div className="gap section">
                                 <p className="description-content">
@@ -282,12 +282,12 @@ const API = () => {
                             </div>
                         </div>
 
-                        <h2  className="params-title title-area">Playground</h2>
+                        <h2 className="title-area">Playground</h2>
                         <Playground inputs={api.inputs} postURL={postURL} fetchURL={fetchURL} outputs={api.outputs} />
 
                         <div className="params-container">
-                            <h2 className="params-title title-area">
-                                Body Attributes
+                            <h2 className="title-area">
+                                Input Attributes
                             </h2>
                             <div className="table-container">
 
@@ -311,7 +311,7 @@ const API = () => {
                                     }
                                 </table>
                             </div>
-                            <h2 className="params-title title-area">
+                            <h2 className="title-area">
                                 Output Attributes
                             </h2>
                             <div className="table-container">
@@ -352,7 +352,7 @@ const API = () => {
                                     <br />
                                     <div>
                                         <p>It will return a job id.</p>
-                                        <Code code={"{\n\t'id': 'XXXXX'\n}"} />
+                                        <Code code={"{\n    'id': 'XXXXX'\n}"} />
                                         <br />
 
                                         <p>After getting job id make a <span className="method-name">GET</span> request to the Get URL. It will return the status of your request. When status is "COMPLETED" it will return the output.</p>
@@ -361,7 +361,7 @@ const API = () => {
 
                                     </div>
                                     <p>Response:</p>
-                                    <Code code={"{\n\t'status': 'COMPLETED',\n\t'output': {}\n}"} />
+                                    <Code code={"{\n    'status': 'COMPLETED',\n    'output': {}\n}"} />
                                     <br />
                                 </div>
                             </div>
@@ -378,7 +378,7 @@ const API = () => {
                     </div>
                 </div>}
 
-        </div>
+        </>
     );
 }
 

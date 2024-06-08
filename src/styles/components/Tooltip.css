@@ -1,0 +1,21 @@
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltiptext {
+    width: max-content;
+    max-width: 240px;
+    visibility: visible;
+    background-color: #333;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    transition: opacity 0.5s;
+    font-size: 14px;
+    font-weight: 100;
+    padding: 10px;
+    color: rgb(163, 150, 150);
+}

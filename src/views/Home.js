@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Loading from '../components/Loading';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import useAuth from '../hooks/useAuthState';
 import HeroLogo from '../components/HeroLogo';
 import Banner from '../components/Banner';
 
@@ -41,7 +40,7 @@ const Home = () => {
             };
 
             const maxDistance = 550;
-            const newOpacity = Math.max(0.4, Math.min(1, 1 - distance / maxDistance));
+            const newOpacity = Math.max(0.6, Math.min(1, 1 - distance / maxDistance));
             setOpacity(newOpacity);
 
         };
@@ -75,7 +74,7 @@ const Home = () => {
 
     return (
         <div className="home">
-            <Banner color="grey"/>
+            <Banner color="grey" height={'250px'}/>
             <div className='hero-container'>
                 <div className="home-banner">
                     <div className="home-title-container">
@@ -111,6 +110,7 @@ const Home = () => {
                 </div>
             </div>
 
+            <Banner color="darkblue" height={'100px'}/>
             <div className="latest-apis-header">
                 <Link to={"apis"} className='label-link'>
                     See All APIs

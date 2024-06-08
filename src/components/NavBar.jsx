@@ -16,12 +16,14 @@ const NavBar = () => {
     }
     
     useEffect(() => {
-        if (['/sign-up', '/console', '/login', '/reset-password', '/terms-of-service', '/privacy-policy', '/refund-policy'].includes(location.pathname)) setStickyNavbar(true)
+        if (
+            ['/sign-up', '/console', '/login', '/reset-password', '/terms-of-service', '/privacy-policy', '/refund-policy'].includes(location.pathname)) setStickyNavbar(true)
         else setStickyNavbar(false);
     }, [location.pathname])
 
     return (
-        <div className={`navbar-container ${stickyNavbar ? 'navbar-container-sticky' : 'navbar-container-fixed' }`}>
+        <div
+         className={`navbar-container ${stickyNavbar ? 'navbar-container-sticky' : 'navbar-container-fixed' }`}>
             <nav className={`navbar ${stickyNavbar ? 'navbar-sticky' : 'navbar-fixed' }`}>
                 <div className="title-menu">
                     <Link style={{ textDecoration: 'none' }} to={"/"} className="title-container">

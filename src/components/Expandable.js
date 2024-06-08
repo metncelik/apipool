@@ -14,6 +14,7 @@ const Expandable = ({
 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
+    
     useEffect(() => {
         setIsExpanded(expanded || false);
     }, [expanded]);

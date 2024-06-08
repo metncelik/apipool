@@ -10,7 +10,7 @@ const Logo = () => {
   )
 }
 
-const LoadingSpin = () => {
+const LoadingSpinner = () => {
   return (
     <div>
       <div className="logo-spin">
@@ -20,11 +20,12 @@ const LoadingSpin = () => {
   )
 }
 
-const Loading = () => {
-
+const Loading = ({ height }) => {
   return (
-    <div className="loading-container">
-      <LoadingSpin />
+    <div
+      className="loading-container"
+    >
+      <LoadingSpinner/>
     </div>
   );
 }
