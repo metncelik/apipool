@@ -46,7 +46,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             setFetchStatus(status);
             if (status === 'FAILED') {
                 setIsPending(false);
-                setFetchStatus("Error.");
+                setFetchStatus(response.data.error);
                 clearInterval(fetchIntervalId.current);
                 return;
             }
@@ -70,6 +70,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
     const sendRequest = async (e) => {
         try {
             e.preventDefault();
+
             if (!auth.isLoggedIn)
                 return enqueueSnackbar("Log in to use the playground", { variant: "info" });
             for (const input of inputs) {
@@ -92,9 +93,10 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                     } else {
                         parsedBody[key] = body[key];
                     }
-                } else {
+                } else if (body[key].type === 'number') {
                     parsedBody[key] = parseFloat(body[key]) || body[key];
                 }
+                parsedBody[key] = body[key];
             }
 
             setOutputValues({})
@@ -371,7 +373,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                 <div>
                     {renderValue(type, value)}
                     {type !== 'string' && <>
-                        <span style={{ marginTop:'20px', display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
+                        <span style={{ marginTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
                             <label className='p-description'>Original String</label>
                             <FaRegCopy
                                 style={

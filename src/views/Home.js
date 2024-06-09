@@ -74,7 +74,7 @@ const Home = () => {
 
     return (
         <div className="home">
-            <Banner color="grey" height={'250px'}/>
+            {/* <Banner color="grey" height={'250px'}/> */}
             <div className='hero-container'>
                 <div className="home-banner">
                     <div className="home-title-container">

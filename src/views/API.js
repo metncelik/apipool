@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import { axiosPrivate } from "../api/axios";
 import { useSnackbar } from "notistack";
+import SEO from "../components/SEO";
 
 const Code = ({ code }) => {
     return (
@@ -247,10 +248,11 @@ const API = () => {
         <>
             {isPending ?
                 <div>
-                    <Loading/>
+                    <Loading />
                 </div>
                 :
                 <div className="api-main">
+                    <SEO title={api.title + " API | Try & Use | APIPOOL"} description={api.description} />
                     <Banner image={api.image_url} margin={150} height={300} />
                     <div className="api-body container">
                         <h1 className="api-title">{api.title} API</h1>

@@ -6,9 +6,9 @@
   /* background: linear-gradient(90deg, #03001C, #ff000046); */
   z-index: -1;
   opacity: 1;
-}
-
-.banner-before {
+  }
+  
+  .banner-before {
   position: absolute;
   /* min-height: 300px; */
   max-height: 1px;
