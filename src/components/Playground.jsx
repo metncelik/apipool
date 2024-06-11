@@ -134,6 +134,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             const jobID = res.data.id;
             if (!jobID) {
                 enqueueSnackbar("Failed to send request", { variant: "error" });
+                clearInterval(fetchIntervalId.current);
                 return setIsPending(false);
             };
             setFetchStatus('IN QUEUE');
@@ -142,6 +143,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             const limit = 60;
             setIsPending(true);
             const intervalId = setInterval(async () => {
+                console.log('fetching');
                 // remove this line
                 setIsPending(true);
                 await fetchResult(jobID, apiKey)
@@ -154,6 +156,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             }, 5000);
             fetchIntervalId.current = intervalId;
         } catch (error) {
+            clearInterval(fetchIntervalId.current);
             setIsPending(false);
             if (error.response)
                 return enqueueSnackbar(error.response.data.message, { variant: "error" });
