@@ -313,7 +313,7 @@ const API = () => {
                                                     }
                                                 }
                                             >{param.type}</td>
-                                            <td>{param.is_required !== null ? param.is_required.toString() : "-"}</td>
+                                            <td>{param.is_required === true ? "yes" : param.is_required === false ? "no" : "depends"}</td>
                                             <td>{param.default_value || "-"}</td>
                                             <td className="left-align param-description">{param.description}</td>
                                         </tr>
