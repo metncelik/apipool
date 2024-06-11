@@ -21,22 +21,6 @@
   filter: blur(150px);
 }
 
-.banner-title {
-  text-align: center;
-  padding: 0px 20px;
-  font-size: 30px;
-  font-weight: 700;
-  background-color: transparent;
-  cursor: default;
-  background: -webkit-linear-gradient(45deg,
-  #9a8ed5, #ff4d4d);
-  background-clip: border-box;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  padding-top: 40px;
-  /* color: linear-gradient(45deg, #03001C, #ff000046); */
-}
-
 @media screen and (max-width: 768px) {
   .banner-before{
     background-size: cover;

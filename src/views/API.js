@@ -2,7 +2,7 @@ import Banner from "../components/Banner";
 import '../styles/views/API.css'
 import SyntaxHighlighter from "react-syntax-highlighter";
 import Playground from "../components/Playground";
-import { stackoverflowDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { paraisoDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../components/Loading";
@@ -13,7 +13,7 @@ import SEO from "../components/SEO";
 const Code = ({ code }) => {
     return (
         <div className="code-container">
-            <SyntaxHighlighter style={stackoverflowDark} customStyle={{ padding: "20px", backgroundColor: "#131a20" }} language={"JAVASCRIPT"} children={code} className={"code border-radius"} />
+            <SyntaxHighlighter style={paraisoDark} customStyle={{ padding: "20px", backgroundColor: "#131a20", lineHeight: "1.7", fontSize: "14px" }} language={"JAVASCRIPT"} children={code} className={"code border-radius"} />
         </div>
     )
 }
@@ -21,10 +21,10 @@ const Code = ({ code }) => {
 const getCodes = (apiAlias) => {
     return {
         "create_header": {
-            "Python": "headers = {\n    \"Authorization\": \"Bearer API_KEY\", #Get your api key from console\n}\n",
-            "JavaScript": "const headers = {\n    'Authorization': 'Bearer API_KEY', //Get your api key from console\n};\n",
-            "Go": "headers := map[string]string{\n    \"Authorization\": \"Bearer API_KEY\", //Get your api key from console\n}\n",
-            "PHP": "$headers = array(\n    'Authorization: Bearer API_KEY', //Get your api key from console\n);\n"
+            "Python": "headers = {\n    \"Authorization\": \"Bearer YOUR_API_KEY\", #Get your api key from console\n}\n",
+            "JavaScript": "const headers = {\n    'Authorization': 'Bearer YOUR_API_KEY', //Get your api key from console\n};\n",
+            "Go": "headers := map[string]string{\n    \"Authorization\": \"Bearer YOUR_API_KEY\", //Get your api key from console\n}\n",
+            "PHP": "$headers = array(\n    'Authorization: Bearer YOUR_API_KEY', //Get your api key from console\n);\n"
         },
         "create_body": {
             "Python": "body = {\n    \"parameter1\": \"value1\",\n    \"parameter2\": \"value2\"\n}\n",
@@ -232,8 +232,8 @@ const API = () => {
                     }
                 </div>
                 <SyntaxHighlighter
-                    style={stackoverflowDark}
-                    customStyle={{ padding: "15px", backgroundColor: "#131a20" }}
+                    style={paraisoDark}
+                    customStyle={{ padding: "15px", backgroundColor: "#131a20", lineHeight: "1.7", fontSize: "14px" }}
                     language={selectedLanguage.toLocaleLowerCase()}
                     children={codes[selectedLanguage]}
                     className={"code"}
@@ -242,36 +242,36 @@ const API = () => {
         );
     };
 
-
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <>
             {isPending ?
-                <div>
-                    <Loading />
-                </div>
+                <Loading/>
                 :
                 <div className="api-main">
                     <SEO title={api.title + " API | Try & Use | APIPOOL"} description={api.description} />
                     <Banner image={api.image_url} margin={150} height={300} />
                     <div className="api-body container">
                         <h1 className="api-title">{api.title} API</h1>
-                        <div className="description-container">
-                            <div className="urls-container">
-                                <p className="url-container" onClick={() => { copyToClipBoard('post-url') }}>
-                                    <div className="url-row">
-                                        <div className="api-label">POST</div> &nbsp;
-                                        <p className="api-url" id='post-url'>{postURL}</p>
-                                    </div>
+                        <div className="urls-container">
+                            <p className="url-container" onClick={() => { copyToClipBoard('post-url') }}>
+                                <div className="url-row">
+                                    <div className="url-label">POST</div> &nbsp;
+                                    <p className="api-url" id='post-url'>{postURL}</p>
+                                </div>
 
-                                </p>
-                                <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
-                                    <div className="url-row">
-                                        <div className="api-label">GET</div> &nbsp;
-                                        <p className="api-url" id="fetch-url">{fetchURL + ":id"}</p>
-                                    </div>
-                                </p>
-                            </div>
+                            </p>
+                            <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
+                                <div className="url-row">
+                                    <div className="url-label">GET</div> &nbsp;
+                                    <p className="api-url" id="fetch-url">{fetchURL + ":id"}</p>
+                                </div>
+                            </p>
+                        </div>
+                        <div className="description-container">
                             {/* <div className="title-area">
                                 <h2 className="description-title">
                                 Info
@@ -293,7 +293,7 @@ const API = () => {
                             </h2>
                             <div className="table-container">
 
-                                <table className="gap">
+                                <table className="params-table">
                                     <tr>
                                         <th className="left-align">Parameter</th>
                                         <th>Type</th>
@@ -304,7 +304,15 @@ const API = () => {
                                     {api.inputs.map((param) => (
                                         <tr>
                                             <td className="left-align">{param.title}</td>
-                                            <td>{param.type}</td>
+                                            <td
+                                                style={
+                                                    {
+                                                        textWrap: 'balance',
+                                                        maxWidth: '200px',
+                                                        overflow: 'auto',
+                                                    }
+                                                }
+                                            >{param.type}</td>
                                             <td>{param.is_required !== null ? param.is_required.toString() : "-"}</td>
                                             <td>{param.default_value || "-"}</td>
                                             <td className="left-align param-description">{param.description}</td>
@@ -317,7 +325,7 @@ const API = () => {
                                 Output Attributes
                             </h2>
                             <div className="table-container">
-                                <table className="gap">
+                                <table className="params-table">
                                     <tr>
                                         <th className="left-align">Parameter</th>
                                         <th>Type</th>
@@ -338,14 +346,14 @@ const API = () => {
                                 <h2 className="title-area">
                                     Usage
                                 </h2>
-                                <div className="gap">
+                                <div>
                                     <p>Create a headers variable with your API key.</p>
                                     <CodeWithHeader codes={codes.create_header} />
                                     <br />
                                     <p>Create a request body with the parameters in the table above.</p>
                                     <CodeWithHeader codes={codes.create_body} />
                                     <br />
-                                    <p>Make a <span className="method-name">POST</span> request to the API URL with the header and body.
+                                    <p>Make a <span className="method-name">POST</span> request to the POST Endpoint with the header and body.
                                         {false &&
                                             <span> It will return the output.</span>
                                         }
@@ -357,7 +365,7 @@ const API = () => {
                                         <Code code={"{\n    'id': 'XXXXX'\n}"} />
                                         <br />
 
-                                        <p>After getting job id make a <span className="method-name">GET</span> request to the Get URL. It will return the status of your request. When status is "COMPLETED" it will return the output.</p>
+                                        <p>After getting job id make a <span className="method-name">GET</span> request to the GET Endpoint. It will return the status of your request. When status is "COMPLETED" it will return the output.</p>
                                         <CodeWithHeader codes={codes.fetch} />
                                         <br />
 
@@ -384,4 +392,4 @@ const API = () => {
     );
 }
 
-export default API;
+export default API;                      

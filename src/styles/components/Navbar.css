@@ -106,7 +106,7 @@
   color: #4f5254;
 }
 
-.nav-button{
+.nav-button {
   border: 0px;
   cursor: pointer;
   background-color: #075aa2;
@@ -155,8 +155,8 @@
     justify-content: space-between;
     border-radius: 30px;
   }
-  
-  .title-container{
+
+  .title-container {
     margin-right: 20px;
   }
 

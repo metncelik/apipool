@@ -2,7 +2,7 @@ import '../styles/components/Banner.css'
 
 const Banner = ({image, color, margin, height}) => {
       const beforeStyle = color && !image ? {
-        backgroundColor: color,
+        backgroundColor: color
       }:  {
         backgroundImage: `url(${image})`
       };

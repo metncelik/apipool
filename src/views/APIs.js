@@ -80,7 +80,7 @@ const APIs = () => {
                 </div>
                 <div className="content-container">
                     {isPending ?
-                        <Loading />
+                        <Loading/>
                         :
                         <APIList apis={apis} />
                     }

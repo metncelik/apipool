@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
 import '../styles/components/Playground.css';
+import { useEffect, useRef, useState } from 'react';
 import useAuth from '../hooks/useAuthState';
 import { useSnackbar } from 'notistack';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
@@ -7,13 +7,12 @@ import axios from 'axios';
 import Loading from './Loading';
 import Expandable from '../components/Expandable';
 import { GoPlus } from "react-icons/go";
-import { MdDeleteOutline } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
 import { FaRegCopy } from 'react-icons/fa';
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import Tooltip from './Tooltip';
 import React from 'react';
-
-//i am not happy with this code, but it works (copilot suggestion)
+import { FaFileImage, FaFileAudio, FaFile, FaFileVideo } from "react-icons/fa";
 
 const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
     const { auth } = useAuth();
@@ -24,7 +23,12 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             if (input.type.endsWith('[]'))
                 acc[input.title] = [input.default_value || ''];
             else
-                acc[input.title] = input.default_value || (input.type === 'number' ? 0 : '');
+                acc[input.title] = input.default_value ||
+                    (input.type === 'number' ? '0' :
+                        input.type === 'string' ? '' :
+                            input.type === 'boolean' ? "false" :
+                                '');
+
             return acc;
         }, {})
     );
@@ -46,7 +50,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             setFetchStatus(status);
             if (status === 'FAILED') {
                 setIsPending(false);
-                setFetchStatus(response.data.error);
+                setFetchStatus("Error.");
                 clearInterval(fetchIntervalId.current);
                 return;
             }
@@ -62,7 +66,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             clearInterval(fetchIntervalId.current);
             setIsPending(false);
             if (error.response)
-                return enqueueSnackbar(error.response.data.error, { variant: "error" });
+                return enqueueSnackbar("Error.", { variant: "error" });
             return enqueueSnackbar(error.message, { variant: "error" });
         }
     }
@@ -73,30 +77,51 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
 
             if (!auth.isLoggedIn)
                 return enqueueSnackbar("Log in to use the playground", { variant: "info" });
-            for (const input of inputs) {
-                if (input.is_required && !body[input.title]) {
-                    return enqueueSnackbar(`${input.title} is required`, { variant: "error" });
-                }
-            }
             setFetchStatus(null);
             setIsPending(true);
             const response = await axiosPrivate.get('/api-keys/get-one');
             if (!response) return;
             const apiKey = response.data.apiKey;
 
+
             // Parse numbers in body values and pop last item if it's an empty string
             let parsedBody = {};
             for (let key in body) {
-                if (Array.isArray(body[key])) {
-                    if (body[key][body[key].length - 1] === '') {
-                        parsedBody[key] = body[key].slice(0, -1);
+                const value = body[key];
+                const type = inputs.find(input => input.title === key).type;
+                if (Array.isArray(value)) {
+                    if (value[value.length - 1] === '') {
+                        parsedBody[key] = value.slice(0, -1);
                     } else {
-                        parsedBody[key] = body[key];
+                        parsedBody[key] = value;
                     }
-                } else if (body[key].type === 'number') {
-                    parsedBody[key] = parseFloat(body[key]) || body[key];
+                    for (let i = 0; i < value.length; i++) {
+                        if (type.slice(0, -2) === 'number') {
+                            parsedBody[key][i] = parseFloat(value[i]) || parseInt(value[i]) || value[i];
+                        }
+                    }
+                } else if (type === 'number') {
+                    parsedBody[key] = Number(value);
+                } else if (type === 'boolean') {
+                    parsedBody[key] = value === 'true' ? true : false;
+                } else parsedBody[key] = value;
+            }
+
+            for (const input of inputs) {
+                if (input.is_required && (!parsedBody[input.title] || parsedBody[input.title].length < 1)) {
+                    setIsPending(false)
+                    const requiredElement = document.getElementById(input.title);
+                    requiredElement.className = "p-form-element required";
+                    setTimeout(() => {
+                        requiredElement.className = "p-form-element";
+                    }, 1000);
+                    const location = requiredElement.getBoundingClientRect();
+                    window.scrollTo({
+                        top: location.top + 500,
+                        behavior: 'smooth'
+                    });
+                    return enqueueSnackbar(`${input.title} is required`, { variant: "error" });
                 }
-                parsedBody[key] = body[key];
             }
 
             setOutputValues({})
@@ -129,8 +154,10 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             }, 5000);
             fetchIntervalId.current = intervalId;
         } catch (error) {
-            enqueueSnackbar(error.message, { variant: "error" });
             setIsPending(false);
+            if (error.response)
+                return enqueueSnackbar(error.response.data.message, { variant: "error" });
+            enqueueSnackbar(error.message, { variant: "error" });
         }
     }
 
@@ -149,18 +176,34 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             input.relations?.forEach((relation => {
                 const relatedKey = relation.related_input_title;
                 const element = document.getElementById(input.title);
+                if (!element) return; // expandable 
                 const children = element.children;
-                if (!body[relatedKey]) {
+                const relatedValue = relation.related_value;
+                const relationType = relation.relation_type;
+                const realtionAction = relation.relation_action;
+                const actualValue = body[relatedKey];
+
+                const checkConditions = (relationType, actualValue, relatedValue) => {
+                    if (relationType === 'EQUALS') return actualValue === relatedValue;
+                    if (relationType === 'NOT_EQUALS') return actualValue !== relatedValue;
+                    if (relationType === 'NOT_NULL') return !!actualValue;
+                    if (relationType === 'NULL') return !actualValue;
+                    if (relationType === 'NOT_EMPTY') return actualValue.length > 0;
+                }
+
+                if (checkConditions(relationType, actualValue, relatedValue)) {
+                    if (realtionAction === 'MAKE_REQUIRED') input.is_required = true;
+                    for (let child of children) {
+                        child.disabled = false;
+                    }
+                    return element.setAttribute('class', 'p-form-element');
+                } else {
+                    if (realtionAction === 'MAKE_REQUIRED') input.is_required = false;
                     for (let child of children) {
                         child.disabled = true;
                     }
                     return element.setAttribute('class', 'p-form-element disabled');
                 }
-                for (let child of children) {
-                    child.disabled = false;
-
-                }
-                return element.setAttribute('class', 'p-form-element');
             }));
         });
     }, [body]);
@@ -172,6 +215,13 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             return value[value.length - 1];
         }
         const type = input.type;
+
+        const fileIcons = {
+            'file': <FaFile />,
+            'image': <FaFileImage />,
+            'audio': <FaFileAudio />,
+            'video': <FaFileVideo />,
+        }
         switch (true) {
             case type === 'number':
                 return (
@@ -207,8 +257,23 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                     />
                 );
             case type === 'boolean':
+                return (
+                    <div className='p-form-checkbox-container'>
+                        <label className='p-form-label p-description p-form-checkbox-label' htmlFor={input.title + 'checkbox'}>
+                            {input.title}
+                        </label>
+                        <input
+                            id={input.title + 'checkbox'}
+                            type='checkbox'
+                            className='p-form-checkbox-input'
+                            checked={getValue(input.title) == 'true'}
+                            onChange={(e) => {
+                                setBody({ ...body, [input.title]: e.target.checked.toString() });
+                            }}
+                        />
+                    </div>
+                );
             case type.startsWith('enum'):
-                console.log(input.type.slice(5, -1).split(','));
                 return (
                     <select
                         className='p-form-input p-form-select-input'
@@ -222,15 +287,12 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                             setBody({ ...body, [input.title]: e.target.value });
                         }}
                     >
-                        {input.type.startsWith('enum') ?
+                        <option value={''} hidden={true}>Select...</option>
+                        {
                             input.type.slice(5, -1).split(',').map((value) => (
                                 <option value={value}>{value}</option>
                             ))
-                            :
-                            <>
-                                <option value={true}>True</option>
-                                <option value={false}>False</option>
-                            </>}
+                        }
                     </select>
                 );
             case type === 'file':
@@ -238,26 +300,39 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             case type === 'audio':
             case type === 'video':
                 return (
-                    <input
-                        type='file'
-                        accept={input.type + '/*'}
-                        className='p-form-input p-form-file-input'
-                        onChange={(e) => {
-                            const file = e.target.files[0];
-                            const reader = new FileReader();
-                            reader.onload = (e) => {
-                                const base64_string = e.target.result.split(',')[1];
-                                if (Array.isArray(body[input.title])) {
-                                    const array = body[input.title];
-                                    array[array.length - 1] = base64_string;
-                                    return setBody({ ...body, [input.title]: array });
-                                }
-                                setBody({ ...body, [input.title]: base64_string });
-                            }
-                            reader.readAsDataURL(file);
-                        }}
+                    <>
+                        <label htmlFor={input.title + '-file-input'} className='p-form-file-input-container' >
+                            {fileIcons[type]}
 
-                    />
+                            <span className='p-form-file-input-label'>
+                                {document.getElementById(input.title + '-file-input')?.files[0]?.name || `Select ${type}`}
+
+                            </span>
+                        </label>
+                        <input
+                            type='file'
+                            placeholder='Upload a file'
+                            accept={type + '/*'}
+                            className='p-form-input p-form-file-input'
+                            id={input.title + '-file-input'}
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (!file) return;
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    const base64_string = e.target.result.split(',')[1];
+                                    if (Array.isArray(body[input.title])) {
+                                        const array = body[input.title];
+                                        array[array.length - 1] = base64_string;
+                                        return setBody({ ...body, [input.title]: array });
+                                    }
+                                    setBody({ ...body, [input.title]: base64_string });
+                                }
+                                reader.readAsDataURL(file);
+                            }}
+
+                        />
+                    </>
                 );
             default:
                 return null;
@@ -276,17 +351,17 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             <>
                 {renderInput({ ...input, type: input.type.slice(0, -2) })}
                 <button className='p-form-add-button' onClick={addToBody}>
-                    <GoPlus size={20} />
                     Add
+                    <GoPlus size={20} />
                 </button>
                 {body[input.title].map((v, i, self) => {
                     if (i === self.length - 1) return;
                     return (
                         <span style={{ display: 'flex', alignItems: 'center' }}>
                             {<label className='p-description'>
-                                {i}
+                                {(i + 1) + ". "}
                             </label>}
-                            <textarea style={{ width: 'fit-content' }} className='p-form-input p-form-text-input' readOnly value={v}></textarea>
+                            <textarea style={{ width: 'fit-content' }} className='p-form-input p-form-text-input p-form-array-item' readOnly value={v}></textarea>
                             <button
                                 onClick={(e) => {
                                     e.preventDefault();
@@ -295,9 +370,9 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                                     setBody({ ...body, [input.title]: array });
                                 }
                                 }
-                                className="table-delete-button"
+                                className="p-form-array-remove-button"
                             >
-                                <MdDeleteOutline size={20} className='api-keys-delete-icon' />
+                                <MdClose size={17} className='p-form-array-remove-icon' />
                             </button>
                         </span>
                     )
@@ -319,7 +394,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
 
     const [selectedOutput, setSelectedOutput] = useState(0);
 
-    const displayOutput = (value, type, index = 0, main = true) => {
+    const displayOutput = (description, value, type, index = 0, main = true) => {
         if (main && index !== selectedOutput) return;
         const copyToClipboard = (id) => {
             const text = document.getElementById(id).value;
@@ -331,12 +406,11 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                 height={'200px'}
             />;
             if (!value) {
-                return <p >-</p>;
+                return <p className='p-description'>{description}</p>;
             };
 
 
             const renderValue = (type, value) => {
-                console.log(type);
                 switch (type) {
                     default:
                     case 'string':
@@ -403,6 +477,10 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
     const advancedInputs = inputs.filter((input) => input.is_advanced);
     const essentialInputs = inputs.filter((input) => !input.is_advanced);
 
+    const normalizeString = (str) => {
+        return str.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())
+    }
+
     return (
         <div className='playground-main'>
             <div className="p-input">
@@ -415,21 +493,25 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                                         <IoMdInformationCircleOutline
                                             style={{
                                                 cursor: 'pointer',
-                                                margin: '5px',
+                                                margin: '3px',
                                                 verticalAlign: 'middle'
                                             }}
-                                            size={17}
+                                            size={16}
                                             color='grey' />
                                     </Tooltip>
-                                    {input.title} {input.is_required ?
-                                        <span style={{ color: 'rgb(127, 40, 40)', fontSize: '20px' }}>*</span>
-                                        : ''}</label>
+                                    {normalizeString(input.title)}
+                                    {/* uncomment after proper state management */}
+                                    {/* {input.is_required ?
+                                        <span className='required-star'>*</span>
+                                        : ''} */}
+                                </label>
                                 {renderElement(input)}
                             </div>
                         )
                     })}
                     {advancedInputs.length > 0 && (
                         <Expandable
+                        backgroundColor={'transparent'}
                             contentPadding={'5px'}
                             label={"Advanced"}>
                             {advancedInputs.map((input) => {
@@ -447,7 +529,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                                                     size={17}
                                                     color='grey' />
                                             </Tooltip>
-                                            {input.title} {input.is_required ? '*' : ''}</label>
+                                            {normalizeString(input.title)} {input.is_required ? '*' : ''}</label>
                                         {renderElement(input)}
                                     </div>
                                 )
@@ -462,17 +544,25 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                         onClick={sendRequest} type="submit">
                         {isPending ? 'Generating...' : 'Generate'}
                     </button>
+                    {Object.keys(outputValues).length > 0 &&
+                        <p
+                            onClick={() => setOutputValues({})}
+                            className='p-clear-output p-description'>
+                            Clear Output
+                        </p>
+                    }
                 </form>
 
             </div>
             <div className='p-output'>
                 <h3 className='p-output-title'>Output</h3>
+
                 {outputs.map((output) => {
                     return (
                         <>
                             <div className='p-output-value'>
                                 {<div>
-                                    <label className='p-form-label'>{output.title}</label>
+                                    <label className='p-form-label'>{normalizeString(output.title)}</label>
                                     {/* <p className='p-description'>{output.description}</p> */}
                                     <div className='p-output-value'>
                                         {(() => {
@@ -482,7 +572,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                                                     <div>
                                                         {value.map((item, index) => (
                                                             <div key={index}>
-                                                                {displayOutput(item, output.type.slice(0, output.type.length - 2), index)}
+                                                                {displayOutput( output.description,item, output.type.slice(0, output.type.length - 2), index)}
                                                             </div>
                                                         ))}
                                                         <div
@@ -494,7 +584,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                                                                 <div key={index}>
                                                                     <button
                                                                         className='output-selector-button'
-                                                                        disabled={selectedOutput === index} onClick={() => setSelectedOutput(index)}>{index}</button>
+                                                                        disabled={selectedOutput === index} onClick={() => setSelectedOutput(index)}>{index + 1}</button>
                                                                 </div>
                                                             ))
                                                             }
@@ -504,7 +594,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
 
                                                 );
                                             }
-                                            return displayOutput(value, output.type);
+                                            return displayOutput( output.description,value, output.type);
 
                                         })()}
                                     </div>

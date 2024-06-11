@@ -3,11 +3,12 @@
     max-width: 100%;
     display: flex;
     flex-wrap: wrap;
-    background-color: #131a20;
-    padding: 10px;
+    background-color: #121A20;
+    padding: 20px;
     margin: 5px;
     border-radius: 10px;
     min-height: 50vh;
+    gap: 10px;
 }
 
 .p-input {
@@ -24,40 +25,56 @@
 }
 
 .p-form-label {
-    color: #c4baba;
-    font-size: 16px;
-    margin: 5px;
-
+    color: #c4babad9;
+    font-size: 15px;
+    /* margin: 5px; */
+    margin-bottom: 0px;
+    font-weight: 400;
+    height: 27px;
 }
 
 .p-form-element {
     display: flex;
     flex-direction: column;
-    margin: 5px;
 }
 
 .disabled {
-    opacity: 0.3;
+    opacity: 0.5;
     cursor: not-allowed;
+}
+
+.required-star {
+    color: rgb(127, 40, 40);
+    margin-left: 5px;
+}
+
+.required {
+    background-color: rgba(157, 33, 33, 0.783);
+    border-radius: 5px;
 }
 
 .p-form-element-container {
     display: flex;
     flex-direction: column;
-    border: 1px solid #72686834;
     margin: 5px;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 7px;
+    background-color: #0f131865;
+    border: 1px solid #908c8c13;
 }
 
 .p-form-input {
     border-radius: 5px;
     margin: 5px;
-    padding: 5px;
-    background-color: rgb(50, 163, 152);
+    background-color: #121A20;
     border: 0px;
     padding: 10px;
+    border: 1px solid #5d5b5b58;
+    color: #a1a4a8;
+    font-family: 'Lexend';
+
 }
+
 
 .p-form-input::placeholder {
     color: rgba(78, 76, 76, 0.552);
@@ -65,7 +82,7 @@
 
 .p-form-input:focus {
     outline: none;
-    background-color: turquoise;
+    border-color: #9894948d;
 }
 
 .p-form-text-input {
@@ -74,16 +91,11 @@
 }
 
 .p-form-text-input:read-only {
-    min-height: 200px;
+    max-height: 200px;
 }
 
 .p-form-text-input:disabled {
     min-height: fit-content;
-}
-
-.p-form-number-input {
-    border: 1px solid black;
-    color: black;
 }
 
 .p-form-number-input::-webkit-inner-spin-button,
@@ -96,19 +108,85 @@
     background-color: #ccc;
 }
 
-input[type=file]::file-selector-button {
-    padding: .3em .6em;
-    border-radius: .2em;
-    background-color: #e9ebf099;
-    border-radius: 5px;
-    outline: none;
-    border: 2px solid #0d0d0dd0;
-    transition: 0.2s;
+.p-form-number-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+
 }
 
-input[type=file]::file-selector-button:hover {
-    background-color: #ffffffda;
+.p-form-checkbox-label {
+    font-size: 15px;
+    margin: 5px;
+    margin-bottom: 0px;
+    font-weight: 200;
+    height: max-content;
+    vertical-align: middle;
 }
+
+.p-form-checkbox-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px;
+    /* margin-left: 0px; */
+    border-radius: 5px;
+    border: 1px solid #5d5b5b8d;
+    background-color: #121A20;
+}
+
+.p-form-file-input {
+    display: none;
+}
+
+.p-form-file-input-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 5px;
+    /* margin-left: 0px; */
+    border-radius: 5px;
+    border: 1px solid #5d5b5b58;
+    height: 30px;
+    color: rgb(172, 168, 168);
+    font-weight: 200;
+    font-size: 15px;
+    cursor: pointer;
+    background-color: #121A20;
+}
+
+.p-form-file-input-label {
+    margin-left: 5px;
+}
+
+
+.p-form-select-input {
+  appearance: none;
+}
+
+/* 
+.p-form-select-input::after {
+  content: '\25BC'; 
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+} */
+
+/* .p-form-file-input::file-selector-button {
+    display: none;
+    padding: .3em .6em;
+    border-radius: .2em;
+    background-color: #e9ebf045;
+    border-radius: 5px;
+    outline: none;
+    border: 2px solid #0d0d0d8d;
+    transition: 0.2s;
+} */
+
+/* .p-form-file-input::file-selector-button:hover {
+    background-color: #ffffffda;
+} */
 
 .p-form-button {
     background-color: rgba(11, 114, 11, 0.738);
@@ -136,25 +214,59 @@ input[type=file]::file-selector-button:hover {
     width: 100px;
     align-self: flex-end;
     margin: 5px;
-    padding: 5px;
-    background-color: #6387cf92;
+    padding: 2px;
+    background-color: #22232463;
+    border: 1px solid #4240404f;
+    color: rgb(173, 171, 171)
 }
 
 .p-form-add-button:hover {
-    background-color: #6387cf;
+    background-color: #2f2e2e22;
 }
 
 .p-description {
     color: #877e7e;
     font-size: 15px;
+    margin: 10px;
+    
+}
+
+.p-form-array-item {
+    background-color: #0e0e0e4d;
+    border: 1px solid #5251512f;
+    }
+    
+    .p-form-array-item:focus {
+    border: 1px solid #5251512f;
+}
+
+.p-form-array-remove-button {
+    background-color: #c43f3f;
+    color: white;
+    padding: 5px;
+    border: 0px;
+    border-radius: 5px;
     margin: 5px;
+    cursor: pointer;
+}
+
+.p-form-array-remove-button:hover {
+    background-color: #c43f3f9e;
+}
+
+.p-form-array-remove-button:focus {
+    background-color: #c43f3f9e;
+}
+
+.p-form-select-input {
+    font-family: 'Lexend';
 }
 
 .p-output {
     flex: 1;
     margin: 5px;
     padding: 15px;
-    border: 1px solid #72686834;
+    border: 1px solid #7268681f;
     border-radius: 10px;
 }
 
@@ -206,6 +318,10 @@ input[type=file]::file-selector-button:hover {
 
 }
 
+
+.p-clear-output {
+    cursor: pointer;
+}
 
 @media screen and (max-width: 768px) {
     .playground-main {

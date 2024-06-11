@@ -7,6 +7,7 @@ import Loading from '../components/Loading';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import HeroLogo from '../components/HeroLogo';
 import Banner from '../components/Banner';
+import SEO from '../components/SEO';
 
 const Home = () => {
     const [apis, setAPIs] = useState([])
@@ -75,6 +76,7 @@ const Home = () => {
     return (
         <div className="home">
             {/* <Banner color="grey" height={'250px'}/> */}
+            <SEO title="API POOL | SERVERLESS AI APIs" description="API POOL is a leading API service offering a wide range of AI apis, including popular options like Stable Diffusion XL, LLaMA, Whisper, Suno Bark, Real ESRGAN, Kandinsky, Musicgen, Controlnet, Inpainting, and more. Our platform provides advanced solutions for processing Image, Text, Audio, Video, and Animation apis, catering to diverse needs in the AI community. Transform your projects with our efficient and comprehensive API services." />
             <div className='hero-container'>
                 <div className="home-banner">
                     <div className="home-title-container">
@@ -110,7 +112,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <Banner color="darkblue" height={'100px'}/>
+            <Banner color="darkblue" height={'100px'} />
             <div className="latest-apis-header">
                 <Link to={"apis"} className='label-link'>
                     See All APIs
