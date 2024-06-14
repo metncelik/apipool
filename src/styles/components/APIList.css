@@ -95,31 +95,13 @@
 
 
 .api-info-title {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     padding: 0px 5px;
-}
-
-.api-name {
-    /* overflow: hidden;
-    text-overflow: ellipsis; */
-    max-width: 142px;
 }
 
 .api-divider {
     margin: 10px 0px;
     border-top: 1px solid rgba(159, 178, 179, 0.74);
 }
-
-.api-id {
-    font-weight: 100;
-    color: rgb(177, 137, 215);
-    align-self: center;
-    font-size: 14px;
-    margin-left: auto;
-    max-width: 142px;
-}    
 
 .api-description {
     margin-top: 10px;

@@ -29,9 +29,6 @@ const APIList = ({ apis }) => {
                                     <div className="api-name">
                                         {api.api_title}
                                     </div>
-                                    {/* <div className="api-id">
-                                        {api.alias}
-                                    </div> */}
                                 </div>
                                 <div className="api-divider"></div>
 

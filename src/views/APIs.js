@@ -10,7 +10,7 @@ import { useSearchParams } from 'react-router-dom';
 const APIs = () => {
     const [apis, setAPIs] = useState(null)
     const axiosPrivate = useAxiosPrivate();
-    let offset = 1000;
+    const [offset, setOffset] = useState(1000);
     const [isEnd, setIsEnd] = useState(false);
     const categories = [
         // "LLM", "Stable Diffusion", "Image Generation", "Audio Generation", "Video Generation", "Inpainting", "Controlnet", "Super Resolution", "Face Enhancing", "Text to Image", "Image to Image", "Image to Text"
@@ -30,7 +30,7 @@ const APIs = () => {
             if (newAPIs.length === 0) return;
         }
         setAPIs(apis?.concat(newAPIs) || newAPIs);
-        offset = response.data.lastOffset;
+        setOffset(response.data.lastOffset);
     };
 
 
@@ -42,6 +42,7 @@ const APIs = () => {
     const search = async (e) => {
         e.preventDefault();
         if (!searchQuery) return;
+        setAPIs(null);
         const response = await axiosPrivate(`/apis/query?alias=${searchQuery}`);
         if (!response) return;
         setSearchParams({ "q": searchQuery });
