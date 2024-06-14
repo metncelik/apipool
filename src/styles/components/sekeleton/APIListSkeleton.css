@@ -7,12 +7,12 @@
     gap: 40px;
     height: 100%;
     margin-bottom: 100px;
-    margin: 25px 10%;
+    margin: 25px;
 }
 
 .api-list-skeleton-item {
     flex: 0 0 auto;
-    width: 300px;
+    width: 250px;
 }
 
 .api-list-skeleton-item-image {
