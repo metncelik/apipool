@@ -293,7 +293,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                         <option value={''} hidden={true}>Select...</option>
                         {
                             input.type.slice(5, -1).split(',').map((value) => (
-                                <option value={value}>{value}</option>
+                                <option key={value + "-option"} value={value}>{value}</option>
                             ))
                         }
                     </select>
@@ -360,7 +360,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                 {body[input.title].map((v, i, self) => {
                     if (i === self.length - 1) return;
                     return (
-                        <span style={{ display: 'flex', alignItems: 'center' }}>
+                        <span key={input.title + "-item-" + i} style={{ display: 'flex', alignItems: 'center' }}>
                             {<label className='p-description'>
                                 {(i + 1) + ". "}
                             </label>}
@@ -387,7 +387,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
 
 
     const renderElement = (input) => (
-        <div className='p-form-element' id={input.title}>
+        <div key={input.title} className='p-form-element' id={input.title}>
             {!input.type.endsWith('[]')
                 ? renderInput(input)
                 : renderArray(input)
@@ -490,7 +490,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                 <form className='p-form' >
                     {essentialInputs.map((input) => {
                         return (
-                            <div className='p-form-element-container'>
+                            <div key={input.title + "-container"} className='p-form-element-container'>
                                 <label className='p-form-label'>
                                     <Tooltip text={input.description} >
                                         <IoMdInformationCircleOutline
@@ -514,12 +514,12 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                     })}
                     {advancedInputs.length > 0 && (
                         <Expandable
-                        backgroundColor={'transparent'}
+                            backgroundColor={'transparent'}
                             contentPadding={'5px'}
                             label={"Advanced"}>
                             {advancedInputs.map((input) => {
                                 return (
-                                    <div className='p-form-element-container'>
+                                    <div index={input.title + "-container"} className='p-form-element-container'>
 
                                         <label className='p-form-label'>
                                             <Tooltip text={input.description} >
@@ -563,7 +563,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                 {outputs.map((output) => {
                     return (
                         <>
-                            <div className='p-output-value'>
+                            <div key={output.title + "-value"} className='p-output-value'>
                                 {<div>
                                     <label className='p-form-label'>{normalizeString(output.title)}</label>
                                     {/* <p className='p-description'>{output.description}</p> */}
@@ -574,8 +574,8 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                                                 return (
                                                     <div>
                                                         {value.map((item, index) => (
-                                                            <div key={index}>
-                                                                {displayOutput( output.description,item, output.type.slice(0, output.type.length - 2), index)}
+                                                            <div key={output.title + "-item-" + index}>
+                                                                {displayOutput(output.description, item, output.type.slice(0, output.type.length - 2), index)}
                                                             </div>
                                                         ))}
                                                         <div
@@ -584,7 +584,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                                                             }
                                                             className='output-selector'>
                                                             {!isPending && value.length > 1 && value.map((item, index) => (
-                                                                <div key={index}>
+                                                                <div key={output.title + "-selector-" + index}>
                                                                     <button
                                                                         className='output-selector-button'
                                                                         disabled={selectedOutput === index} onClick={() => setSelectedOutput(index)}>{index + 1}</button>
@@ -597,7 +597,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
 
                                                 );
                                             }
-                                            return displayOutput( output.description,value, output.type);
+                                            return displayOutput(output.description, value, output.type);
 
                                         })()}
                                     </div>

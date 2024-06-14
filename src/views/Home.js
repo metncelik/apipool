@@ -10,7 +10,7 @@ import Banner from '../components/Banner';
 import SEO from '../components/SEO';
 
 const Home = () => {
-    const [apis, setAPIs] = useState([])
+    const [apis, setAPIs] = useState(null)
     const [angle, setAngle] = useState(0);
     const [opacity, setOpacity] = useState(0.6);
     const axiosPrivate = useAxiosPrivate();
@@ -115,7 +115,7 @@ const Home = () => {
                     <MdKeyboardArrowRight size={20} className='all-apis-icon' />
                 </Link>
             </div>
-            <APIList apis={[...apis]} />
+            <APIList apis={apis} />
         </div>
     );
 }

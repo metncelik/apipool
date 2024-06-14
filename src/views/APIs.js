@@ -8,9 +8,9 @@ import Banner from '../components/Banner';
 import { useSearchParams } from 'react-router-dom';
 
 const APIs = () => {
-    const [apis, setAPIs] = useState([])
+    const [apis, setAPIs] = useState(null)
     const axiosPrivate = useAxiosPrivate();
-    const [offset, setOffset] = useState(0);
+    let offset = 1000;
     const [isEnd, setIsEnd] = useState(false);
     const categories = [
         // "LLM", "Stable Diffusion", "Image Generation", "Audio Generation", "Video Generation", "Inpainting", "Controlnet", "Super Resolution", "Face Enhancing", "Text to Image", "Image to Image", "Image to Text"
@@ -29,8 +29,8 @@ const APIs = () => {
             setIsEnd(true);
             if (newAPIs.length === 0) return;
         }
-        setAPIs(apis.concat(newAPIs));
-        setOffset(response.data.lastOffset);
+        setAPIs(apis?.concat(newAPIs) || newAPIs);
+        offset = response.data.lastOffset;
     };
 
 
@@ -42,7 +42,7 @@ const APIs = () => {
     const search = async (e) => {
         e.preventDefault();
         if (!searchQuery) return;
-        const response = await axiosPrivate(`/apis/query-alias?alias=${searchQuery}`);
+        const response = await axiosPrivate(`/apis/query?alias=${searchQuery}`);
         if (!response) return;
         setSearchParams({ "q": searchQuery });
         setAPIs(response.data?.apis);

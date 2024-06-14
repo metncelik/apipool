@@ -89,39 +89,43 @@ const ApiKeys = () => {
                 :
                 <div className="apikeys-table table-container">
                     <table className='console-table api-keys-table'>
-                        <tr>
-                            <th>Title</th>
-                            <th>API Key</th>
-                            <th>Created</th>
-                            <th style={{ width: '0px' }}></th>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>API Key</th>
+                                <th>Created</th>
+                                <th style={{ width: '0px' }}></th>
+                            </tr>
+                        </thead>
 
                         {consoleState.apiKeys?.map((apiKey, index) => (
-                            <tr key={`row${index}`}>
-                                <td>{apiKey.title}</td>
-                                <td id={`key${index}`} style={{ cursor: "pointer" }} onClick={() => {
-                                    copyToClipboard(`key${index}`)
-                                }} >
-                                    {apiKey.api_key}
-                                    <span className='copy-icon'>
-                                        <FaRegCopy size={20} className="apikeys-copy-icon" />
-                                    </span>
-                                </td>
+                            <tbody>
+                                <tr key={`row${index}`}>
+                                    <td>{apiKey.title}</td>
+                                    <td id={`key${index}`} style={{ cursor: "pointer" }} onClick={() => {
+                                        copyToClipboard(`key${index}`)
+                                    }} >
+                                        {apiKey.api_key}
+                                        <span className='copy-icon'>
+                                            <FaRegCopy size={20} className="apikeys-copy-icon" />
+                                        </span>
+                                    </td>
 
-                                <td>{(new Date(apiKey.created_at)).toLocaleDateString("en-EN")}</td>
-                                <td className='table-actions'>
-                                    <button
-                                        onClick={() => {
-                                            setIsModalOpen(true);
-                                            setSelectedKey(document.getElementById(`key${index}`).innerText)
-                                        }}
-                                        className="table-delete-button"
-                                    >
-                                        <MdDeleteOutline size={20} className='api-keys-delete-icon' />
-                                    </button>
-                                </td>
+                                    <td>{(new Date(apiKey.created_at)).toLocaleDateString("en-EN")}</td>
+                                    <td className='table-actions'>
+                                        <button
+                                            onClick={() => {
+                                                setIsModalOpen(true);
+                                                setSelectedKey(document.getElementById(`key${index}`).innerText)
+                                            }}
+                                            className="table-delete-button"
+                                        >
+                                            <MdDeleteOutline size={20} className='api-keys-delete-icon' />
+                                        </button>
+                                    </td>
 
-                            </tr>
+                                </tr>
+                            </tbody>
                         ))
                         }
                     </table>

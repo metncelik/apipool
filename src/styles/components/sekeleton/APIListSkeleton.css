@@ -1,29 +1,41 @@
 .api-list-skeleton {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     padding: 20px;
-    gap: 20px;
-    height: 500px;
-  }
-  
-  .api-list-skeleton-item {
+    gap: 40px;
+    height: 100%;
+    margin-bottom: 100px;
+    margin: 25px 10%;
+}
+
+.api-list-skeleton-item {
     flex: 0 0 auto;
     width: 300px;
-  }
-  
-  .api-list-skeleton-item-header {
+}
+
+.api-list-skeleton-item-image {
     width: 100%;
     padding-top: 100%;
     position: relative;
     border-radius: 4px;
-  }
-  
-  .api-list-skeleton-item-body {
+}
+
+.api-list-skeleton-item-title {
     margin-top: 10px;
-    height: 40px;
+    height: 30px;
     border-radius: 4px;
-  } 
-  
-  .api-list-skeleton-item-header, .api-list-skeleton-item-body {
+    width: 60%;
+}
+.api-list-skeleton-item-description {
+    margin-top: 10px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.api-list-skeleton-item-image,
+.api-list-skeleton-item-title,
+.api-list-skeleton-item-description {
     animation: loading 1.5s infinite ease-in-out;
-  }
+}

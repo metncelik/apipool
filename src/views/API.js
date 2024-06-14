@@ -224,7 +224,7 @@ const API = () => {
                 <div className="languages-container">
                     {languages.map((language, index) => (
                         <button
-                            key={index}
+                            key={language + "-button"}
                             onClick={() => { setSelectedLanguage(language) }}
                             className={`language ${language.toLocaleLowerCase()} 
                             ${selectedLanguage === language ? "selected-language" : ""}`}
@@ -252,7 +252,7 @@ const API = () => {
     return (
         <>
             <div className="api-main">
-                <Banner color={'blue'} margin={150} height={300} />
+                <Banner color={'#5ba3c7'} margin={150} height={300} />
                 <div className="api-body container">
                     {isPending ?
                         <APISkeleton />
@@ -262,17 +262,17 @@ const API = () => {
                             <h1 className="api-title">{api.title} API</h1>
                             <div className="urls-container">
                                 <p className="url-container" onClick={() => { copyToClipBoard('post-url') }}>
-                                    <div className="url-row">
-                                        <div className="url-label">POST</div> &nbsp;
-                                        <p className="api-url" id='post-url'>{postURL}</p>
-                                    </div>
+                                    <span className="url-row">
+                                        <span className="url-label">POST</span> &nbsp;
+                                        <span className="api-url" id='post-url'>{postURL}</span>
+                                    </span>
 
                                 </p>
                                 <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
-                                    <div className="url-row">
-                                        <div className="url-label">GET</div> &nbsp;
-                                        <p className="api-url" id="fetch-url">{fetchURL + ":id"}</p>
-                                    </div>
+                                    <span className="url-row">
+                                        <span className="url-label">GET</span> &nbsp;
+                                        <span className="api-url" id="fetch-url">{fetchURL + ":id"}</span>
+                                    </span>
                                 </p>
                             </div>
                             <div className="description-container">
@@ -298,31 +298,35 @@ const API = () => {
                                 <div className="table-container">
 
                                     <table className="params-table">
-                                        <tr>
-                                            <th className="left-align">Parameter</th>
-                                            <th>Type</th>
-                                            <th>Required</th>
-                                            <th>Default</th>
-                                            <th>Description</th>
-                                        </tr>
-                                        {api.inputs.map((param) => (
+                                        <thead>
                                             <tr>
-                                                <td className="left-align">{param.title}</td>
-                                                <td
-                                                    style={
-                                                        {
-                                                            textWrap: 'balance',
-                                                            maxWidth: '200px',
-                                                            overflow: 'auto',
-                                                        }
-                                                    }
-                                                >{param.type}</td>
-                                                <td>{param.is_required === true ? "yes" : param.is_required === false ? "no" : "depends"}</td>
-                                                <td>{param.default_value || "-"}</td>
-                                                <td className="left-align param-description">{param.description}</td>
+                                                <th className="left-align">Parameter</th>
+                                                <th>Type</th>
+                                                <th>Required</th>
+                                                <th>Default</th>
+                                                <th>Description</th>
                                             </tr>
-                                        ))
-                                        }
+                                        </thead>
+                                        <tbody>
+                                            {api.inputs.map((param) => (
+                                                <tr key={param.title + "-row"}>
+                                                    <td className="left-align">{param.title}</td>
+                                                    <td
+                                                        style={
+                                                            {
+                                                                textWrap: 'balance',
+                                                                maxWidth: '200px',
+                                                                overflow: 'auto',
+                                                            }
+                                                        }
+                                                    >{param.type}</td>
+                                                    <td>{param.is_required === true ? "yes" : param.is_required === false ? "no" : "depends"}</td>
+                                                    <td>{param.default_value || "-"}</td>
+                                                    <td className="left-align param-description">{param.description}</td>
+                                                </tr>
+                                            ))
+                                            }
+                                        </tbody>
                                     </table>
                                 </div>
                                 <h2 className="title-area">
@@ -330,19 +334,23 @@ const API = () => {
                                 </h2>
                                 <div className="table-container">
                                     <table className="params-table">
-                                        <tr>
-                                            <th className="left-align">Parameter</th>
-                                            <th>Type</th>
-                                            <th>Description</th>
-                                        </tr>
-                                        {api.outputs.map((param, index) => (
-                                            <tr key={`output-param${index}`}>
-                                                <td className="left-align">{param.title}</td>
-                                                <td>{param.type || "-"}</td>
-                                                <td className="left-align param-description">{param.description}</td>
+                                        <thead>
+                                            <tr>
+                                                <th className="left-align">Parameter</th>
+                                                <th>Type</th>
+                                                <th>Description</th>
                                             </tr>
-                                        ))
-                                        }
+                                        </thead>
+                                        <tbody>
+                                            {api.outputs.map((param, index) => (
+                                                <tr key={param.title + "-row"}>
+                                                    <td className="left-align">{param.title}</td>
+                                                    <td>{param.type || "-"}</td>
+                                                    <td className="left-align param-description">{param.description}</td>
+                                                </tr>
+                                            ))
+                                            }
+                                        </tbody>
                                     </table>
                                 </div>
 
@@ -379,16 +387,7 @@ const API = () => {
                                         <br />
                                     </div>
                                 </div>
-
                             </div>
-
-                            {/* <div className="examples">
-                        <h2 className="title-area">
-                        Examples
-                        </h2>
-                        </div> */}
-
-
                         </>
                     }
                 </div>

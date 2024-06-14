@@ -34,10 +34,10 @@
 }
 
 .footer-link {
-    color: var(--text-color);
-    text-decoration: underline;
+    color: grey;
     margin: 0px 10px;
     cursor: pointer;
+    font-size: small;
 }
 
 .copy-right {

@@ -29,15 +29,15 @@ const APIList = ({ apis }) => {
                                     <div className="api-name">
                                         {api.api_title}
                                     </div>
-                                    <div className="api-id">
+                                    {/* <div className="api-id">
                                         {api.alias}
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="api-divider"></div>
 
 
                                 <p className="api-description">
-                                    {api.description}
+                                    {api.description.slice(0, 100) + (api.description.length > 100 ? "..." : "")}
                                 </p>
                             </div>
                         </li>
