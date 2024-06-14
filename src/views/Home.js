@@ -58,7 +58,7 @@ const Home = () => {
 
     const getData = async () => {
         try {
-            const response = await axiosPrivate("/apis?limit=8&offset=0");
+            const response = await axiosPrivate("/apis?limit=8&offset=1000");
             setAPIs(response.data?.apis);
         } catch (error) {
         }
