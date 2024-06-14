@@ -1,11 +1,11 @@
 import "../styles/components/APIList.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { APIListSkeleton } from "./sekeleton/APIListSkeleton";
 
 const APIList = ({ apis }) => {
-    const navigate = useNavigate();
     
     if (!apis) return <APIListSkeleton/>;
+    apis = [...apis,...apis, ...apis, ...apis, ...apis, ...apis, ...apis, ...apis ]
     return (
         <div className="apis-container">
             <ul className="apis-list">
@@ -16,7 +16,8 @@ const APIList = ({ apis }) => {
                 ) :
 
                     apis.map(api => (
-                        <li onClick={() => { navigate("/api/" + api.alias) }} key={api.api_id} className="api-item">
+                        <li key={api.api_id} className="api-item">
+                            <Link to={"/api/" + api.alias}>
                             <img
                                 src={api.image_url}
                                 alt={api.api_title}
@@ -34,9 +35,10 @@ const APIList = ({ apis }) => {
 
 
                                 <p className="api-description">
-                                    {api.description.slice(0, 100) + (api.description.length > 100 ? "..." : "")}
+                                    {api.description.slice(0, 110) + (api.description.length > 100 ? "..." : "")}
                                 </p>
                             </div>
+                            </Link>
                         </li>
                     )))}
             </ul>

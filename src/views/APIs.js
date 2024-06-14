@@ -6,6 +6,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Banner from '../components/Banner';
 import { useSearchParams } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const APIs = () => {
     const [apis, setAPIs] = useState(null)
@@ -16,14 +17,14 @@ const APIs = () => {
         // "LLM", "Stable Diffusion", "Image Generation", "Audio Generation", "Video Generation", "Inpainting", "Controlnet", "Super Resolution", "Face Enhancing", "Text to Image", "Image to Image", "Image to Text"
     ]
     const [searchQuery, setSearchQuery] = useState("")
-    const [searchParams, setSearchParams] = useSearchParams("")
+    const [_, setSearchParams] = useSearchParams("")
 
 
     const getAPIs = async () => {
         const limit = 8;
         const response = await axiosPrivate(`/apis?limit=${limit}&offset=${offset}`);
         if (!response) return;
-        const newAPIs = response.data?.apis;
+        const newAPIs = response.data?.apis || [];
 
         if (newAPIs.length < limit) {
             setIsEnd(true);
@@ -52,7 +53,8 @@ const APIs = () => {
 
     return (
         <div className='apis-main'>
-            <Banner color="#3c23b8" />
+            <Banner margin={50} color="darkblue" />
+            <SEO title = {"ALL APIs"}/>
             <div>
                 <div className="all-apis-header">
 
@@ -68,9 +70,9 @@ const APIs = () => {
                     </div>
 
                     <form className="search-container" onSubmit={search}>
-                        <input type="text" placeholder="api id..." value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} />
+                        <input type="text" className="search-input" placeholder="Search..." value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} />
                         <button type="submit" className="search-button">
-                            <AiOutlineSearch size={25} style={{ paddingTop: '5px', fill: 'cadetblue' }} />
+                            <AiOutlineSearch size={25} style={{fill: 'cadetblue' }} />
                         </button>
                     </form>
                 </div>
