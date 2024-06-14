@@ -117,7 +117,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                     }, 1000);
                     const location = requiredElement.getBoundingClientRect();
                     window.scrollTo({
-                        top: location.top + 500,
+                        top: location.top,
                         behavior: 'smooth'
                     });
                     return enqueueSnackbar(`${input.title} is required`, { variant: "error" });

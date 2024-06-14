@@ -9,7 +9,6 @@ import { useSearchParams } from 'react-router-dom';
 
 const APIs = () => {
     const [apis, setAPIs] = useState([])
-    const [isPending, setIsPending] = useState(false)
     const axiosPrivate = useAxiosPrivate();
     const [offset, setOffset] = useState(0);
     const [isEnd, setIsEnd] = useState(false);
@@ -22,9 +21,7 @@ const APIs = () => {
 
     const getAPIs = async () => {
         const limit = 8;
-        setIsPending(true);
         const response = await axiosPrivate(`/apis?limit=${limit}&offset=${offset}`);
-        setIsPending(false);
         if (!response) return;
         const newAPIs = response.data?.apis;
 
@@ -45,9 +42,7 @@ const APIs = () => {
     const search = async (e) => {
         e.preventDefault();
         if (!searchQuery) return;
-        setIsPending(true);
         const response = await axiosPrivate(`/apis/query-alias?alias=${searchQuery}`);
-        setIsPending(false);
         if (!response) return;
         setSearchParams({ "q": searchQuery });
         setAPIs(response.data?.apis);
@@ -56,7 +51,7 @@ const APIs = () => {
 
     return (
         <div className='apis-main'>
-            <Banner color="#3c23b8"/>
+            <Banner color="#3c23b8" />
             <div>
                 <div className="all-apis-header">
 
@@ -79,11 +74,7 @@ const APIs = () => {
                     </form>
                 </div>
                 <div className="content-container">
-                    {isPending ?
-                        <Loading/>
-                        :
-                        <APIList apis={apis} />
-                    }
+                    <APIList apis={apis} />
                     {!isEnd &&
                         (<button className="load-more-button" onClick={getAPIs}>
                             Load More...

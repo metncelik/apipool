@@ -1,0 +1,51 @@
+.api-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    width: 100vw;
+    max-width: 90%;
+}
+
+.skeleton-title {
+    height: 30px;
+    width: 70%;
+    border-radius: 4px;
+}
+
+.skeleton-chips {
+    display: flex;
+    gap: 10px;
+}
+
+.skeleton-chip {
+    height: 20px;
+    width: 200px;
+    border-radius: 10px;
+}
+
+.skeleton-description {
+    height: 15px;
+    width: 90%;
+    border-radius: 4px;
+}
+
+.skeleton-sub-title {
+    height: 25px;
+    width: 30%;
+    border-radius: 4px;
+}
+
+.skeleton-playground {
+    height: 600px;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.skeleton-title,
+.skeleton-chip,
+.skeleton-description,
+.skeleton-sub-title,
+.skeleton-playground {
+    animation: loading 1.5s infinite ease-in-out;
+}

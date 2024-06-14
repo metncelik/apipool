@@ -9,9 +9,15 @@ const Footer = () => {
         <div className="footer-container">
             <div className="footer-content">
                 <div className="social-icons">
+                    <a href='https://github.com/api-pool'>
                     <FaGithub size={"20px"} className='social-icon' />
+                    </a>
+                    <a href='https://x.com/apipool_ai'>
                     <FaXTwitter size={"20px"} className='social-icon' />
+                    </a>
+                    <a href='#'>
                     <FaInstagram size={"20px"} className='social-icon' />
+                    </a>
                 </div>
                 <div className="footer-links">
                     <Link to={'/privacy-policy'} className='footer-link'>Privacy Policy</Link>

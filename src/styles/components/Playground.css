@@ -163,31 +163,6 @@
   appearance: none;
 }
 
-/* 
-.p-form-select-input::after {
-  content: '\25BC'; 
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  pointer-events: none;
-} */
-
-/* .p-form-file-input::file-selector-button {
-    display: none;
-    padding: .3em .6em;
-    border-radius: .2em;
-    background-color: #e9ebf045;
-    border-radius: 5px;
-    outline: none;
-    border: 2px solid #0d0d0d8d;
-    transition: 0.2s;
-} */
-
-/* .p-form-file-input::file-selector-button:hover {
-    background-color: #ffffffda;
-} */
-
 .p-form-button {
     background-color: rgba(11, 114, 11, 0.738);
     padding: 15px 10px;

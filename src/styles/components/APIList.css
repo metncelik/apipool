@@ -1,5 +1,6 @@
 .apis-container {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
     margin: 25px 10%;

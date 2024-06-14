@@ -1,0 +1,29 @@
+.api-list-skeleton {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 20px;
+    height: 500px;
+  }
+  
+  .api-list-skeleton-item {
+    flex: 0 0 auto;
+    width: 300px;
+  }
+  
+  .api-list-skeleton-item-header {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    border-radius: 4px;
+  }
+  
+  .api-list-skeleton-item-body {
+    margin-top: 10px;
+    height: 40px;
+    border-radius: 4px;
+  } 
+  
+  .api-list-skeleton-item-header, .api-list-skeleton-item-body {
+    animation: loading 1.5s infinite ease-in-out;
+  }

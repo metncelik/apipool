@@ -9,6 +9,9 @@ import Loading from "../components/Loading";
 import { axiosPrivate } from "../api/axios";
 import { useSnackbar } from "notistack";
 import SEO from "../components/SEO";
+import BaseSkeleton from "../components/sekeleton/BaseSkeleton";
+import { APIListSkeleton } from "../components/sekeleton/APIListSkeleton";
+import APISkeleton from "../components/sekeleton/APISkeleton";
 
 const Code = ({ code }) => {
     return (
@@ -248,145 +251,148 @@ const API = () => {
 
     return (
         <>
-            {isPending ?
-                <Loading/>
-                :
-                <div className="api-main">
-                    <SEO title={api.title + " API | Try & Use | APIPOOL"} description={api.description} />
-                    <Banner image={api.image_url} margin={150} height={300} />
-                    <div className="api-body container">
-                        <h1 className="api-title">{api.title} API</h1>
-                        <div className="urls-container">
-                            <p className="url-container" onClick={() => { copyToClipBoard('post-url') }}>
-                                <div className="url-row">
-                                    <div className="url-label">POST</div> &nbsp;
-                                    <p className="api-url" id='post-url'>{postURL}</p>
-                                </div>
+            <div className="api-main">
+                <Banner color={'blue'} margin={150} height={300} />
+                <div className="api-body container">
+                    {isPending ?
+                        <APISkeleton />
+                        :
+                        <>
+                            <SEO title={api.title + " API | Try & Use | APIPOOL"} description={api.description} />
+                            <h1 className="api-title">{api.title} API</h1>
+                            <div className="urls-container">
+                                <p className="url-container" onClick={() => { copyToClipBoard('post-url') }}>
+                                    <div className="url-row">
+                                        <div className="url-label">POST</div> &nbsp;
+                                        <p className="api-url" id='post-url'>{postURL}</p>
+                                    </div>
 
-                            </p>
-                            <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
-                                <div className="url-row">
-                                    <div className="url-label">GET</div> &nbsp;
-                                    <p className="api-url" id="fetch-url">{fetchURL + ":id"}</p>
-                                </div>
-                            </p>
-                        </div>
-                        <div className="description-container">
-                            {/* <div className="title-area">
+                                </p>
+                                <p className="url-container" onClick={() => { copyToClipBoard('fetch-url') }}>
+                                    <div className="url-row">
+                                        <div className="url-label">GET</div> &nbsp;
+                                        <p className="api-url" id="fetch-url">{fetchURL + ":id"}</p>
+                                    </div>
+                                </p>
+                            </div>
+                            <div className="description-container">
+                                {/* <div className="title-area">
                                 <h2 className="description-title">
                                 Info
                                 </h2>
                                 </div> */}
-                            <div className="gap section">
-                                <p className="description-content">
-                                    {api.description} <br /><br />
-                                </p>
-                            </div>
-                        </div>
-
-                        <h2 className="title-area">Playground</h2>
-                        <Playground inputs={api.inputs} postURL={postURL} fetchURL={fetchURL} outputs={api.outputs} />
-
-                        <div className="params-container">
-                            <h2 className="title-area">
-                                Input Attributes
-                            </h2>
-                            <div className="table-container">
-
-                                <table className="params-table">
-                                    <tr>
-                                        <th className="left-align">Parameter</th>
-                                        <th>Type</th>
-                                        <th>Required</th>
-                                        <th>Default</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    {api.inputs.map((param) => (
-                                        <tr>
-                                            <td className="left-align">{param.title}</td>
-                                            <td
-                                                style={
-                                                    {
-                                                        textWrap: 'balance',
-                                                        maxWidth: '200px',
-                                                        overflow: 'auto',
-                                                    }
-                                                }
-                                            >{param.type}</td>
-                                            <td>{param.is_required === true ? "yes" : param.is_required === false ? "no" : "depends"}</td>
-                                            <td>{param.default_value || "-"}</td>
-                                            <td className="left-align param-description">{param.description}</td>
-                                        </tr>
-                                    ))
-                                    }
-                                </table>
-                            </div>
-                            <h2 className="title-area">
-                                Output Attributes
-                            </h2>
-                            <div className="table-container">
-                                <table className="params-table">
-                                    <tr>
-                                        <th className="left-align">Parameter</th>
-                                        <th>Type</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    {api.outputs.map((param, index) => (
-                                        <tr key={`output-param${index}`}>
-                                            <td className="left-align">{param.title}</td>
-                                            <td>{param.type || "-"}</td>
-                                            <td className="left-align param-description">{param.description}</td>
-                                        </tr>
-                                    ))
-                                    }
-                                </table>
-                            </div>
-
-                            <div className="usage">
-                                <h2 className="title-area">
-                                    Usage
-                                </h2>
-                                <div>
-                                    <p>Create a headers variable with your API key.</p>
-                                    <CodeWithHeader codes={codes.create_header} />
-                                    <br />
-                                    <p>Create a request body with the parameters in the table above.</p>
-                                    <CodeWithHeader codes={codes.create_body} />
-                                    <br />
-                                    <p>Make a <span className="method-name">POST</span> request to the POST Endpoint with the header and body.
-                                        {false &&
-                                            <span> It will return the output.</span>
-                                        }
+                                <div className="gap section">
+                                    <p className="description-content">
+                                        {api.description} <br /><br />
                                     </p>
-                                    <CodeWithHeader codes={codes.make_request} />
-                                    <br />
-                                    <div>
-                                        <p>It will return a job id.</p>
-                                        <Code code={"{\n    'id': 'XXXXX'\n}"} />
-                                        <br />
-
-                                        <p>After getting job id make a <span className="method-name">GET</span> request to the GET Endpoint. It will return the status of your request. When status is "COMPLETED" it will return the output.</p>
-                                        <CodeWithHeader codes={codes.fetch} />
-                                        <br />
-
-                                    </div>
-                                    <p>Response:</p>
-                                    <Code code={"{\n    'status': 'COMPLETED',\n    'output': {}\n}"} />
-                                    <br />
                                 </div>
                             </div>
 
-                        </div>
+                            <h2 className="title-area">Playground</h2>
+                            <Playground inputs={api.inputs} postURL={postURL} fetchURL={fetchURL} outputs={api.outputs} />
 
-                        {/* <div className="examples">
+                            <div className="params-container">
+                                <h2 className="title-area">
+                                    Input Attributes
+                                </h2>
+                                <div className="table-container">
+
+                                    <table className="params-table">
+                                        <tr>
+                                            <th className="left-align">Parameter</th>
+                                            <th>Type</th>
+                                            <th>Required</th>
+                                            <th>Default</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        {api.inputs.map((param) => (
+                                            <tr>
+                                                <td className="left-align">{param.title}</td>
+                                                <td
+                                                    style={
+                                                        {
+                                                            textWrap: 'balance',
+                                                            maxWidth: '200px',
+                                                            overflow: 'auto',
+                                                        }
+                                                    }
+                                                >{param.type}</td>
+                                                <td>{param.is_required === true ? "yes" : param.is_required === false ? "no" : "depends"}</td>
+                                                <td>{param.default_value || "-"}</td>
+                                                <td className="left-align param-description">{param.description}</td>
+                                            </tr>
+                                        ))
+                                        }
+                                    </table>
+                                </div>
+                                <h2 className="title-area">
+                                    Output Attributes
+                                </h2>
+                                <div className="table-container">
+                                    <table className="params-table">
+                                        <tr>
+                                            <th className="left-align">Parameter</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        {api.outputs.map((param, index) => (
+                                            <tr key={`output-param${index}`}>
+                                                <td className="left-align">{param.title}</td>
+                                                <td>{param.type || "-"}</td>
+                                                <td className="left-align param-description">{param.description}</td>
+                                            </tr>
+                                        ))
+                                        }
+                                    </table>
+                                </div>
+
+                                <div className="usage">
+                                    <h2 className="title-area">
+                                        Usage
+                                    </h2>
+                                    <div>
+                                        <p>Create a headers variable with your API key.</p>
+                                        <CodeWithHeader codes={codes.create_header} />
+                                        <br />
+                                        <p>Create a request body with the parameters in the table above.</p>
+                                        <CodeWithHeader codes={codes.create_body} />
+                                        <br />
+                                        <p>Make a <span className="method-name">POST</span> request to the POST Endpoint with the header and body.
+                                            {false &&
+                                                <span> It will return the output.</span>
+                                            }
+                                        </p>
+                                        <CodeWithHeader codes={codes.make_request} />
+                                        <br />
+                                        <div>
+                                            <p>It will return a job id.</p>
+                                            <Code code={"{\n    'id': 'XXXXX'\n}"} />
+                                            <br />
+
+                                            <p>After getting job id make a <span className="method-name">GET</span> request to the GET Endpoint. It will return the status of your request. When status is "COMPLETED" it will return the output.</p>
+                                            <CodeWithHeader codes={codes.fetch} />
+                                            <br />
+
+                                        </div>
+                                        <p>Response:</p>
+                                        <Code code={"{\n    'status': 'COMPLETED',\n    'output': {}\n}"} />
+                                        <br />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            {/* <div className="examples">
                         <h2 className="title-area">
-                            Examples
-                            </h2>
+                        Examples
+                        </h2>
                         </div> */}
 
 
-                    </div>
-                </div>}
+                        </>
+                    }
+                </div>
+            </div>
 
         </>
     );

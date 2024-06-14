@@ -13,7 +13,6 @@ const Home = () => {
     const [apis, setAPIs] = useState([])
     const [angle, setAngle] = useState(0);
     const [opacity, setOpacity] = useState(0.6);
-    const [isPending, setIsPending] = useState(true)
     const axiosPrivate = useAxiosPrivate();
     const requestRef = useRef();
 
@@ -59,12 +58,9 @@ const Home = () => {
 
     const getData = async () => {
         try {
-            setIsPending(true);
             const response = await axiosPrivate("/apis?limit=8&offset=0");
             setAPIs(response.data?.apis);
-            setIsPending(false);
         } catch (error) {
-            setIsPending(false);
         }
     };
 
@@ -119,11 +115,7 @@ const Home = () => {
                     <MdKeyboardArrowRight size={20} className='all-apis-icon' />
                 </Link>
             </div>
-            {isPending ?
-                <Loading />
-                :
-                <APIList apis={[...apis]} />
-            }
+            <APIList apis={[...apis]} />
         </div>
     );
 }

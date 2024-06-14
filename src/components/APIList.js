@@ -1,8 +1,11 @@
 import "../styles/components/APIList.css";
 import { useNavigate } from "react-router-dom";
+import { APIListSkeleton } from "./sekeleton/APIListSkeleton";
 
 const APIList = ({ apis }) => {
     const navigate = useNavigate();
+    
+    if (!apis) return <APIListSkeleton/>;
     return (
         <div className="apis-container">
             <ul className="apis-list">
