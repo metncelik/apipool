@@ -72,7 +72,7 @@ const Home = () => {
     return (
         <div className="home">
             {/* <Banner color="grey" height={'250px'}/> */}
-            <SEO title="API POOL | SERVERLESS AI APIs" description="API POOL is a leading API service offering a wide range of AI apis, including popular options like Stable Diffusion XL, LLaMA, Whisper, Suno Bark, Real ESRGAN, Kandinsky, Musicgen, Controlnet, Inpainting, and more. Our platform provides advanced solutions for processing Image, Text, Audio, Video, and Animation apis, catering to diverse needs in the AI community. Transform your projects with our efficient and comprehensive API services." />
+            <SEO title="SERVERLESS AI APIs" description="API POOL is a leading API service offering a wide range of AI apis, including popular options like Stable Diffusion XL, LLaMA, Whisper, Suno Bark, Real ESRGAN, Kandinsky, Musicgen, Controlnet, Inpainting, and more. Our platform provides advanced solutions for processing Image, Text, Audio, Video, and Animation apis, catering to diverse needs in the AI community. Transform your projects with our efficient and comprehensive API services." />
             <div className='hero-container'>
                 <div className="home-banner">
                     <div className="home-title-container">

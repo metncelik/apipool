@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 const SEO = ({ title, description }) => {
+    description = description + " | API POOL";
     return (
         <Helmet>
             { /* Standard metadata tags */}

@@ -258,7 +258,7 @@ const API = () => {
                         <APISkeleton />
                         :
                         <>
-                            <SEO title={api.title + " API | Try & Use | APIPOOL"} description={api.description} />
+                            <SEO title={api.title + " API | Try & Use"} description={api.description} />
                             <h1 className="api-title">{api.title} API</h1>
                             <div className="urls-container">
                                 <p className="url-container" onClick={() => { copyToClipBoard('post-url') }}>

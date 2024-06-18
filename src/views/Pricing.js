@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Banner from '../components/Banner';
 import '../styles/views/Pricing.css'
+import SEO from '../components/SEO';
 
 const Pricing = () => {
     useEffect(() => {
@@ -9,6 +10,7 @@ const Pricing = () => {
 
     return (
         <div className="pricing-main">
+            <SEO title="Pricing" description="Pay as you go and use as much as you want. Our flexible pricing options allow you to scale your usage based on your needs." />
             <Banner color="green"/>
             <h1 className='pricing-title'>Pricing</h1>
             <p className='pricing-description'>Pay as you go and use as much as you want. Our flexible pricing options allow you to scale your usage based on your needs.</p>

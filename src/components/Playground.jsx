@@ -58,6 +58,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                 clearInterval(fetchIntervalId.current);
                 setIsPending(false);
                 setFetchStatus(null);
+                selectedOutput(0);
                 return setOutputValues(response.data.output);
             }
             await new Promise(r => setTimeout(r, 5000));
@@ -143,9 +144,6 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
             const limit = 60;
             setIsPending(true);
             const intervalId = setInterval(async () => {
-                console.log('fetching');
-                // remove this line
-                setIsPending(true);
                 await fetchResult(jobID, apiKey)
                 count++;
                 if (count === limit) {
