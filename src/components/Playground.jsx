@@ -58,7 +58,7 @@ const Playground = ({ inputs, postURL, fetchURL, outputs }) => {
                 clearInterval(fetchIntervalId.current);
                 setIsPending(false);
                 setFetchStatus(null);
-                selectedOutput(0);
+                setSelectedOutput(0);
                 return setOutputValues(response.data.output);
             }
             await new Promise(r => setTimeout(r, 5000));
