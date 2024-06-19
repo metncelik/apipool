@@ -1,7 +1,10 @@
 import '../styles/components/Footer.css'
-import { FaGithub, FaInstagram } from 'react-icons/fa';
-import { FaXTwitter } from "react-icons/fa6";
+import { IoLogoReddit } from "react-icons/io5";
+import { AiOutlineYoutube } from "react-icons/ai";
+import { FaInstagram, FaGithub, FaXTwitter } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+
+
 
 
 const Footer = () => {
@@ -10,13 +13,19 @@ const Footer = () => {
             <div className="footer-content">
                 <div className="social-icons">
                     <a href='https://github.com/api-pool'>
-                    <FaGithub size={"20px"} className='social-icon' />
+                        <FaGithub size={"20px"} className='social-icon' />
                     </a>
                     <a href='https://x.com/apipool_ai'>
-                    <FaXTwitter size={"20px"} className='social-icon' />
+                        <FaXTwitter size={"20px"} className='social-icon' />
                     </a>
-                    <a href='#'>
-                    <FaInstagram size={"20px"} className='social-icon' />
+                    <a href='https://www.youtube.com/@apipool_ai'>
+                        <AiOutlineYoutube size={"20px"} className='social-icon' />
+                    </a>
+                    <a href='https://www.reddit.com/r/apipool/'>
+                        <IoLogoReddit size={"20px"} className='social-icon' />
+                    </a>
+                    <a href='https://instagram.com/apipool_ai'>
+                        <FaInstagram size={"20px"} className='social-icon' />
                     </a>
                 </div>
                 <div className="footer-links">
@@ -25,7 +34,7 @@ const Footer = () => {
                     <Link to={'/refund-policy'} className='footer-link'>Refund Policy</Link>
                 </div>
                 <div className='copy-right'>
-                © API POOL 2024. All rights reserved.
+                    © API POOL 2024. All rights reserved.
                 </div>
             </div>
         </div>
