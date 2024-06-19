@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 const SEO = ({ title, description }) => {
-    title = title + " | API POOL";
+    title = title + " - API POOL";
     return (
         <Helmet>
             { /* Standard metadata tags */}
